@@ -1,8 +1,9 @@
 const express = require('express');
-const { homepage } = require('../actions/api/test');
+const { homepage } = require('../actions/api/klucze');
 const router = express.Router();
-const testAction = require('../actions/api/test')
 
-router.get('/', testAction.homepage);
+const kluczAction = require('../actions/api/klucze')
+
+router.get('/', kluczAction.zapiszKlucz);
 
 module.exports=router;
