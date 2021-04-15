@@ -1,10 +1,24 @@
 const mongoose = require('mongoose');
 
-const Key = mongoose.model('Key', {
-    numer: Number,
-    blok: String,
-    funkcja: String,
-    ile: Number, 
+const KeySchema = new mongoose.Schema({
+    numer: {
+        type: Number,
+        required: true,
+    },
+    blok: {
+        type: String,
+        required: true,
+    },
+    funkcja: {
+        type: String,
+        required : true,
+    },
+    ile: {
+        type: Number,
+        required: true,
+    }
 });
 
-module.exports = Key
+const Key = mongoose.model('Key', KeySchema);
+
+module.exports = Key;

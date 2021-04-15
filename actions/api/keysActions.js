@@ -1,36 +1,58 @@
 const Key = require('../../db/models/key');
 
 class KeysActions {
-    saveKey(req,res) {
-        //const key = new Key({ numer: 306, blok:'B', funkcja:'room', ile:3})
-       // key.save().then(() => {
-       //     console.log('Nowy klucz');
-      //  });
+    async saveKey(req,res) {
         const numer = req.body.numer;
         const blok = req.body.blok;
         const funkcja = req.body.funkcja;
         const ile = req.body.ile;
-    res.send('zapisano - ' +funkcja+" "+numer+blok+" ilosc - "+ile );
+
+        let key
+        
+        try{
+            key = new Key({ numer, blok, funkcja, ile });
+            await key.save();
+        }catch (err) {
+            return res.status(422).json({message: err.message});
+        }
+        
+        res.status(201).json(key);
     }
 
-    getKey(req, res){
-
-        res.send('get');
+    async getKey(req, res){
+        const id = req.params.id;
+        const key = await Key.findOne({_id: id});
+        res.status(200).json(key);
     }
 
-    getAllKeys(req, res){
+    async getAllKeys(req, res){
+        const doc = await Key.find({});
+        console.log(doc);
+        res.status(200).json(doc);
+    } 
 
-        res.send('getAll');
+    async editKey(req, res){
+        const id = req.params.id;
+        const numer = req.body.numer;
+        const blok = req.body.blok;
+        const funkcja = req.body.funkcja;
+        const ile = req.body.ile;
+
+        const key = await Key.findOne({_id: id});
+        key.numer = numer;
+        key.blok = blok;
+        key.funkcja = funkcja;
+        key.ile = ile;
+        await key.save();
+
+;        res.status(201).json(key);
     }
 
-    editKey(req, res){
+    async deleteKey(req, res){
+        const id = req.params.id;
+        await Key.deleteOne({_id: id});
 
-        res.send('edit');
-    }
-
-    deleteKey(req, res){
-        const id = req.params.id
-        res.send('delete. ID:'+id);
+        res.sendStatus(204);
     }
 }
 
