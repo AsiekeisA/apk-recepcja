@@ -1,7 +1,7 @@
-import React from 'react';
-import Key from '../iKey/Key'
+import React, { Component } from 'react';
+import Key from './KeyFolder/Key'
 
-class Keys extends React.Component {
+class Keys extends Component {
     constructor(props){
         super(props);
 
@@ -26,7 +26,6 @@ class Keys extends React.Component {
 
         return (
             <div>
-                <p>Klucze</p>
 
                {this.keys.map(key => (
                     <Key 
