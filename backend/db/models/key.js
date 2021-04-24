@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const KeySchema = new mongoose.Schema({
-    numer: {
+    number: {
         type: Number,
         required: true,
     },
@@ -9,14 +9,16 @@ const KeySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    funkcja: {
+    func: {
         type: String,
+        enum:["sala wykładowa", "sala komputerowa", "pokój", "kuchnia", "pokój cichej nauki","pralnia", "inne"],
         required : true,
     },
-    ile: {
+    howMuch: {
         type: Number,
         required: true,
-    }
+    },
+    
 });
 
 const Key = mongoose.model('Key', KeySchema);

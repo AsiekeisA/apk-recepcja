@@ -1,0 +1,9 @@
+.search{
+    width: 'calc(100% - 20px)';
+    font-size: 10px;
+    justify-content: right;
+}
+.button{
+    font-size: 10px;
+    
+}

@@ -1,16 +1,14 @@
 import React from 'react';
+import styles from './Searching.module.css'
 
 function Searching() {
     return (
-        <div className="d-flex">
+        <div className={`${styles.search} flex-container`}>
             <input 
-                style={{
-                    width: 'calc(100% - 20px)'
-                }}
-                className="form-control"
+                
                 type="text"
                 placeholder="Szukaj..." />
-                <button className="btn btn-primary">Szukaj</button>
+                <button className={`${styles.button} btn btn-primary`}>Szukaj</button>
         </div>
     );
 }

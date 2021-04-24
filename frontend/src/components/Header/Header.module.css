@@ -1,8 +1,10 @@
 .header {
     height: 50px;
-    background-color: #cdcdcd;
+    background-color: #004cffce;
     display: flex;
     justify-content: center;
     align-items: center;
-
+    font-weight: bold;
+    color: white;
+    font-size: large;
 }

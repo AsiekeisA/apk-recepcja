@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Key from './KeyFolder/Key'
+import styles from './Keys.module.css'
+import Rooms from './headerStatus.js';
 
 class Keys extends Component {
     constructor(props){
@@ -25,8 +27,8 @@ class Keys extends Component {
     render() {
 
         return (
-            <div>
-
+            <div className={`${styles.keys} flexbox-container`}>
+                <Rooms />
                {this.keys.map(key => (
                     <Key 
                         numer={key.numer}

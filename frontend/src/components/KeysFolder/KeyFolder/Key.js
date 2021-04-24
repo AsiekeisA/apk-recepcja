@@ -1,9 +1,10 @@
 import React from 'react';
+import styles from './Key.module.css';
 
 function Key(props) {
     return (
-        <div className="key">
-            <p>{props.numer} {props.blok}</p>
+        <div className={styles.key}>
+            <div>{props.numer} {props.blok}</div>
             <div className="funkcja">{props.funkcja}</div>
             <button>edytuj</button>
             <button className="delete">usuń</button>
