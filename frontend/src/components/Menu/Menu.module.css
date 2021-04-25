@@ -1,7 +1,8 @@
 .menu {
     font-size:x-small;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aquamarine;
+    padding: 5px;
 }

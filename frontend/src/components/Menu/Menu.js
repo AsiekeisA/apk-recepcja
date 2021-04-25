@@ -4,10 +4,11 @@ import styles from './Menu.module.css';
 
 function Menu() {
     return(
-        <div className ={`${styles.menu} flexbox-container`}>
-            <div>dgoscie</div>
-            <div>goście</div>
-            <Searching />
+        <div className ={`${styles.menu} row`}>
+            <div className="col">dgoscie</div>
+            <div className="col">goście</div>
+            <div className="col">goście</div>
+            <div className="col"><Searching /></div>
         </div>
     );
 }

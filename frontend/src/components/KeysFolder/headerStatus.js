@@ -2,11 +2,12 @@ import React from 'react';
 
 function Rooms() {
     return(
-        <div>
-            <div>Numer</div>
-            <div>funkcja</div>
-            <div></div>
-            <div></div>
+        <div className="d-flex justify-content-around">
+            <div className="col">Numer</div>
+            <div className="col">funkcja</div>
+            <div className="col">ilość</div>
+            <div className="col"></div>
+            <div className="col"></div>
         </div>
     );
 }
