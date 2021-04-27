@@ -12,7 +12,7 @@ class UsersActions {
         let user;
         
         try{
-            user = new User({ firstName, lastName, email, phone, position, nrIndeks});
+            user = new User({ firstName: firstName, lastName: lastName, email: email, phone: phone, position: position, nrIndeks: nrIndeks});
             await user.save();
         }catch (err) {
             return res.status(422).json({message: err.message});
@@ -28,12 +28,13 @@ class UsersActions {
     }
 
     async getAllUsers(req, res){
-        const doc = await Key.find({});
+        const doc = await User.find({});
         console.log(doc);
         res.status(200).json(doc);
     } 
 
-    async editUser(req, res){
+    async updateUser(req, res){
+        const id = req.params.id;
         const firstName = req.body.firstName;
         const lastName= req.body.lastName;
         const email = req.body.email;
@@ -48,9 +49,9 @@ class UsersActions {
         user.phone = phone;
         user.position = position;
         user.nrIndeks = nrIndeks;
-        await key.save();
+        await user.save();
 
-;        res.status(201).json(key);
+;        res.status(201).json(user);
     }
 
     async deleteUser(req, res){

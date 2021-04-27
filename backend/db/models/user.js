@@ -14,18 +14,19 @@ const UserSchema = new mongoose.Schema({
         required : true,
     },
     phone: {
-        type: String,
+        type: Number,
         required: true,
-        unique: true,
+        //unique: true,
     },
     position: {
         type: String,
-        enum: ['student','pracownik','gość','mieszkaniec'],
+        // enum: ['student','pracownik','gość','mieszkaniec'],
         required: true,
     },
     nrIndeks: {
-        type: String,
-        unique: true,
+        type: Number,
+        //unique: true,
+        required: true,
     }
 });
 

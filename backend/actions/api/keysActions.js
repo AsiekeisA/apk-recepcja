@@ -2,15 +2,15 @@ const Key = require('../../db/models/key');
 
 class KeysActions {
     async saveKey(req,res) {
-        const number = req.body.number;
+        const numer = req.body.numer;
         const blok = req.body.blok;
-        const func = req.body.func;
-        const howMuch = req.body.howMuch;
+        const funkcja = req.body.funkcja;
+        const ile = req.body.ile;
 
-        let key
+        let key;
         
         try{
-            key = new Key({ number, blok, func, howMuch });
+            key = new Key({ numer: numer, blok: blok, funkcja:funkcja, ile:ile });
             await key.save();
         }catch (err) {
             return res.status(422).json({message: err.message});
@@ -31,21 +31,21 @@ class KeysActions {
         res.status(200).json(doc);
     } 
 
-    async editKey(req, res){
+    async updateKey(req, res){
         const id = req.params.id;
-        const number = req.body.number;
+        const numer = req.body.numer;
         const blok = req.body.blok;
-        const func = req.body.func;
-        const howMuch = req.body.howMuch;
+        const funkcja = req.body.funkcja;
+        const ile = req.body.ile;
 
         const key = await Key.findOne({_id: id});
-        key.number = number;
+        key.numer = numer;
         key.blok = blok;
-        key.func = func;
-        key.howMuch = howMuch;
+        key.funkcja= funkcja;
+        key.ile = ile;
         await key.save();
 
-;        res.status(201).json(key);
+       res.status(201).json(key);
     }
 
     async deleteKey(req, res){

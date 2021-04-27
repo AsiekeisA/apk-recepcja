@@ -1,57 +1,58 @@
 import React, { Component } from 'react';
-import Key from './KeyFolder/Key'
-import styles from './Keys.module.css'
+import Key from './KeyFolder/Key';
+import styles from './Keys.module.css';
 import Rooms from './headerStatus.js';
-import NewKey from './NewKey/NewKey.js'
-import Modal from 'react-modal'
+import NewKey from './NewKey/NewKey.js';
+import Modal from 'react-modal';
 import EditKey from './EditKey/EditKey';
+import axios from '../../axios';
 
 class Keys extends Component {
     constructor(props){
         super(props);
 
         this.state = {
-            keys: [
-                {
-                    id: '2154',
-                    numer: '32',
-                    blok: 'C',
-                    funkcja: 'pralnia',
-                    ile: '1'
-                },
-                {
-                    id: '2100',
-                    numer: '328',
-                    blok: 'C',
-                    funkcja: 'room',
-                    ile: '3'
-                }
-            ],
+            keys: [],
             editKey: {},
             showEditModal: false
         };
     }
 
-    deleteKey(id) {
-        console.log('usuwanie', id);
-        const keys = [...this.state.keys].filter(key => key.id !== id);
+    async fetchKeys() {
+        const res = await axios.get('/keys');
+        const keys = res.data;
+        this.setState({keys})
+    }
+
+    componentDidMount() {
+        this.fetchKeys();
+        Modal.setAppElement('body');
+     }
+
+    async deleteKey(_id) {
+        console.log('usuwanie', _id);
+        const keys = [...this.state.keys].filter(key => key._id !== _id);
+        await axios.delete('/keys/'+ _id);
         this.setState({keys});
     }
 
-    addKey(key) {
+    async addKey(key) {
         const keys = [...this.state.keys];
-        keys.push(key);
+        const res = await axios.post('/keys', key);
+        const newKey = res.data;
+        keys.push(newKey);
         this.setState({keys});
     }
 
-    editKey(key) {
+     async editKey(key) {
+        await axios.put('/keys/'+ key._id, key);
         const keys = [...this.state.keys];
-        const index = keys.findIndex(x => x.id === key.id);
+        const index = keys.findIndex(x => x._id === key._id);
         if(index >=0) {
             keys[index] = key;
             this.setState({keys});
         }
-       // this.toggleModal();
+       this.toggleModal();
     }
 
     toggleModal() {
@@ -73,25 +74,26 @@ class Keys extends Component {
                         blok={this.state.editKey.blok}
                         funkcja={this.state.editKey.funkcja}
                         ile={this.state.editKey.ile}
-                        id={this.state.editKey.id}
+                        _id={this.state.editKey._id}
                         onEdit={key => this.editKey(key)} />
                     <button onClick={() => this.toggleModal()}>Anuluj</button>
                 </Modal>
+                <NewKey 
+                    onAdd={(key) => this.addKey(key)}/>
                 <Rooms />
                {this.state.keys.map(key => (
                     <Key 
-                        key={key.id}
+                        key={key._id}
                         numer={key.numer}
                         blok={key.blok}
                         funkcja={key.funkcja} 
-                        id={key.id}
+                        _id={key._id}
                         ile={key.ile}
                         onEdit={(key) => this.editKeyHandler(key)}
-                        onDelete={(id) => this.deleteKey(id)}
+                        onDelete={(_id) => this.deleteKey(_id)}
                     />
                 ))}
-                <NewKey 
-                    onAdd={(key) => this.addKey(key)}/>
+                
 
             </div>
         );

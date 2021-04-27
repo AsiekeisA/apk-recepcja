@@ -33,7 +33,7 @@ export default function EditKey(props) {
             blok: blok,
             funkcja: funkcja,
             ile: ile,
-            id: props.id
+            _id: props._id
         };
         props.onEdit(key);
     }

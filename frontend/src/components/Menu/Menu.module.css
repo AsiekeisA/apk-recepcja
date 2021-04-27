@@ -3,6 +3,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: aquamarine;
+    background-color: #775c60;
     padding: 5px;
+}
+.button{
+    font-size: 10px;
+    justify-content: end;
 }
