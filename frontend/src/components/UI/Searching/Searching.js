@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './Searching.module.css'
 
 function Searching(props) {
-    // props.onSearch();
+    
     const [name, setName] = useState('');
     const search = () => {
-        console.log(name);
+        props.onSearch(name);
     }
+
+    const onKeyDownHandler = e => {
+        if (e.key === "Enter") {
+            search();
+        }
+    }
+    
     // const updateName = (e) => {
     //     setName(e.target.value);
     // }
@@ -15,12 +22,11 @@ function Searching(props) {
             <div className="form-group col">
                 <input className={`${styles.search} form-control`}
                     value={name}
-                    onKeyDown={e => e.key==='Enter' && search()}
+                    onKeyDown={onKeyDownHandler}
                     onChange={e => setName(e.target.value)}
                     type="text"
                     placeholder="Szukaj..." 
-                />
-                    
+                />      
             </div>
             <div className="col">
                 <button 
