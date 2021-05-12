@@ -78,7 +78,7 @@ function NewKey(props) {
             <button onClick={() => addKey()}>Dodaj klucz</button>
         </div>
         ) : (
-            <button onClick={() => setshowForm(true)}>Nowy klucz</button>
+            <button className="btn btn-primary" onClick={() => setshowForm(true)}>Nowy klucz</button>
         )
     );
 }

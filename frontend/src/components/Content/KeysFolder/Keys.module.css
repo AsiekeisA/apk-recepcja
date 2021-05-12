@@ -5,3 +5,7 @@
     font-size: xx-small;
     display: flexbox;
 }
+.button{
+    font-size: 10px;
+    justify-content: end;
+}

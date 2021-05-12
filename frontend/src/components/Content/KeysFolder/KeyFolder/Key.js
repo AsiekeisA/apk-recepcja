@@ -23,12 +23,12 @@ function Key(props) {
     }
 
     return (
-        <div className={`${styles.key} flexbox-cointainer`}>
+        <div className={`${styles.key} flexbox-container`}>
             <div className="col">{props.numer} {props.blok}</div>
             <div className="col">{props.funkcja}</div>
             <div className="col">{props.ile}</div>
-            <div className="col"><button onClick={editHandler}>edytuj</button></div>
-            <div className="col"><button className="delete" onClick={() => {props.onDelete(props._id);}}>usuń</button></div>
+            <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={editHandler}>edytuj</button></div>
+            <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={() => {props.onDelete(props._id);}}>usuń</button></div>
         </div>
     );
 }

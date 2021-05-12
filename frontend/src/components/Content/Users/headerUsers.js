@@ -1,6 +1,4 @@
-import React from 'react';
-
-function Rooms() {
+function HeaderUser() {
     return(
         <div className="d-flex justify-content-around">
             <div className="col">Nazwisko i Imię</div>
@@ -14,4 +12,4 @@ function Rooms() {
     );
 }
 
-export default Rooms;
+export default HeaderUser;

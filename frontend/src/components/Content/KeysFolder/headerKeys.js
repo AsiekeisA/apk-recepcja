@@ -1,5 +1,3 @@
-import React from 'react';
-
 function Rooms() {
     return(
         <div className="d-flex justify-content-around">
