@@ -82,8 +82,12 @@ function Keys(props) {
             <Rooms />
             {props.keys.map(key => (
                 <Key
+                    active={props.active}
                     key={key._id}
                     {...key}
+                    changeContent={content=>props.changeContent(content)}
+                    idIntoKey={(key) => props.idIntoKey(key)}
+                    //setWhich={whichKey => props.setKeys(whichKey)}
                     onEdit={(key) => editKeyHandler(key)}
                     onDelete={(_id) => deleteKey(_id)}
                 />

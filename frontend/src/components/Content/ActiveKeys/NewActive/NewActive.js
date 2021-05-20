@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 
 function NewActive(props) {
 
+    //const key = {props.}
     const [showForm, setshowForm] = useState(false);
-    const [key_id, setKey] = useState('');
+    const [key_id, setKey] = useState(props.key_id);
+    const [key_idDB, setKeyDB] = useState(props.key_idDB);
     const [user_id, setUser] = useState('');
-    const [data, setData] = useState('');
+    const [data, setData] = useState(Date.now());
+    
 
     const changeKeyHandler = event => {
         const value = event.target.value;
@@ -20,31 +23,32 @@ function NewActive(props) {
 
     const changeDataHandler = event => {
         const value = event.target.value;
+        console.log(value)
         setData(value);
     }
 
     const addActive = () => {
+        const value = 'active';
         const active = {
             key_id: key_id,
             user_id: user_id,
-            data: data,
+            data:data
         };
         props.onAdd(active);
         setKey('');
         setUser('');
         setData('');
-        setshowForm(false);
+        props.changeContent(value);
     }
 
     return(
-        showForm ? (
         <div>
             <label>Klucz:</label>
-            <input 
-                className = "form-control"
-                type="text" 
-                value={key_id} 
-                onChange={changeKeyHandler} />
+            <input className = "form-control" 
+            value={key_id} 
+            onChange={changeKeyHandler}/>
+            
+            
             <br/>
             <label>User:</label>
             <input 
@@ -56,15 +60,13 @@ function NewActive(props) {
             <label>Data:</label>
             <input 
                 className = "form-control"
-                type="date" 
-                value={data}
+                type="date"
+                //value={data}
+                value={Date.now()}
                 onChange={changeDataHandler} />  
 
             <button onClick={() => addActive()}>Dodaj</button>
         </div>
-        ) : (
-            <button className="btn btn-primary" onClick={() => setshowForm(true)}>Nowy</button>
-        )
     );
 }
 

@@ -14,6 +14,8 @@ function NewKey(props) {
         setNumer(value);
     }
 
+    const blokRef = React.useRef();
+
     const changeBlokHandler = event => {
         const value = event.target.value;
         setBlok(value);
@@ -55,18 +57,29 @@ function NewKey(props) {
                 onChange={changeNumerHandler} />
             <br/>
             <label>Blok:</label>
-            <input 
-                className = "form-control"
-                type="text" 
-                value={blok}
-                onChange={changeBlokHandler} />
+            <select 
+                className = "form-control" 
+                type="text"
+                value={blok} 
+                onChange = {changeBlokHandler}>
+                <option value='A'>A</option>
+                <option value='B'>B</option>
+                <option value='C'>C</option>
+            </select>
             <br/>
             <label>Funkcja:</label>
-            <input 
+            <select 
                 className = "form-control"
-                type="text" 
+                type="text"
                 value={funkcja}
-                onChange={changeFunkcjaHandler} />  
+                onChange={changeFunkcjaHandler}>
+                <option value='pokój'>pokój</option>
+                <option value='sala wykładowa'>sala wykładowa</option>
+                <option value='sala komputerowa'>sala komputerowa</option>
+                <option value='pralnia'>pralnia</option>
+                <option value='aula'>aula</option>
+                <option value='pokój cichej nauki'>pokój cichej nauki</option>
+            </select>  
             <br/>
             <label>Ilość:</label>
             <input 

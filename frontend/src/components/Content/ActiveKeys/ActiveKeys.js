@@ -21,16 +21,19 @@ function ActiveKeys(props) {
         props.setActive(actives);
     }
 
-    const addActive = async(active) => {
-        const actives = [...props.active];
-        const res = await axios.post('/active', active);
-        const newActive = res.data;
-        actives.push(newActive);
-        props.setActive(actives);
-        console.log('dodawanie');
-    }
+    // const addActive = async(active) => {
+    //     const actives = [...props.active];
+    //     const res = await axios.post('/active', active);
+    //     const newActive = res.data;
+    //     actives.push(newActive);
+    //     props.setActive(actives);
+    //     console.log('dodawanie');
+    // }
 
     const editActive = async(active) => {
+        const today = Date.now();
+        console.log(new Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(today));
+       
         await axios.put('/active/'+ active._id, active);
         const actives = [...props.active];
         const index = actives.findIndex(x => x._id === active._id);
@@ -61,8 +64,8 @@ function ActiveKeys(props) {
                     onEdit={active => editActive(active)} />
                 <button onClick={() => toggleModal()}>Anuluj</button>
             </Modal>
-            <NewActive 
-                onAdd={(active) => addActive(active)}/>
+            {/* <NewActive 
+                onAdd={(active) => addActive(active)}/> */}
             <Rooms />
             {props.active.map(active => (
                 <ActiveKey

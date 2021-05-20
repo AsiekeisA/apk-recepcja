@@ -4,6 +4,7 @@
     background-color: hotpink;
     font-size: xx-small;
     display: flexbox;
+    padding: 5px 5px 5px 5px;
 }
 .button{
     font-size: 10px;
