@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
+import axios from '../../../../axios'
 
 
 function NewActive(props) {
 
     //const key = {props.}
-    const [showForm, setshowForm] = useState(false);
+    
     const [key_id, setKey] = useState(props.key_id);
     const [key_idDB, setKeyDB] = useState(props.key_idDB);
     const [user_id, setUser] = useState('');
@@ -26,7 +27,14 @@ function NewActive(props) {
         console.log(value)
         setData(value);
     }
-
+    const onAdd = async(aactive) => {
+        const actives = [...props.active];
+        const res = await axios.post('/active', aactive);
+        const newActive = res.data;
+        actives.push(newActive);
+        props.setActive(actives);
+        console.log('dodawanie');
+      }
     const addActive = () => {
         const value = 'active';
         const active = {
@@ -34,10 +42,11 @@ function NewActive(props) {
             user_id: user_id,
             data:data
         };
-        props.onAdd(active);
+        onAdd(active);
         setKey('');
         setUser('');
         setData('');
+        props.setKeyA('');
         props.changeContent(value);
     }
 

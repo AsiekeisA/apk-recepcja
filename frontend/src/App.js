@@ -11,7 +11,7 @@ import Searching from './components/UI/Searching/Searching';
 import Footer from './components/Footer/Footer';
 import JakisKontekst from './context/theme';
 import ContentContext from  './context/contentContext';
-import Content from './components/Content/content';
+import Content from './components/Content/Content';
 import ActiveKeys from './components/Content/ActiveKeys/ActiveKeys';
 import NewActive from './components/Content/ActiveKeys/NewActive/NewActive';
 import ActiveKey from './components/Content/ActiveKeys/ActiveKey/ActiveKey';
@@ -47,13 +47,9 @@ function App(){
     setUsers(users);
     setActive(active);
     setAvailable(keys);
+    
 }
-  const [newActiveTemp, setKeyA] = useState({})
-  const idIntoKey = (key) => {
-      setKeyA(key);
-    console.log(newActiveTemp);
-    changeContent('newActive')
-  }
+  
 
 //   const deleteKey = async(_id) => {
 //     console.log('usuwanie', _id);
@@ -82,75 +78,38 @@ function App(){
     dispatch({type: 'change-Content', value});  
   }
 
-  const available = () => {
-      for (var i=active.length; i>0; i--){
-      const act =active[i-1];
-      const ava = [...availableKeys].filter(keys=>(keys.numer+' '+keys.blok)!==act.key_id);
-      console.log(ava); 
-      //setAvailable(ava);
-      //console.log(availableKeys);
-    }}
+  // const available = () => {
+  //   var table = [...keys];
+  //   for (var i=active.length; i>0; i--){
+  //     const act =active[i-1].key_id;
+  //     const ava = [...table].filter(keys=>(keys.numer+' '+keys.blok)!==act);
+  //     table =ava;
+  //     console.log(active.length)
+  //   }
+  //   setAvailable(table)
+  // }
 
-  const addActive = async(aactive) => {
-    const actives = [...active];
-    const res = await axios.post('/active', aactive);
-    const newActive = res.data;
-    actives.push(newActive);
-    setActive(actives);
-    console.log('dodawanie');
-  }
 
-  const switchCase = () =>{
-    switch(state) {
-        case 'keys':
-          return(<Keys
-            idIntoKey={idIntoKey}
-            changeContent={changeContent}
-            keys={availableKeys}
-            active={active}
-            //setWhich={whichKey => setWhich(whichKey)}
-            setKeys={setKeys}
-          />);
-        case 'users':
-          return(<Users
-            users={users}
-            setUsers={users => setUsers(users)}
-          />);
-        case 'active':
-          return(<ActiveKeys
-            keys={keys}
-            active={active}
-            setActive={active => setActive(active)}
-          />);
-          case 'newActive':
-            
-            return(<NewActive
-              key_id={newActiveTemp.numer+' '+newActiveTemp.blok}
-              key_idDB={newActiveTemp._id}
-              setKeyA={setKeyA}
-              changeContent={content=>changeContent(content)}
-              onAdd={(active) => addActive(active)}
-            />);
-        default:
-          return 'BLAD';
-  }}
 
-  const header = <Header />
+  const header = <Header>
+    <Searching  onSearch={name => searchHandler(name)}/>
+  </Header>
   const menu = (
-    <Menu changeContent={content=>changeContent(content)}>
-      <Searching  onSearch={name => searchHandler(name)}/>
-    </Menu>
+    <Menu changeContent={content=>changeContent(content)}/>
   );
   const content = (
-    // <ContentContext.Provider value={{
-    //   whichContent: state, 
-    //   onChange: changeContent
-    // }}>
-    // {
     loading ? 
     <Loading />
-    : switchCase()
-    
+    : <Content 
+        state={state}
+        changeContent={changeContent}
+        keys={keys}
+        active={active}
+        setKeys={setKeys}
+        users={users}
+        setUsers={setUsers}
+        setActive={setActive}
+      />
     // }
     // </ContentContext.Provider>
   );

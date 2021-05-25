@@ -12,14 +12,16 @@ const propTypes = {
 
 function Key(props) {
 
+    const dataModel = {
+        _id:props._id, 
+        numer:props.numer, 
+        blok:props.blok, 
+        funkcja:props.funkcja, 
+        ile:props.ile
+    };
+
     const editHandler = () => {
-        props.onEdit({
-            _id:props._id, 
-            numer:props.numer, 
-            blok:props.blok, 
-            funkcja:props.funkcja, 
-            ile:props.ile
-        })
+        props.onEdit(dataModel)
     }
     const newActiveHandler = () => {
         props.idIntoKey({

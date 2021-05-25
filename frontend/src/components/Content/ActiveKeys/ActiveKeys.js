@@ -21,14 +21,14 @@ function ActiveKeys(props) {
         props.setActive(actives);
     }
 
-    // const addActive = async(active) => {
-    //     const actives = [...props.active];
-    //     const res = await axios.post('/active', active);
-    //     const newActive = res.data;
-    //     actives.push(newActive);
-    //     props.setActive(actives);
-    //     console.log('dodawanie');
-    // }
+    const addActive = async(active) => {
+        const actives = [...props.active];
+        const res = await axios.post('/active', active);
+        const newActive = res.data;
+        actives.push(newActive);
+        props.setActive(actives);
+        console.log('dodawanie');
+    }
 
     const editActive = async(active) => {
         const today = Date.now();

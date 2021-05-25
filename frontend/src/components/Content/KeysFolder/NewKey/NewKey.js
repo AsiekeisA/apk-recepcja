@@ -5,8 +5,8 @@ function NewKey(props) {
 
     const [showForm, setshowForm] = useState(false);
     const [numer, setNumer] = useState('');
-    const [blok, setBlok] = useState('');
-    const [funkcja, setFunkcja] = useState('');
+    const [blok, setBlok] = useState('A');
+    const [funkcja, setFunkcja] = useState('pokój');
     const [ile, setIle] = useState('');
 
     const changeNumerHandler = event => {
@@ -19,11 +19,13 @@ function NewKey(props) {
     const changeBlokHandler = event => {
         const value = event.target.value;
         setBlok(value);
+        console.log(blok);
     }
 
     const changeFunkcjaHandler = event => {
         const value = event.target.value;
         setFunkcja(value);
+        console.log(funkcja);
     }
 
     const changeIleHandler = event => {
@@ -40,8 +42,8 @@ function NewKey(props) {
         };
         props.onAdd(key);
         setNumer('');
-        setBlok('');
-        setFunkcja('');
+        setBlok('A');
+        setFunkcja('pokój');
         setIle('');
         setshowForm(false);
     }
@@ -52,14 +54,14 @@ function NewKey(props) {
             <label>Numer:</label>
             <input 
                 className = "form-control"
-                type="text" 
+                type="number" 
                 value={numer} 
                 onChange={changeNumerHandler} />
             <br/>
             <label>Blok:</label>
             <select 
                 className = "form-control" 
-                type="text"
+                type="submit"
                 value={blok} 
                 onChange = {changeBlokHandler}>
                 <option value='A'>A</option>
@@ -70,7 +72,7 @@ function NewKey(props) {
             <label>Funkcja:</label>
             <select 
                 className = "form-control"
-                type="text"
+                type="submit"
                 value={funkcja}
                 onChange={changeFunkcjaHandler}>
                 <option value='pokój'>pokój</option>
@@ -84,7 +86,7 @@ function NewKey(props) {
             <label>Ilość:</label>
             <input 
                 className = "form-control"
-                type="text" 
+                type="number" 
                 value={ile}
                 onChange={changeIleHandler} />
 

@@ -11,7 +11,8 @@ function Menu(props) {
             <button value='keys' onClick={e=>props.changeContent(e.target.value)} className="col">Wszystkie klucze</button>
             <button value='users' onClick={e=>props.changeContent(e.target.value)} className="col">Wszyscy ludzie</button>
             <button value='active' onClick={e=>props.changeContent(e.target.value)} className="col">Aktywne</button>
-            <div className="col">{props.children}</div>
+            <button value='active' onClick={e=>props.changeContent(e.target.value)} className="col">Pokoje gości</button>
+            
         </div>
     );
 }

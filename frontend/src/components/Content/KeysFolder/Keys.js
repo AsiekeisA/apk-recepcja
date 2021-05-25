@@ -25,8 +25,10 @@ function Keys(props) {
     // }
     const [editKeyTemp, setEditKey] = useState({});
     const [showEditModal, setEditModal] = useState(false);
+    const [availableK, setAvailable]= useState([]);
     useEffect(()=>{
-       Modal.setAppElement('body'); 
+       // available();
+        Modal.setAppElement('body'); 
     },[]);
     
     const deleteKey = async(_id) => {
@@ -63,7 +65,19 @@ function Keys(props) {
     const editKeyHandler = (key) => {
          toggleModal();
          setEditKey(key);
-     }
+    }
+     
+    // const available = () =>{
+    //     var table = [...props.keys];
+    //     for (var i=0; i<props.active.length; i++){
+    //       const act = props.active[i].key_id;
+    //       const ava = [...table].filter(keys=>(keys.numer+' '+keys.blok)!== act);
+    //       table =ava;
+    //       console.log(table.length)
+    //     }
+    //     setAvailable(table)
+    // }
+    
 
     return (
         <div className={`${styles.keys} flexbox-container`}>

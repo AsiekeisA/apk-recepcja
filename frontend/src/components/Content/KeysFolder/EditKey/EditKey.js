@@ -43,28 +43,39 @@ export default function EditKey(props) {
         <label>Numer:</label>
         <input 
             className = "form-control"
-            type="text" 
+            type="number" 
             value={numer} 
             onChange={changeNumerHandler} />
        
         <label>Blok:</label>
-        <input
-            className = "form-control"
-            type="text" 
-            value={blok}
-            onChange={changeBlokHandler} />
+        <select 
+                className = "form-control" 
+                type="submit"
+                value={blok} 
+                onChange = {changeBlokHandler}>
+                <option value='A'>A</option>
+                <option value='B'>B</option>
+                <option value='C'>C</option>
+            </select>
         
         <label>Funkcja:</label>
-        <input 
-            className = "form-control"
-            type="text" 
-            value={funkcja}
-            onChange={changeFunkcjaHandler} />  
+        <select 
+                className = "form-control"
+                type="submit"
+                value={funkcja}
+                onChange={changeFunkcjaHandler}>
+                <option value='pokój'>pokój</option>
+                <option value='sala wykładowa'>sala wykładowa</option>
+                <option value='sala komputerowa'>sala komputerowa</option>
+                <option value='pralnia'>pralnia</option>
+                <option value='aula'>aula</option>
+                <option value='pokój cichej nauki'>pokój cichej nauki</option>
+            </select>  
     
         <label>Ilość:</label>
         <input 
             className = "form-control"
-            type="text" 
+            type="number" 
             value={ile}
             onChange={changeIleHandler} />
 
