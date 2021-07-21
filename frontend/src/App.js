@@ -16,24 +16,42 @@ import ActiveKeys from './components/Content/ActiveKeys/ActiveKeys';
 import NewActive from './components/Content/ActiveKeys/NewActive/NewActive';
 import ActiveKey from './components/Content/ActiveKeys/ActiveKey/ActiveKey';
 
+const reducer = (state,action) => {
+  switch (action.type) {
+
+    case 'set-backKeys':
+      return { ...state, backKeys: action.backKeys};
+    case 'set-showKeys':
+      return { ...state, showKeys: action.showKeys};
+    case 'set-keys':
+      return { ...state, keys: action.keys};
+    case 'set-users':
+      return { ...state, users: action.users};
+    case 'set-active':
+      return { ...state, active: action.active};
+    case 'set-loading':
+      return { ...state, loading: action.loading};
+    case 'change-content':
+      return { ...state, content: action.content};
+    default:
+      throw new Error (' nie ma takiej funkcji '+ action.type)
+  }
+}
 // const backKeys = [];
+const initialState = {
+  showKeys: [],
+  backKeys: [],
+  keys: [],
+  users: [],
+  active: [],
+  loading: true,
+  content: 'keys',
+  //theme: 'primary'
+}
 
 function App(){
-  const [backKeys, setBackKeys] = useState([]);
-  const [keys, setKeys] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [active, setActive] = useState([]);
-  const [availableKeys, setAvailable]  = useState([]);
-  // const [showEditModal, setEditModal] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [theme, setTheme] = useState('primary');
-  // const [contentState, setContentState] = useState('keys');
-  const [state, dispatch] = useReducer((state, action) => {
-    //if(action.type === 'change-Content'){
-      state=action.value;
-    //}
-    return state;
-  }, 'keys');
+  const [state, dispatch] = useReducer(reducer, initialState);
+  
 
   const fetchBack = async () => {
     const resKeys = await axios.get('/keys');
@@ -42,14 +60,19 @@ function App(){
     const keys = resKeys.data;
     const users = resUsers.data;
     const active = resActive.data;
-    setKeys(keys);
-    setBackKeys(keys);
-    setUsers(users);
-    setActive(active);
-    setAvailable(keys);
-    
-}
-  
+    // setShowKeys(keys);
+    // setKeys(keys);
+    // // setAvailable(keys);
+    // setBackKeys(keys);
+    // setUsers(users);
+    // setActive(active);
+    dispatch({type: 'set-showKeys', showKeys:keys});
+    dispatch({type: 'set-backKeys', backKeys:keys});
+    dispatch({type: 'set-keys', keys:keys});
+    dispatch({type: 'set-users', users:users});
+    dispatch({type: 'set-active', active:active});
+  }
+
 
 //   const deleteKey = async(_id) => {
 //     console.log('usuwanie', _id);
@@ -60,34 +83,38 @@ function App(){
 
   const searchHandler = name => {
     console.log('szukaj z app', name)
-    const searchKeys = [...backKeys]
+    const searchKeys = [...state.backKeys]
                     .filter(x => x.blok
                     .toLowerCase()
                     .includes(name.toLowerCase()));
-    setKeys(searchKeys);
+    // setKeys(searchKeys);
+    dispatch({type: 'set-keys', keys:searchKeys});
   }
 
   useEffect(()=>{
     setTimeout(() => {
       fetchBack();
-      setLoading(false);
+      // setLoading(false);
+     dispatch({type: 'set-loading', loading:false});
     }, 1000);
   },[]);
   
-  const changeContent = (value) => {
-    dispatch({type: 'change-Content', value});  
+  const changeContent = (content) => {
+    dispatch({type: 'change-content', content:content});  
   }
 
-  // const available = () => {
+
+  // const available = useCallback( ()=> {
   //   var table = [...keys];
   //   for (var i=active.length; i>0; i--){
   //     const act =active[i-1].key_id;
   //     const ava = [...table].filter(keys=>(keys.numer+' '+keys.blok)!==act);
   //     table =ava;
-  //     console.log(active.length)
+  //     console.log(table.lenght)
   //   }
-  //   setAvailable(table)
-  // }
+  //   return table;
+  //   //setAvailable(table)
+  // }, [active]);
 
 
 
@@ -98,17 +125,22 @@ function App(){
     <Menu changeContent={content=>changeContent(content)}/>
   );
   const content = (
-    loading ? 
+    state.loading ? 
     <Loading />
     : <Content 
-        state={state}
+        content={state.content}
+        keys={state.keys}
+        active={state.active}
+        users={state.users}
+        showKeys={state.showKeys}
+        // availableKeys={availableKeys}
         changeContent={changeContent}
-        keys={keys}
-        active={active}
-        setKeys={setKeys}
-        users={users}
-        setUsers={setUsers}
-        setActive={setActive}
+        setKeys={keys=>dispatch({type: 'set-keys', keys:keys})}
+        setUsers={users=>dispatch({type: 'set-users', users:users})}
+        setActive={active=>dispatch({type: 'set-active', active:active})}
+        setShowKeys={showKeys=>dispatch({type: 'set-showKeys', showKeys:showKeys})}
+        // setAvailable={setAvailable}
+        // available={available}
       />
     // }
     // </ContentContext.Provider>

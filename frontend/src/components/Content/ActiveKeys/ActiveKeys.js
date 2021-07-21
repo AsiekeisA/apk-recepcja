@@ -10,29 +10,51 @@ import axios from '../../../axios';
 function ActiveKeys(props) {
     const [editTemp, setEdit] = useState({});
     const [showEditModal, setEditModal] = useState(false);
+    const [keyOdd, setKeyOdd] = useState({});
     useEffect(()=>{
        Modal.setAppElement('body'); 
     },[]);
     
+    const oddawanie = (_id) => {
+        const ID = [...props.active].filter(active=>active._id === _id);
+        const keyID = [...props.keys].filter(keys => keys._id === ID[0].key_id);
+        console.log(keyID[0]);
+        const key = {
+            _id: keyID[0]._id,
+            numer: keyID[0].numer,
+            blok: keyID[0].blok,
+            funkcja: keyID[0].funkcja,
+            ile: keyID[0].ile,
+            ileDost: keyID[0].ileDost+1,
+            czyDost: true
+        }
+        editKey(key);
+    }
+    
+    const editKey = async(key) => {
+        console.log(key);
+        await axios.put('/keys/'+ key._id, key);
+        const keys = [...props.keys];
+        const index = keys.findIndex(x => x._id === key._id);
+        if(index >=0) {
+            keys[index] = key;
+            console.log(keys);
+            props.setKeys(keys);
+        }
+    }
+
     const deleteActive = async(_id) => {
+        oddawanie(_id);
         console.log('usuwanie', _id);
         const actives = [...props.active].filter(active => active._id !== _id);
         await axios.delete('/active/'+ _id);
         props.setActive(actives);
-    }
-
-    const addActive = async(active) => {
-        const actives = [...props.active];
-        const res = await axios.post('/active', active);
-        const newActive = res.data;
-        actives.push(newActive);
-        props.setActive(actives);
-        console.log('dodawanie');
+        console.log(props.keys);
     }
 
     const editActive = async(active) => {
         const today = Date.now();
-        console.log(new Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(today));
+        const todayFormat = Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(today);
        
         await axios.put('/active/'+ active._id, active);
         const actives = [...props.active];
@@ -71,9 +93,11 @@ function ActiveKeys(props) {
                 <ActiveKey
                     key={active._id}
                     {...active}
+                    keys={props.keys}
                     onEdit={(active) => editActiveHandler(active)}
-                    onDelete={(_id) => deleteActive(_id)}
-                />
+                    //tu przekazać obiekt z id active i id klucza
+                    onDelete={(_id) => deleteActive(_id)}></ActiveKey>
+                
             ))}
         </div>
         );
@@ -83,4 +107,4 @@ const areSame = (prevProps, nextProps) => {
     return prevProps.active === nextProps.active;
 }
 
-export default React.memo(ActiveKeys, areSame);
+export default ActiveKeys;

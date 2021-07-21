@@ -4,7 +4,7 @@ function Rooms() {
             <div className="col"></div>
             <div className="col">Numer</div>
             <div className="col">funkcja</div>
-            <div className="col">ilość</div>
+            <div className="col">dostępne</div>
             <div className="col"></div>
             <div className="col"></div>
             <div className="col"></div>

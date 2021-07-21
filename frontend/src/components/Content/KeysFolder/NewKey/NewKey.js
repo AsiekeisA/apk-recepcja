@@ -8,28 +8,29 @@ function NewKey(props) {
     const [blok, setBlok] = useState('A');
     const [funkcja, setFunkcja] = useState('pokój');
     const [ile, setIle] = useState('');
+    const [ileDost, setIleDost] = useState('');
+    const czyDost = true;
 
     const changeNumerHandler = event => {
         const value = event.target.value;
         setNumer(value);
     }
 
-    const blokRef = React.useRef();
+   // const blokRef = React.useRef();
 
     const changeBlokHandler = event => {
         const value = event.target.value;
         setBlok(value);
-        console.log(blok);
     }
 
     const changeFunkcjaHandler = event => {
         const value = event.target.value;
         setFunkcja(value);
-        console.log(funkcja);
     }
 
     const changeIleHandler = event => {
         const value = event.target.value;
+        setIleDost(value);
         setIle(value);
     }
 
@@ -38,13 +39,17 @@ function NewKey(props) {
             numer: numer,
             blok: blok,
             funkcja: funkcja,
-            ile: ile
+            ile: ile,
+            ileDost: ileDost,
+            czyDost: czyDost
         };
+        console.log(key);
         props.onAdd(key);
         setNumer('');
         setBlok('A');
         setFunkcja('pokój');
         setIle('');
+        setIleDost('');
         setshowForm(false);
     }
 
@@ -54,7 +59,7 @@ function NewKey(props) {
             <label>Numer:</label>
             <input 
                 className = "form-control"
-                type="number" 
+                type="text" 
                 value={numer} 
                 onChange={changeNumerHandler} />
             <br/>

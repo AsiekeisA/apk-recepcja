@@ -6,6 +6,7 @@ export default function EditKey(props) {
     const [blok, setBlok] = useState(props.blok);
     const [funkcja, setFunkcja] = useState(props.funkcja);
     const [ile, setIle] = useState(props.ile);
+    const [ileDost, setIleDost] = useState(props.ileDost);
 
     const changeNumerHandler = event => {
         const value = event.target.value;
@@ -25,6 +26,7 @@ export default function EditKey(props) {
     const changeIleHandler = event => {
         const value = event.target.value;
         setIle(value);
+        setIleDost(value-ile+ileDost);
     }
 
     const editKey = () => {
@@ -33,6 +35,8 @@ export default function EditKey(props) {
             blok: blok,
             funkcja: funkcja,
             ile: ile,
+            ileDost: ileDost,
+            czyDost: props.czyDost,
             _id: props._id
         };
         props.onEdit(key);
@@ -43,7 +47,7 @@ export default function EditKey(props) {
         <label>Numer:</label>
         <input 
             className = "form-control"
-            type="number" 
+            type="text" 
             value={numer} 
             onChange={changeNumerHandler} />
        

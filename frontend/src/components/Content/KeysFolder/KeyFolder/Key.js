@@ -8,6 +8,8 @@ const propTypes = {
     blok: PropTypes.string.isRequired,
     funkcja: PropTypes.string.isRequired,
     ile: PropTypes.number.isRequired,
+    ileDost: PropTypes.number.isRequired,
+    czyDost: PropTypes.bool.isRequired,
 };
 
 function Key(props) {
@@ -17,20 +19,16 @@ function Key(props) {
         numer:props.numer, 
         blok:props.blok, 
         funkcja:props.funkcja, 
-        ile:props.ile
+        ile:props.ile,
+        ileDost:props.ileDost,
+        czyDost:props.czyDost
     };
 
     const editHandler = () => {
         props.onEdit(dataModel)
     }
     const newActiveHandler = () => {
-        props.idIntoKey({
-            _id:props._id, 
-            numer:props.numer, 
-            blok:props.blok, 
-            funkcja:props.funkcja, 
-            ile:props.ile
-        })
+        props.idIntoKey(dataModel)
     }
     const [btnName, setBtnName]=useState('Rozwiń')
     const [expand, setExpand] = useState(false)
@@ -40,7 +38,7 @@ function Key(props) {
         setExpand(!expand)
     }
     return (
-        <>
+    <>
         <div className={`${styles.key} flexbox-container`}>
             <div className="col"><button 
                                     className={`${styles.button} btn btn-primary`}
@@ -49,11 +47,14 @@ function Key(props) {
                                         {btnName}</button></div>
             <div className="col">{props.numer+' '+props.blok}</div>
             <div className="col">{props.funkcja}</div>
-            <div className="col">{props.ile}</div>
-            <div className="col"><button 
-                                    className={`${styles.button} btn btn-primary`}
-                                    onClick={newActiveHandler}>
-                                        Rezerwuj</button></div>
+            <div className="col">{props.ileDost+' / '+props.ile}</div>
+            {props.czyDost
+                ? <div className="col"><button 
+                className={`${styles.button} btn btn-primary`}
+                onClick={newActiveHandler}>
+                                    Rezerwuj</button></div>
+                : <div className="col">Brak miejsc</div>                
+                                }
             <div className="col"><button 
                                     className={`${styles.button} btn btn-primary`} 
                                     onClick={editHandler}>
@@ -65,13 +66,13 @@ function Key(props) {
         </div>
         <ul className={`${styles.who} flexbox-container`}>
             {expand &&(
-            <li>
+                <li>
                 kto pobrał klucz
             </li>
             )}
         </ul>
-        </>
-    );
+    </>
+        );
 }
 
 Key.propTypes = propTypes;

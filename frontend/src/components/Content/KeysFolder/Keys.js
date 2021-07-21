@@ -25,9 +25,13 @@ function Keys(props) {
     // }
     const [editKeyTemp, setEditKey] = useState({});
     const [showEditModal, setEditModal] = useState(false);
-    const [availableK, setAvailable]= useState([]);
+    // const [availableK, setAvailable]= useState(props.available());
+    // const [showAll, setShowAll] = useState(false);
+    // const [showTable, setShow] = useState(props.keys);
+    
     useEffect(()=>{
-       // available();
+        // setShow(props.keys)
+        //available();
         Modal.setAppElement('body'); 
     },[]);
     
@@ -75,9 +79,14 @@ function Keys(props) {
     //       table =ava;
     //       console.log(table.length)
     //     }
-    //     setAvailable(table)
+    //     props.setAvailable(table)
     // }
-    
+
+    //  const allBtn = () => {
+    //     setShowAll(!showAll)
+    //     console.log(props.showKeys)
+    //     props.setShowKeys( showAll ? props.keys : availableK)        
+    //  }
 
     return (
         <div className={`${styles.keys} flexbox-container`}>
@@ -87,10 +96,13 @@ function Keys(props) {
                     blok={editKeyTemp.blok}
                     funkcja={editKeyTemp.funkcja}
                     ile={editKeyTemp.ile}
+                    ileDost={editKeyTemp.ileDost}
+                    czyDost={editKeyTemp.czyDost}
                     _id={editKeyTemp._id}
                     onEdit={key => editKey(key)} />
                 <button onClick={() => toggleModal()}>Anuluj</button>
             </Modal>
+            {/* <button onClick={() => allBtn()}>Wszystkie/dostępne</button> */}
             <NewKey 
                 onAdd={(key) => addKey(key)}/>
             <Rooms />
@@ -101,7 +113,6 @@ function Keys(props) {
                     {...key}
                     changeContent={content=>props.changeContent(content)}
                     idIntoKey={(key) => props.idIntoKey(key)}
-                    //setWhich={whichKey => props.setKeys(whichKey)}
                     onEdit={(key) => editKeyHandler(key)}
                     onDelete={(_id) => deleteKey(_id)}
                 />
