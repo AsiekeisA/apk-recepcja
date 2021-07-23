@@ -14,12 +14,13 @@ function ActiveKey(props) {
         })
     }
 
-    const index = [...props.keys].findIndex(x=>x._id===props.key_id)
+    const keyIndex = [...props.keys].findIndex(x=>x._id===props.key_id)
+    const userIndex = [...props.users].findIndex(x=>x._id===props.user_id)
 
     return (
         <div className={`${styles.key} flexbox-container`}>
-            <div className="col">{props.keys[index].numer+' '+props.keys[index].blok}</div>
-            <div className="col">{props.user_id}</div>
+            <div className="col">{props.keys[keyIndex].numer+' '+props.keys[keyIndex].blok}</div>
+            <div className="col">{props.users[userIndex].lastName+' '+props.users[userIndex].firstName}</div>
             <div className="col">{props.data}</div>
             <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={editHandler}>edytuj</button></div>
             <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={() => {props.onDelete(props._id)}}>usuń</button></div>

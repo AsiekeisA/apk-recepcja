@@ -94,6 +94,7 @@ function ActiveKeys(props) {
                     key={active._id}
                     {...active}
                     keys={props.keys}
+                    users={props.users}
                     onEdit={(active) => editActiveHandler(active)}
                     //tu przekazać obiekt z id active i id klucza
                     onDelete={(_id) => deleteActive(_id)}></ActiveKey>

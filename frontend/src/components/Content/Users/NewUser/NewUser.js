@@ -12,17 +12,17 @@ function NewUser(props) {
     const [nrIndeks, setNrIndeks] = useState('');
 
     const changeFirstNameHandler = event => {
-        const value = event.target.value;
+        const value = event.target.value.toUpperCase();
         setFirstName(value);
     }
 
     const changeLastNameHandler = event => {
-        const value = event.target.value;
+        const value = event.target.value.toUpperCase();
         setLastName(value);
     }
 
     const changeEmailHandler = event => {
-        const value = event.target.value;
+        const value = event.target.value.toLowerCase();
         setEmail(value);
     }
 

@@ -38,6 +38,7 @@ export default function Content(props) {
         return(<ActiveKeys
           keys={props.keys}
           active={props.active}
+          users={props.users}
           setActive={active => props.setActive(active)}
           setKeys={keys => props.setKeys(keys)}
         />);

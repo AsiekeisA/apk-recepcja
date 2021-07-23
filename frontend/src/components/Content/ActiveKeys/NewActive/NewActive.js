@@ -1,5 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import axios from '../../../../axios'
+import axios from '../../../../axios';
+import Users from '../../Users/Users';
+import NewActiveUser from './NewActiveUser';
 
 
 function NewActive(props) {
@@ -9,6 +11,47 @@ function NewActive(props) {
     const [data, setData] = useState(Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(Date.now()));
     const [keyIleDost, setKeyIleDost] = useState(props.keyIleDost);
     const [keyCzyDost, setKeyCzyDost] = useState(props.keyCzyDost);
+    const [usersData, setUsersData] = useState(props.users);
+    const index = props.users.length
+    const [userName, setUserName] = useState('');
+    const [userLastname, setUserLastname] = useState('');
+    const [ifExist, setIfExist]= useState(false);
+
+    const existHandler = () =>{
+        if(usersData.length>0&&usersData.length<5){
+            setIfExist(true);
+        }else
+        setIfExist(false);
+    }
+    
+    const lastnameExist = name => {
+        existHandler();
+        if (name){
+            const sameUser = [...props.users]
+                    .filter(x => x.lastName
+                    .includes(name));
+                    setUsersData(sameUser);
+            console.log(usersData);
+            console.log(sameUser);
+        }else{
+            setUsersData(props.users);
+            setIfExist(false);
+        }
+    }
+    const userExist = name => {
+        existHandler();
+        // console.log(name);
+        if (name){
+            const sameUser = [...usersData]
+                     .filter(x => x.firstName
+                     .includes(name))
+                     setUsersData(sameUser);
+            console.log(usersData);
+            console.log(sameUser);
+        }else
+        lastnameExist();                 
+     }
+    
     
 
     const changeKeyHandler = event => {
@@ -17,8 +60,19 @@ function NewActive(props) {
     }
 
     const changeUserHandler = event => {
-        const value = event.target.value;
+        const value = event.target.value.toUpperCase();
         setUser(value);
+        userExist(value);
+    }
+    const changeUserNameHandler = event => {
+        const value = event.target.value.toUpperCase();
+        setUserName(value);
+        userExist(value);
+    }
+    const changeUserLastnameHandler = event => {
+        const value = event.target.value.toUpperCase();
+        setUserLastname(value);
+        lastnameExist(value);
     }
 
     const changeDataHandler = event => {
@@ -75,6 +129,9 @@ function NewActive(props) {
         editKey(key);
         setKey('');
         setUser('');
+        setUsersData('');
+        setUserLastname('');
+        setUserName('');
         setData('');
         setKeyIleDost('');
         setKeyCzyDost('');
@@ -88,20 +145,36 @@ function NewActive(props) {
             <input className = "form-control" 
             value={props.keyNR} 
             onChange={changeKeyHandler}/>
-            
-            
             <br/>
-            <label>User:</label>
+            <label>Nazwisko:</label>
+        <input 
+            className = "form-control"
+            type="text" 
+            value={userLastname}
+            //onKeyDown={userExist}
+            onChange={changeUserLastnameHandler}/>
+            <label>Imię:</label>
             <input 
                 className = "form-control"
                 type="text" 
-                value={user}
-                onChange={changeUserHandler} />
-            <br/>
+                value={userName}
+                //onKeyDown={userExist}
+                onChange={changeUserNameHandler}/>
+            {ifExist?
+                (<div>Proponowane osoby: </div>,
+                usersData.map(usersData =>
+                <NewActiveUser
+                    key={usersData._id}
+                    {...usersData}
+                    setUser={setUser}
+                    setUserName={setUserName}
+                    setUserLastname={setUserLastname}
+                />)):<div/>}
+            <br/>   
             <label>Data:</label>
             <input 
                 className = "form-control"
-                type="date"
+                type="text"
                 value={data}
                 onChange={changeDataHandler} />  
 

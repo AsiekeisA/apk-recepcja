@@ -87,7 +87,6 @@ function App(){
                     .filter(x => x.blok
                     .toLowerCase()
                     .includes(name.toLowerCase()));
-    // setKeys(searchKeys);
     dispatch({type: 'set-keys', keys:searchKeys});
   }
 
