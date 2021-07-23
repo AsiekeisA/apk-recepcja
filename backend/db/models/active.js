@@ -14,8 +14,8 @@ const ActiveSchema = new mongoose.Schema({
         required: true,
     },
     data: {
-        type: Date,
-        default: Date.now
+        type: String,
+        required: true,
     },   
 });
 

@@ -18,6 +18,14 @@ const KeySchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    ileDost: {
+        type: Number,
+        required: true,
+    },
+    czyDost: {
+        type: Boolean,
+        required: true,
+    },
     
 });
 

@@ -6,11 +6,13 @@ class KeysActions {
         const blok = req.body.blok;
         const funkcja = req.body.funkcja;
         const ile = req.body.ile;
+        const ileDost = req.body.ileDost;
+        const czyDost = req.body.czyDost;
 
         let key;
         
         try{
-            key = new Key({ numer: numer, blok: blok, funkcja:funkcja, ile:ile });
+            key = new Key({ numer: numer, blok: blok, funkcja:funkcja, ile:ile, ileDost:ileDost, czyDost:czyDost });
             await key.save();
         }catch (err) {
             return res.status(422).json({message: err.message});
@@ -37,12 +39,16 @@ class KeysActions {
         const blok = req.body.blok;
         const funkcja = req.body.funkcja;
         const ile = req.body.ile;
+        const ileDost = req.body.ileDost;
+        const czyDost = req.body.czyDost;
 
         const key = await Key.findOne({_id: id});
         key.numer = numer;
         key.blok = blok;
         key.funkcja= funkcja;
         key.ile = ile;
+        key.ileDost = ileDost;
+        key.czyDost = czyDost;
         await key.save();
 
        res.status(201).json(key);
