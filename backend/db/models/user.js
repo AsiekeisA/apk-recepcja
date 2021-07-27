@@ -2,31 +2,43 @@ const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
     firstName: {
-    type: String,
+        type: String,
         required: true,
+        trim: true,
     },
     lastName: {
         type: String,
         required: true,
+        trim: true,
     },
     email: {
         type: String,
-        required : true,
+        trim: true,
+       //required: true,
+       //index: true,
+       sparse: true,
+       unique: true,
     },
     phone: {
-        type: Number,
-        required: true,
-        //unique: true,
+        type: String,
+        trim: true,
+        //required: true,
+       // index: true,
+       sparse: true,
+       unique: true,
     },
     position: {
         type: String,
-        // enum: ['student','pracownik','gość','mieszkaniec'],
+        trim: true,
         required: true,
     },
     nrIndeks: {
-        type: Number,
-        //unique: true,
-        required: true,
+        type: String,
+        trim: true,
+        //required: true,
+        //index: true,
+        sparse: true,
+        unique: true,
     }
 });
 

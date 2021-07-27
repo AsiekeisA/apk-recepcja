@@ -16,7 +16,14 @@ const ActiveSchema = new mongoose.Schema({
     data: {
         type: String,
         required: true,
-    },   
+    },
+    dataQuit: {
+        type: String,
+        //required: true,
+    },
+    live: {
+        type: Boolean,
+    }
 });
 
 const Active = mongoose.model('Active', ActiveSchema);

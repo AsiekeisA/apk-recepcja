@@ -4,10 +4,11 @@ function NewActiveUser(props) {
         props.setUserName(props.firstName);
         props.setUserLastname(props.lastName);
         props.setUser(props._id);
+        props.setIfExist(false);
     } 
 
     return(
-       <button onClick={dataChange}>{props.lastName} {props.firstName}</button>
+       <button onClick={dataChange}>{props.lastName} {props.firstName} - {props.position}</button>
     );
 }
 

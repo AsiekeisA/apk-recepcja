@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ActiveKey from './ActiveKey/ActiveKey';
+import ActiveKeyContent from './ActiveKey/ActiveKeyContent';
 import styles from '../KeysFolder/Keys.module.css';
 import Rooms from './headerActive';
 import NewActive from './NewActive/NewActive.js';
@@ -10,7 +10,6 @@ import axios from '../../../axios';
 function ActiveKeys(props) {
     const [editTemp, setEdit] = useState({});
     const [showEditModal, setEditModal] = useState(false);
-    const [keyOdd, setKeyOdd] = useState({});
     useEffect(()=>{
        Modal.setAppElement('body'); 
     },[]);
@@ -89,17 +88,14 @@ function ActiveKeys(props) {
             {/* <NewActive 
                 onAdd={(active) => addActive(active)}/> */}
             <Rooms />
-            {props.active.map(active => (
-                <ActiveKey
-                    key={active._id}
-                    {...active}
+                <ActiveKeyContent
+                    active={props.active}
+                    content={props.content}
                     keys={props.keys}
                     users={props.users}
                     onEdit={(active) => editActiveHandler(active)}
-                    //tu przekazać obiekt z id active i id klucza
-                    onDelete={(_id) => deleteActive(_id)}></ActiveKey>
-                
-            ))}
+                    onDelete={(_id) => deleteActive(_id)}
+                ></ActiveKeyContent>
         </div>
         );
 }

@@ -36,6 +36,7 @@ export default function Content(props) {
         />);
       case 'active':
         return(<ActiveKeys
+          content={props.content}
           keys={props.keys}
           active={props.active}
           users={props.users}
@@ -59,9 +60,17 @@ export default function Content(props) {
           keys={props.keys}
           setKeys={props.setKeys}
           users={props.users}
+          setUsers={props.setUsers}
         />);
       case 'rooms':
-        return(<div>Tu będą tylko pokoje wyciągnięte z aktywnych</div>);  
+        return(<ActiveKeys
+          content={props.content}
+          keys={props.keys}
+          active={props.active}
+          users={props.users}
+          setActive={active => props.setActive(active)}
+          setKeys={keys => props.setKeys(keys)}
+        />); 
       default:
         return 'BLAD';
 }

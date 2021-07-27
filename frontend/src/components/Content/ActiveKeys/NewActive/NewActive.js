@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import axios from '../../../../axios';
-import Users from '../../Users/Users';
-import NewActiveUser from './NewActiveUser';
+import NewActiveUser from './NewActiveUser/NewActiveUser';
 
 
 function NewActive(props) {
@@ -12,7 +11,6 @@ function NewActive(props) {
     const [keyIleDost, setKeyIleDost] = useState(props.keyIleDost);
     const [keyCzyDost, setKeyCzyDost] = useState(props.keyCzyDost);
     const [usersData, setUsersData] = useState(props.users);
-    const index = props.users.length
     const [userName, setUserName] = useState('');
     const [userLastname, setUserLastname] = useState('');
     const [ifExist, setIfExist]= useState(false);
@@ -52,18 +50,11 @@ function NewActive(props) {
         lastnameExist();                 
      }
     
-    
-
     const changeKeyHandler = event => {
         const value = event.target.value;
         setKey(value);
     }
 
-    const changeUserHandler = event => {
-        const value = event.target.value.toUpperCase();
-        setUser(value);
-        userExist(value);
-    }
     const changeUserNameHandler = event => {
         const value = event.target.value.toUpperCase();
         setUserName(value);
@@ -99,9 +90,39 @@ function NewActive(props) {
             console.log(keys);
             props.setKeys(keys);
         }
-    } 
+    }
+    const addUser = async(user, key_id, data) => {
+        const res = await axios.post('/users', user);
+        const users = [...props.users];
+        const newUser = res.data;
+        console.log(newUser);
+        users.push(newUser);
+        props.setUsers(users);
+        const newActive={
+            key_id:key_id,
+            user_id:newUser._id,
+            data:data
+        }
+        onAdd(newActive);
+        console.log('dodawanie');
+      } 
 
     const addActive = () => {
+        if (!user){
+            const newUser ={
+                firstName:userName,
+                lastName:userLastname,
+                position:'gość'
+            }
+            addUser(newUser, keyId, data); 
+        }else{
+            const active = {
+                key_id: keyId,
+                user_id: user,
+                data:data
+            };
+            onAdd(active);
+        }
         var ifDost=true;
         const ile = keyIleDost-1;
         if(ile===0)
@@ -110,11 +131,7 @@ function NewActive(props) {
         }
 
         const value = 'active';
-        const active = {
-            key_id: keyId,
-            user_id: user,
-            data:data
-        };
+       
         const key = {
             numer: props.keyNumer,
             blok: props.keyBlok,
@@ -125,7 +142,6 @@ function NewActive(props) {
             _id: props.keyId
         };
         
-        onAdd(active);
         editKey(key);
         setKey('');
         setUser('');
@@ -137,6 +153,10 @@ function NewActive(props) {
         setKeyCzyDost('');
         props.setKeyA('');
         props.changeContent(value);
+    }
+
+    const cancelOperation = () => {
+        props.changeContent('keys');
     }
 
     return(
@@ -169,6 +189,7 @@ function NewActive(props) {
                     setUser={setUser}
                     setUserName={setUserName}
                     setUserLastname={setUserLastname}
+                    setIfExist={setIfExist}
                 />)):<div/>}
             <br/>   
             <label>Data:</label>
@@ -179,7 +200,7 @@ function NewActive(props) {
                 onChange={changeDataHandler} />  
 
             <button onClick={() => addActive()}>Dodaj</button>
-            <button>Anuluj/nieaktywny</button>
+            <button onClick={() => cancelOperation()}>Anuluj</button>
         </div>
     );
 }

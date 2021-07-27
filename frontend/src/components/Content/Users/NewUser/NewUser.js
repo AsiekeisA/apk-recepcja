@@ -45,10 +45,10 @@ function NewUser(props) {
         const user = {
             firstName: firstName,
             lastName: lastName,
-            email: email,
-            phone: phone,
             position: position,
             nrIndeks: nrIndeks,
+            email: email,
+            phone: phone,
         };
         props.onAdd(user);
         setFirstName('');
@@ -77,20 +77,6 @@ function NewUser(props) {
                 value={lastName}
                 onChange={changeLastNameHandler} />
             <br/>
-            <label>E-mail:</label>
-            <input 
-                className = "form-control"
-                type="text" 
-                value={email}
-                onChange={changeEmailHandler} />  
-            <br/>
-            <label>Telefon:</label>
-            <input 
-                className = "form-control"
-                type="text" 
-                value={phone}
-                onChange={changePhoneHandler} />
-            <br/>
             <label>Pozycja:</label>
             <input 
                 className = "form-control"
@@ -104,6 +90,20 @@ function NewUser(props) {
                 type="text" 
                 value={nrIndeks}
                 onChange={changeNrIndeksHandler} />
+            <br/>
+            <label>E-mail:</label>
+            <input 
+                className = "form-control"
+                type="text" 
+                value={email}
+                onChange={changeEmailHandler} />  
+            <br/>
+            <label>Telefon:</label>
+            <input 
+                className = "form-control"
+                type="text" 
+                value={phone}
+                onChange={changePhoneHandler} />
 
             <button onClick={() => addUser()}>Dodaj</button>
         </div>
