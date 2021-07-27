@@ -8,12 +8,14 @@ function NewActive(props) {
     const [keyId, setKey] = useState(props.keyId);
     const [user, setUser] = useState('');
     const [data, setData] = useState(Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(Date.now()));
+    const [dataQuit, setDataQuit]= useState(Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(Date.now()+86400000))
     const [keyIleDost, setKeyIleDost] = useState(props.keyIleDost);
     const [keyCzyDost, setKeyCzyDost] = useState(props.keyCzyDost);
     const [usersData, setUsersData] = useState(props.users);
     const [userName, setUserName] = useState('');
     const [userLastname, setUserLastname] = useState('');
-    const [ifExist, setIfExist]= useState(false);
+    const [ifExist, setIfExist]= useState(false);//czy istnieje taka osoba w bazie danych
+    const [ifInhabitant, setIfInhabitant]= useState(false);//czy osoba pobierająca klucz do pokoju będzie mieszkańcem 
 
     const existHandler = () =>{
         if(usersData.length>0&&usersData.length<5){
@@ -65,11 +67,19 @@ function NewActive(props) {
         setUserLastname(value);
         lastnameExist(value);
     }
+    const changeCheckBoxHandler = event => {
+        setIfInhabitant(!ifInhabitant);
+    }
 
     const changeDataHandler = event => {
-        const value = event.target.value;
+        const value = event.target.value.toString();
         console.log(value);
         setData(value);
+    }
+    const changeDataQuitHandler = event => {
+        const value = event.target.value.toString();
+        console.log(value);
+        setDataQuit(value);
     }
 
     const onAdd = async(aactive) => {
@@ -119,7 +129,9 @@ function NewActive(props) {
             const active = {
                 key_id: keyId,
                 user_id: user,
-                data:data
+                data:data,
+                dataQuit:dataQuit,
+                live:ifInhabitant
             };
             onAdd(active);
         }
@@ -173,6 +185,7 @@ function NewActive(props) {
             value={userLastname}
             //onKeyDown={userExist}
             onChange={changeUserLastnameHandler}/>
+            <br/>
             <label>Imię:</label>
             <input 
                 className = "form-control"
@@ -181,8 +194,7 @@ function NewActive(props) {
                 //onKeyDown={userExist}
                 onChange={changeUserNameHandler}/>
             {ifExist?
-                (<div>Proponowane osoby: </div>,
-                usersData.map(usersData =>
+                (usersData.map(usersData =>
                 <NewActiveUser
                     key={usersData._id}
                     {...usersData}
@@ -191,14 +203,34 @@ function NewActive(props) {
                     setUserLastname={setUserLastname}
                     setIfExist={setIfExist}
                 />)):<div/>}
-            <br/>   
-            <label>Data:</label>
-            <input 
+            <br/>
+            {props.keyFunkcja==='pokój'?
+                (<>
+                <label>Wynajem</label>
+                <input 
+                 className = "form"
+                type="checkbox"
+                onChange={changeCheckBoxHandler}
+                />
+                <br/>
+                {ifInhabitant?<></>:<>
+                <br/>
+                <label>Data zameldowania:</label>
+                <input 
                 className = "form-control"
-                type="text"
+                type="date"
                 value={data}
-                onChange={changeDataHandler} />  
-
+                onChange={changeDataHandler} /> 
+                <br/>
+                <label>Data wymeldowania:</label>
+                <input 
+                className = "form-control"
+                type="date"
+                value={dataQuit}
+                onChange={changeDataQuitHandler} />  
+                </>}
+            </>):<></>}  
+            <br/> 
             <button onClick={() => addActive()}>Dodaj</button>
             <button onClick={() => cancelOperation()}>Anuluj</button>
         </div>
