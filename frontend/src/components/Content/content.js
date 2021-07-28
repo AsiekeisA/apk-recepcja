@@ -17,6 +17,8 @@ export default function Content(props) {
     switch(props.content) {
       case 'keys':
         return(<Keys
+          funkcyja={props.funkcyja}
+          content={props.content}
           idIntoKey={idIntoKey}
           changeContent={props.changeContent}
           keys={props.keys}
@@ -31,10 +33,13 @@ export default function Content(props) {
         />);
       case 'users':
         return(<Users
+          content={props.content}
           users={props.users}
           setUsers={users => props.setUsers(users)}
-        />);
+          />);
       case 'active':
+      case 'inhabitant':
+      case 'rooms':
         return(<ActiveKeys
           content={props.content}
           keys={props.keys}
@@ -42,9 +47,10 @@ export default function Content(props) {
           users={props.users}
           setActive={active => props.setActive(active)}
           setKeys={keys => props.setKeys(keys)}
-        />);
+          />);
       case 'newActive':
         return(<NewActive
+          content={props.content}
           keyNR={newActiveTemp.numer+' '+newActiveTemp.blok}
           setKeyA={setKeyA}
           changeContent={content=>props.changeContent(content)}
@@ -62,15 +68,6 @@ export default function Content(props) {
           users={props.users}
           setUsers={props.setUsers}
         />);
-      case 'rooms':
-        return(<ActiveKeys
-          content={props.content}
-          keys={props.keys}
-          active={props.active}
-          users={props.users}
-          setActive={active => props.setActive(active)}
-          setKeys={keys => props.setKeys(keys)}
-        />); 
       default:
         return 'BLAD';
 }

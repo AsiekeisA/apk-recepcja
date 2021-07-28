@@ -15,6 +15,7 @@ import Content from './components/Content/Content';
 import ActiveKeys from './components/Content/ActiveKeys/ActiveKeys';
 import NewActive from './components/Content/ActiveKeys/NewActive/NewActive';
 import ActiveKey from './components/Content/ActiveKeys/ActiveKey/ActiveKey';
+import DataHeader from './components/DataHeader/DataHeader';
 
 const reducer = (state,action) => {
   switch (action.type) {
@@ -72,7 +73,17 @@ function App(){
     dispatch({type: 'set-users', users:users});
     dispatch({type: 'set-active', active:active});
   }
-
+  const [howMany, setHowMany] = useState(0);//ile jest dostępnych kluczy
+  const [howManyEvery, setHowManyEvery] = useState(0);//ile jest wszystkich kluczy
+   const funkcyja =() => {
+      let ile = 0;
+      for (let i=0; i<state.keys.length; i++){
+          ile += state.keys[i].ileDost;
+      }
+      console.log(ile);
+      setHowMany(ile);
+      console.log(howMany);
+  }
 
 //   const deleteKey = async(_id) => {
 //     console.log('usuwanie', _id);
@@ -94,8 +105,9 @@ function App(){
     setTimeout(() => {
       fetchBack();
       // setLoading(false);
-     dispatch({type: 'set-loading', loading:false});
+      dispatch({type: 'set-loading', loading:false});
     }, 1000);
+  
   },[]);
   
   const changeContent = (content) => {
@@ -126,7 +138,8 @@ function App(){
   const content = (
     state.loading ? 
     <Loading />
-    : <Content 
+    :<Content 
+        funkcyja={funkcyja}
         content={state.content}
         keys={state.keys}
         active={state.active}

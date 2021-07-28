@@ -5,11 +5,13 @@ class ActiveActions {
         const key_id = req.body.key_id;
         const user_id = req.body.user_id;
         const data = req.body.data;
+        const dataQuit = req.body.dataQuit;
+        const live = req.body.live;
 
         let active;
         
         try{
-            active = new Active({ key_id:key_id, user_id:user_id, data:data });
+            active = new Active({ key_id:key_id, user_id:user_id, data:data, dataQuit:dataQuit, live:live });
             await active.save();
         }catch (err) {
             return res.status(422).json({message: err.message});
@@ -35,6 +37,8 @@ class ActiveActions {
         const key_id = req.body.key_id;
         const user_id = req.body.user_id;
         const data = req.body.data;
+        const dataQuit = req.body.dataQuit;
+        const live = req.body.live;
 
         const active = await Active.findOne({_id: id});
         active.key_id = key_id;

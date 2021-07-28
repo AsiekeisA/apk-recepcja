@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ActiveKeyContent from './ActiveKey/ActiveKeyContent';
 import styles from '../KeysFolder/Keys.module.css';
-import Rooms from './headerActive';
-import NewActive from './NewActive/NewActive.js';
+import DataHeader from '../../DataHeader/DataHeader';
 import Modal from 'react-modal';
 import EditActive from './EditActive/EditActive.js';
 import axios from '../../../axios';
@@ -87,7 +86,11 @@ function ActiveKeys(props) {
             </Modal>
             {/* <NewActive 
                 onAdd={(active) => addActive(active)}/> */}
-            <Rooms />
+            <DataHeader 
+                content={props.content}
+                setItems={props.setActive}
+                items={props.active}
+                />
                 <ActiveKeyContent
                     active={props.active}
                     content={props.content}

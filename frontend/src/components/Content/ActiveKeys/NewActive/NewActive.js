@@ -101,7 +101,7 @@ function NewActive(props) {
             props.setKeys(keys);
         }
     }
-    const addUser = async(user, key_id, data) => {
+    const addUser = async(user, key_id, data, live) => {
         const res = await axios.post('/users', user);
         const users = [...props.users];
         const newUser = res.data;
@@ -111,10 +111,11 @@ function NewActive(props) {
         const newActive={
             key_id:key_id,
             user_id:newUser._id,
-            data:data
+            data:data,
+            live:live
         }
         onAdd(newActive);
-        console.log('dodawanie');
+        console.log('dodawanie goscia');
       } 
 
     const addActive = () => {
@@ -122,9 +123,9 @@ function NewActive(props) {
             const newUser ={
                 firstName:userName,
                 lastName:userLastname,
-                position:'gość'
+                position:'gość'       
             }
-            addUser(newUser, keyId, data); 
+            addUser(newUser, keyId, data, ifInhabitant); 
         }else{
             const active = {
                 key_id: keyId,
@@ -133,6 +134,7 @@ function NewActive(props) {
                 dataQuit:dataQuit,
                 live:ifInhabitant
             };
+            console.log(active)
             onAdd(active);
         }
         var ifDost=true;
@@ -160,9 +162,11 @@ function NewActive(props) {
         setUsersData('');
         setUserLastname('');
         setUserName('');
-        setData('');
+        setData(Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(Date.now()));
+        setDataQuit(Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(Date.now()));
         setKeyIleDost('');
         setKeyCzyDost('');
+        setIfInhabitant(false);
         props.setKeyA('');
         props.changeContent(value);
     }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styles from '../../KeysFolder/KeyFolder/Key.module.css';
 import {Link} from 'react-router-dom';
 
-function ActiveKey(props) {
+function ActiveKeyInhabitants(props) {
 
     const editHandler = () => {
         props.onEdit({
@@ -19,7 +19,7 @@ function ActiveKey(props) {
 
     return (
         <>
-        {props.keys[keyIndex].funkcja==='pokój' && !props.live ?
+        {props.keys[keyIndex].funkcja==='pokój' && props.live ?
         <div className={`${styles.key} flexbox-container`}>
         <div className="col">{props.keys[keyIndex].numer+' '+props.keys[keyIndex].blok}</div>
         <div className="col">{props.users[userIndex].lastName+' '+props.users[userIndex].firstName}</div>
@@ -30,4 +30,4 @@ function ActiveKey(props) {
     :<></>}</>);
 }
 
-export default ActiveKey;
+export default ActiveKeyInhabitants;

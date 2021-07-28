@@ -1,37 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Key from './KeyFolder/Key';
 import styles from './Keys.module.css';
-import Rooms from './headerKeys.js';
 import NewKey from './NewKey/NewKey.js';
 import Modal from 'react-modal';
 import EditKey from './EditKey/EditKey';
 import axios from '../../../axios';
+import DataHeader from '../../DataHeader/DataHeader';
 
+const liczenieKluczy = (count) =>{
+    let ile=0;
+    for (let i=0; i<count.length; i++){
+        ile += parseInt(count[i].ile);
+    }
+    return ile;
+}
 function Keys(props) {
-    // constructor(props){
-    //     super(props);
-
-    //     this.state = {
-    //         keys: [],
-    //         editKey: {},
-    //         showEditModal: false
-    //     };
-    // }
-
-    // async fetchKeys(props) {
+     // async fetchKeys(props) {
     //     const res = await axios.get('/keys');
     //     const keys = res.data;
     //     this.setState({keys});
     // }
     const [editKeyTemp, setEditKey] = useState({});
     const [showEditModal, setEditModal] = useState(false);
+    const count= useMemo(() => {
+        return liczenieKluczy(props.keys);
+    }, [props.keys])
     // const [availableK, setAvailable]= useState(props.available());
     // const [showAll, setShowAll] = useState(false);
     // const [showTable, setShow] = useState(props.keys);
-    
+
     useEffect(()=>{
         // setShow(props.keys)
         //available();
+        props.setKeys([...props.keys].sort((a,b)=>{return a.numer-b.numer}))
         Modal.setAppElement('body'); 
     },[]);
     
@@ -104,8 +105,13 @@ function Keys(props) {
             </Modal>
             {/* <button onClick={() => allBtn()}>Wszystkie/dostępne</button> */}
             <NewKey 
-                onAdd={(key) => addKey(key)}/>
-            <Rooms />
+                onAdd={(key) => addKey(key)}/>\
+                <div>Liczba pokoi: {count}</div>
+            <DataHeader 
+                content={props.content} 
+                setItems={props.setKeys}
+                items={props.keys}
+                />
             {props.keys.map(key => (
                 <Key
                     active={props.active}

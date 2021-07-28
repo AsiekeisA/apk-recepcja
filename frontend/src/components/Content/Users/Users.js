@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import User from './User/User';
 import styles from './Users.module.css';
-import HeaderUser from './headerUsers.js';
+import DataHeader from '../../DataHeader/DataHeader';
 import NewUser from './NewUser/NewUser.js';
 import Modal from 'react-modal';
 import EditUser from './EditUser/EditUser';
@@ -75,7 +75,11 @@ function Users(props) {
             </Modal>
             <NewUser 
                 onAdd={(user) => addUser(user)}/>
-            <HeaderUser />
+            <DataHeader 
+                content={props.content} 
+                setItems={props.setUsers}
+                items={props.users}
+                />
             {props.users.map(user => (
                 <User 
                     key={user._id}

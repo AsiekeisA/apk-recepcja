@@ -23,7 +23,8 @@ const ActiveSchema = new mongoose.Schema({
     },
     live: {
         type: Boolean,
-    }
+        required: true,
+    },
 });
 
 const Active = mongoose.model('Active', ActiveSchema);
