@@ -46,7 +46,7 @@ const initialState = {
   users: [],
   active: [],
   loading: true,
-  content: 'keys',
+  content: 'calendar',
   //theme: 'primary'
 }
 
@@ -73,18 +73,6 @@ function App(){
     dispatch({type: 'set-users', users:users});
     dispatch({type: 'set-active', active:active});
   }
-  const [howMany, setHowMany] = useState(0);//ile jest dostępnych kluczy
-  const [howManyEvery, setHowManyEvery] = useState(0);//ile jest wszystkich kluczy
-   const funkcyja =() => {
-      let ile = 0;
-      for (let i=0; i<state.keys.length; i++){
-          ile += state.keys[i].ileDost;
-      }
-      console.log(ile);
-      setHowMany(ile);
-      console.log(howMany);
-  }
-
 //   const deleteKey = async(_id) => {
 //     console.log('usuwanie', _id);
 //     const keys = [...props.keys].filter(key => key._id !== _id);
@@ -139,12 +127,12 @@ function App(){
     state.loading ? 
     <Loading />
     :<Content 
-        funkcyja={funkcyja}
         content={state.content}
         keys={state.keys}
         active={state.active}
         users={state.users}
         showKeys={state.showKeys}
+        backKeys={state.backKeys}
         // availableKeys={availableKeys}
         changeContent={changeContent}
         setKeys={keys=>dispatch({type: 'set-keys', keys:keys})}

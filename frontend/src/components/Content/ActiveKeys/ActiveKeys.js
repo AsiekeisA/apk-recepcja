@@ -92,6 +92,7 @@ function ActiveKeys(props) {
                 items={props.active}
                 />
                 <ActiveKeyContent
+                    backKeys={props.backKeys}
                     active={props.active}
                     content={props.content}
                     keys={props.keys}

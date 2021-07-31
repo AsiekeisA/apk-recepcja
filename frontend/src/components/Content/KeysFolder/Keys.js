@@ -9,22 +9,31 @@ import DataHeader from '../../DataHeader/DataHeader';
 
 const liczenieKluczy = (count) =>{
     let ile=0;
+    let ileDost=0;
     for (let i=0; i<count.length; i++){
         ile += parseInt(count[i].ile);
+        ileDost += parseInt(count[i].ileDost);
     }
-    return ile;
+    return ileDost+"/"+ile;
 }
+
 function Keys(props) {
-     // async fetchKeys(props) {
-    //     const res = await axios.get('/keys');
-    //     const keys = res.data;
-    //     this.setState({keys});
-    // }
-    const [editKeyTemp, setEditKey] = useState({});
-    const [showEditModal, setEditModal] = useState(false);
-    const count= useMemo(() => {
-        return liczenieKluczy(props.keys);
-    }, [props.keys])
+    // async fetchKeys(props) {
+        //     const res = await axios.get('/keys');
+        //     const keys = res.data;
+        //     this.setState({keys});
+        // }
+        const [editKeyTemp, setEditKey] = useState({});
+        const [showEditModal, setEditModal] = useState(false);
+        const count= useMemo(() => {
+            return liczenieKluczy(props.keys);
+        }, [props.keys])
+        const [blok, setBlok] = useState('');
+        const [funkcja, setFunkcja] = useState('');
+        const filterQuerty ={
+            blok : blok,
+            funkcja : funkcja
+        }
     // const [availableK, setAvailable]= useState(props.available());
     // const [showAll, setShowAll] = useState(false);
     // const [showTable, setShow] = useState(props.keys);
@@ -32,9 +41,33 @@ function Keys(props) {
     useEffect(()=>{
         // setShow(props.keys)
         //available();
-        props.setKeys([...props.keys].sort((a,b)=>{return a.numer-b.numer}))
-        Modal.setAppElement('body'); 
+        Modal.setAppElement('body');
     },[]);
+    useEffect(() => {
+        filterFunc();
+    },[blok, funkcja]);
+
+    const filterHandler = event =>{
+        const value = event.target.value;
+        const name = event.target.name;
+        switch (name) {
+            case "blok":
+                setBlok(value);
+                break;
+            case "funkcja":
+                setFunkcja(value);
+                break;
+        }        
+    }
+    const filterFunc = () =>{
+        const dane = [...props.backKeys]
+                    .filter(obj => Object
+                    .keys(filterQuerty)
+                    .every(key=>filterQuerty[key]? 
+                        obj[key]===filterQuerty[key]
+                        :obj[key]!=filterQuerty[key]));
+        props.setKeys(dane);
+                };
     
     const deleteKey = async(_id) => {
         console.log('usuwanie', _id);
@@ -105,14 +138,17 @@ function Keys(props) {
             </Modal>
             {/* <button onClick={() => allBtn()}>Wszystkie/dostępne</button> */}
             <NewKey 
-                onAdd={(key) => addKey(key)}/>\
-                <div>Liczba pokoi: {count}</div>
+                onAdd={(key) => addKey(key)}/>
             <DataHeader 
                 content={props.content} 
-                setItems={props.setKeys}
-                items={props.keys}
+                count={count}
+                blok={blok}
+                funkcja={funkcja}
+                filterHandler={filterHandler}
                 />
-            {props.keys.map(key => (
+            {props.keys.sort((a, b) => a.numer > b.numer ? -1 : 1)
+                        .sort((a, b) => a.blok > b.blok ? 1 : -1)
+                        .map(key => (
                 <Key
                     active={props.active}
                     key={key._id}

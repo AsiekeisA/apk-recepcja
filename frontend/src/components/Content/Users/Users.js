@@ -80,7 +80,9 @@ function Users(props) {
                 setItems={props.setUsers}
                 items={props.users}
                 />
-            {props.users.map(user => (
+            {props.users.sort((a, b) => a.firstName > b.firstName ? -1 : 1)
+                        .sort((a, b) => a.lastName > b.lastName ? 1 : -1)
+                        .map(user => (
                 <User 
                     key={user._id}
                     {...user}

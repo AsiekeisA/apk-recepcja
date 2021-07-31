@@ -14,14 +14,14 @@ function ActiveKey(props) {
         })
     }
 
-    const keyIndex = [...props.keys].findIndex(x=>x._id===props.key_id)
+    const keyIndex = [...props.backKeys].findIndex(x=>x._id===props.key_id)
     const userIndex = [...props.users].findIndex(x=>x._id===props.user_id)
 
     return (
         <>
         {props.keys[keyIndex].funkcja==='pokój' && !props.live ?
         <div className={`${styles.key} flexbox-container`}>
-        <div className="col">{props.keys[keyIndex].numer+' '+props.keys[keyIndex].blok}</div>
+        <div className="col">{props.backKeys[keyIndex].numer+' '+props.backKeys[keyIndex].blok}</div>
         <div className="col">{props.users[userIndex].lastName+' '+props.users[userIndex].firstName}</div>
         <div className="col">{props.data}</div>
         <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={editHandler}>edytuj</button></div>

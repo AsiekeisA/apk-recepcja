@@ -12,6 +12,7 @@ export default function ActiveKeyContent(props) {
                 <ActiveKeyRooms
                     key={active._id}
                     {...active}
+                    backKeys={props.backKeys}
                     keys={props.keys}
                     users={props.users}
                     onEdit={props.onEdit}
@@ -23,6 +24,7 @@ export default function ActiveKeyContent(props) {
                 <ActiveKey
                     key={active._id}
                     {...active}
+                    backKeys={props.backKeys}
                     keys={props.keys}
                     users={props.users}
                     onEdit={props.onEdit}
@@ -34,6 +36,7 @@ export default function ActiveKeyContent(props) {
                 <ActiveKeyInhabitants
                     key={active._id}
                     {...active}
+                    backKeys={props.backKeys}
                     keys={props.keys}
                     users={props.users}
                     onEdit={props.onEdit}

@@ -4,6 +4,7 @@ import ActiveKeys from './ActiveKeys/ActiveKeys'
 import NewActive from './ActiveKeys/NewActive/NewActive'
 import React, { useState } from 'react';
 import axios from 'axios';
+import RoomsCalendar from './RoomsCalendar/RoomsCalendar';
 
 
 export default function Content(props) {
@@ -14,10 +15,13 @@ export default function Content(props) {
     //console.log(newActiveTemp);
     props.changeContent('newActive')
   }
+
     switch(props.content) {
+      case 'calendar':
+        return (<RoomsCalendar/>)
       case 'keys':
         return(<Keys
-          funkcyja={props.funkcyja}
+          backKeys={props.backKeys}
           content={props.content}
           idIntoKey={idIntoKey}
           changeContent={props.changeContent}
@@ -41,6 +45,7 @@ export default function Content(props) {
       case 'inhabitant':
       case 'rooms':
         return(<ActiveKeys
+          backKeys={props.backKeys}
           content={props.content}
           keys={props.keys}
           active={props.active}

@@ -1,0 +1,21 @@
+.td-today {
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(150, 150, 150);
+    font-size: xx-small;
+    display: flexbox;
+    padding: 5px 5px 5px 5px;
+    font-weight: bold;
+}
+.td {
+    justify-content: center;
+    align-items: center;
+    font-size: xx-small;
+    display: flexbox;
+    padding: 5px 5px 5px 5px;
+    font-weight: bold;
+}
+.button{
+    font-size: 15px;
+    justify-items: center;
+}
