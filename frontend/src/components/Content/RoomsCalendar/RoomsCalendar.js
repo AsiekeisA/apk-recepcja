@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import RoomKeyCalendar from "./RoomKeyCalendar";
 import "./RoomsCalendar.css";
 
-export default function RoomsCalendar() {
+export default function RoomsCalendar(props) {
     const monthsName = [
         "Styczeń",
         "Luty",
@@ -23,11 +24,11 @@ export default function RoomsCalendar() {
     const [monthTable, setMonthTable] = useState([]);
     const [emptyTable, setEmpty] = useState([]);
     const tableMaker = () =>{
-        const table = [];
+        const table = [<td key="header">Klucze</td>];
         const empty = [];
         for(var i=1; i<=numberOfDays[month]; i++){
             table.push(<td className={colorChange(i)}  width="25px" height="25px" id={i} key={i} >{i}</td>);
-            empty.push(<td  className={colorChange(i)} width="25px" height="25px" key={i}></td>);
+            empty.push(<td className={colorChange(i)} width="25px" height="25px" key={i}></td>);
         }
         setMonthTable(table);
         setEmpty(empty);
@@ -41,7 +42,7 @@ export default function RoomsCalendar() {
     }
     useEffect(()=>{
         tableMaker();
-    },[month])
+    },[month, props.keys])
 
     const monthBefore = () =>{
         if(month===0){
@@ -70,14 +71,32 @@ return(<>
      border:1px solid black;
     }
   `}</style>
-    <div>rok : {year}, miesiąc : {monthsName[month]}</div>
+    <div>
+        <button className="button" onClick={monthBefore}>{month===0?monthsName[11]:monthsName[month-1]}</button>
+        <button className="button" onClick={thisMonth}>Bieżący miesiąc</button>
+        <button className="button" onClick={monthAfter}>{month===11?monthsName[0]:monthsName[month+1]}</button>
+        rok : {year}, miesiąc : {monthsName[month]}
+    </div>
+    <div>
     <table>
-        <tbody><tr>{monthTable}</tr>
-        <tr>{emptyTable}</tr></tbody>
+        <tbody>
+            <tr>{monthTable}</tr>
+        {props.keys.sort((a, b) => a.numer > b.numer ? -1 : 1)
+            .sort((a, b) => a.blok > b.blok ? 1 : -1)
+            .map(keys => (
+               <RoomKeyCalendar
+                key={keys._id}
+                {...keys}
+                active={props.active}
+                year={year}
+                month={month}
+                emptyTable={emptyTable}
+                setEmpty={setEmpty}
+        />))}
+        </tbody>
     </table>
-    <button className="button" onClick={monthBefore}>{month===0?monthsName[11]:monthsName[month-1]}</button>
-    <button className="button" onClick={thisMonth}>Ten miesiąc</button>
-    <button className="button" onClick={monthAfter}>{month===11?monthsName[0]:monthsName[month+1]}</button>
+    </div>
+    
     </>
 );
 } 

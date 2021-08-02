@@ -32,11 +32,12 @@ function ActiveKeys(props) {
     const editKey = async(key) => {
         console.log(key);
         await axios.put('/keys/'+ key._id, key);
-        const keys = [...props.keys];
+        const keys = [...props.backKeys];
         const index = keys.findIndex(x => x._id === key._id);
         if(index >=0) {
             keys[index] = key;
             console.log(keys);
+            props.setBackKeys(keys);
             props.setKeys(keys);
         }
     }
@@ -95,17 +96,12 @@ function ActiveKeys(props) {
                     backKeys={props.backKeys}
                     active={props.active}
                     content={props.content}
-                    keys={props.keys}
                     users={props.users}
                     onEdit={(active) => editActiveHandler(active)}
                     onDelete={(_id) => deleteActive(_id)}
                 ></ActiveKeyContent>
         </div>
         );
-}
-
-const areSame = (prevProps, nextProps) => {
-    return prevProps.active === nextProps.active;
 }
 
 export default ActiveKeys;

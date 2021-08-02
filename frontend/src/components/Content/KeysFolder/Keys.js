@@ -163,8 +163,4 @@ function Keys(props) {
         );
 }
 
-const areSame = (prevProps, nextProps) => {
-    return prevProps.keys === nextProps.keys;
-}
-
-export default React.memo(Keys, areSame);
+export default Keys;

@@ -4,7 +4,7 @@ import JakisKontekst from '../../context/theme';
 const Footer = () => {
     const theme = useContext(JakisKontekst);
     return(
-        <div className={`text-center text-${theme}`}>LALA</div>
+        <div className={`text-center text-${theme}`}>Stopka</div>
     );
 }
 

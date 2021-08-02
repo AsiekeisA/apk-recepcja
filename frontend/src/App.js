@@ -135,6 +135,7 @@ function App(){
         backKeys={state.backKeys}
         // availableKeys={availableKeys}
         changeContent={changeContent}
+        setBackKeys={keys=>dispatch({type: 'set-backKeys', backKeys:keys})}
         setKeys={keys=>dispatch({type: 'set-keys', keys:keys})}
         setUsers={users=>dispatch({type: 'set-users', users:users})}
         setActive={active=>dispatch({type: 'set-active', active:active})}

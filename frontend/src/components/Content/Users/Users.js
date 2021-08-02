@@ -86,13 +86,6 @@ function Users(props) {
                 <User 
                     key={user._id}
                     {...user}
-                    // firstName={user.firstName}
-                    // lastName={user.lastName}
-                    // email={user.email} 
-                    // phone={user.phone}
-                    // position={user.position}
-                    // nrIndeks={user.nrIndeks}
-                    // _id={user._id}
                     onEdit={(user) => editUserHandler(user)}
                     onDelete={(_id) => deleteUser(_id)}
                 />

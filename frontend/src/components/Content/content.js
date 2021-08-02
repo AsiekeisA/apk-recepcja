@@ -18,7 +18,12 @@ export default function Content(props) {
 
     switch(props.content) {
       case 'calendar':
-        return (<RoomsCalendar/>)
+        return (<RoomsCalendar
+          keys={props.keys}
+          users={props.users}
+          active={props.active}
+          setActive={props.setActive}
+        />);
       case 'keys':
         return(<Keys
           backKeys={props.backKeys}
@@ -52,9 +57,11 @@ export default function Content(props) {
           users={props.users}
           setActive={active => props.setActive(active)}
           setKeys={keys => props.setKeys(keys)}
+          setBackKeys={props.setBackKeys}
           />);
       case 'newActive':
         return(<NewActive
+          backKeys={props.backKeys}
           content={props.content}
           keyNR={newActiveTemp.numer+' '+newActiveTemp.blok}
           setKeyA={setKeyA}
@@ -72,6 +79,7 @@ export default function Content(props) {
           setKeys={props.setKeys}
           users={props.users}
           setUsers={props.setUsers}
+          setBackKeys={props.setBackKeys}
         />);
       default:
         return 'BLAD';

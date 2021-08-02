@@ -7,8 +7,8 @@ function NewActive(props) {
     
     const [keyId, setKey] = useState(props.keyId);
     const [user, setUser] = useState('');
-    const [data, setData] = useState(Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(Date.now()));
-    const [dataQuit, setDataQuit]= useState(Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(Date.now()+86400000))
+    const [data, setData] = useState(Date.now());
+    const [dataQuit, setDataQuit]= useState(Date.now())
     const [keyIleDost, setKeyIleDost] = useState(props.keyIleDost);
     const [keyCzyDost, setKeyCzyDost] = useState(props.keyCzyDost);
     const [usersData, setUsersData] = useState(props.users);
@@ -72,7 +72,7 @@ function NewActive(props) {
     }
 
     const changeDataHandler = event => {
-        const value = event.target.value.toString();
+        const value = event.target.value;
         console.log(value);
         setData(value);
     }
@@ -93,19 +93,19 @@ function NewActive(props) {
       //odejmowanie...
       const editKey = async(key) => {
         await axios.put('/keys/'+ key._id, key);
-        const keys = [...props.keys];
+        const keys = [...props.backKeys];
         const index = keys.findIndex(x => x._id === key._id);
         if(index >=0) {
             keys[index] = key;
             console.log(keys);
             props.setKeys(keys);
+            props.setBackKeys(keys);
         }
     }
     const addUser = async(user, key_id, data, live) => {
         const res = await axios.post('/users', user);
         const users = [...props.users];
         const newUser = res.data;
-        console.log(newUser);
         users.push(newUser);
         props.setUsers(users);
         const newActive={
@@ -134,7 +134,7 @@ function NewActive(props) {
                 dataQuit:dataQuit,
                 live:ifInhabitant
             };
-            console.log(active)
+            console.log(active);
             onAdd(active);
         }
         var ifDost=true;
@@ -162,8 +162,8 @@ function NewActive(props) {
         setUsersData('');
         setUserLastname('');
         setUserName('');
-        setData(Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(Date.now()));
-        setDataQuit(Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(Date.now()));
+        setData(Date.now());
+        setDataQuit(Date.now());
         setKeyIleDost('');
         setKeyCzyDost('');
         setIfInhabitant(false);
@@ -210,7 +210,7 @@ function NewActive(props) {
             <br/>
             {props.keyFunkcja==='pokój'?
                 (<>
-                <label>Wynajem</label>
+                <label>Wynajem długoterminowy ,</label>
                 <input 
                  className = "form"
                 type="checkbox"
