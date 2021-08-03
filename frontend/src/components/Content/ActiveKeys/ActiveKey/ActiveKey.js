@@ -16,6 +16,8 @@ function ActiveKey(props) {
 
     const keyIndex = [...props.backKeys].findIndex(x=>x._id===props.key_id)
     const userIndex = [...props.users].findIndex(x=>x._id===props.user_id)
+    const date=new Date(props.data).toLocaleDateString();
+    console.log(date);
 
     return (
         <div className={`${styles.key} flexbox-container`}>

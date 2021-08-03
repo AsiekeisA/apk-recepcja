@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import RoomKeyCalendar from "./RoomKeyCalendar";
+import RoomKeyCalendar from "./RoomsKey/RoomKeyCalendar";
 import "./RoomsCalendar.css";
 
 export default function RoomsCalendar(props) {
@@ -22,24 +22,31 @@ export default function RoomsCalendar(props) {
     const [year, setYear]= useState(today.getFullYear());
     const [month, setMonth]=useState(today.getMonth());
     const [monthTable, setMonthTable] = useState([]);
-    const [emptyTable, setEmpty] = useState([]);
+    // const [emptyTable, setEmpty] = useState([]);
     const tableMaker = () =>{
         const table = [<td key="header">Klucze</td>];
-        const empty = [];
+        // const empty = [];
         for(var i=1; i<=numberOfDays[month]; i++){
             table.push(<td className={colorChange(i)}  width="25px" height="25px" id={i} key={i} >{i}</td>);
-            empty.push(<td className={colorChange(i)} width="25px" height="25px" key={i}></td>);
+            // empty.push(<td className={colorChange(i)} width="25px" height="25px" key={i}></td>);
         }
         setMonthTable(table);
-        setEmpty(empty);
+        // setEmpty(empty);
     }
-    const colorChange = (id) => {
+    const colorChange = (id, bool) => {
         if(year===today.getFullYear()&&month===today.getMonth()&&id===today.getDate()){
-            return "td-today";
+            if (bool){
+                return "td-reserved-today";
+            }else{
+                return "td-today";
+            }
+        }else if (bool){
+            return "td-reserved";
         }else{
             return "td";
         }
     }
+
     useEffect(()=>{
         tableMaker();
     },[month, props.keys])
@@ -81,7 +88,7 @@ return(<>
     <table>
         <tbody>
             <tr>{monthTable}</tr>
-        {props.keys.sort((a, b) => a.numer > b.numer ? -1 : 1)
+        {props.backKeys.sort((a, b) => a.numer > b.numer ? -1 : 1)
             .sort((a, b) => a.blok > b.blok ? 1 : -1)
             .map(keys => (
                <RoomKeyCalendar
@@ -90,8 +97,9 @@ return(<>
                 active={props.active}
                 year={year}
                 month={month}
-                emptyTable={emptyTable}
-                setEmpty={setEmpty}
+                monthTable={monthTable}
+                lengthOfMonth={numberOfDays[month]}
+                colorChange={colorChange}
         />))}
         </tbody>
     </table>

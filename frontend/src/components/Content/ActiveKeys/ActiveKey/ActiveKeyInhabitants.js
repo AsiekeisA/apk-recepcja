@@ -16,10 +16,12 @@ function ActiveKeyInhabitants(props) {
 
     const keyIndex = [...props.backKeys].findIndex(x=>x._id===props.key_id)
     const userIndex = [...props.users].findIndex(x=>x._id===props.user_id)
+    const date=new Date(props.data);
+    console.log(date.toLocaleDateString());
 
     return (
         <>
-        {props.keys[keyIndex].funkcja==='pokój' && props.live ?
+        {props.backKeys[keyIndex].funkcja==='pokój' && props.live ?
         <div className={`${styles.key} flexbox-container`}>
         <div className="col">{props.backKeys[keyIndex].numer+' '+props.backKeys[keyIndex].blok}</div>
         <div className="col">{props.users[userIndex].lastName+' '+props.users[userIndex].firstName}</div>

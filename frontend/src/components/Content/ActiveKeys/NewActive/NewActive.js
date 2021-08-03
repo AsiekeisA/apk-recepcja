@@ -7,8 +7,8 @@ function NewActive(props) {
     
     const [keyId, setKey] = useState(props.keyId);
     const [user, setUser] = useState('');
-    const [data, setData] = useState(Date.now());
-    const [dataQuit, setDataQuit]= useState(Date.now())
+    const [data, setData] = useState(new Date().toLocaleString());
+    const [dataQuit, setDataQuit]= useState(new Date().toLocaleDateString());
     const [keyIleDost, setKeyIleDost] = useState(props.keyIleDost);
     const [keyCzyDost, setKeyCzyDost] = useState(props.keyCzyDost);
     const [usersData, setUsersData] = useState(props.users);
@@ -111,7 +111,7 @@ function NewActive(props) {
         const newActive={
             key_id:key_id,
             user_id:newUser._id,
-            data:data,
+            data:data.toLocaleString(),
             live:live
         }
         onAdd(newActive);

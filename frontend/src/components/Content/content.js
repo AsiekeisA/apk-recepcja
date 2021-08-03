@@ -19,6 +19,7 @@ export default function Content(props) {
     switch(props.content) {
       case 'calendar':
         return (<RoomsCalendar
+          backKeys={props.backKeys}
           keys={props.keys}
           users={props.users}
           active={props.active}

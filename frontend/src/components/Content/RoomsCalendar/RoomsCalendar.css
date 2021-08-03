@@ -4,7 +4,6 @@
     background-color: rgb(150, 150, 150);
     font-size: xx-small;
     display: flexbox;
-    padding: 5px 5px 5px 5px;
     font-weight: bold;
 }
 .td {
@@ -12,7 +11,6 @@
     align-items: center;
     font-size: xx-small;
     display: flexbox;
-    padding: 5px 5px 5px 5px;
     font-weight: bold;
 }
 .td-reserved{
@@ -20,12 +18,30 @@
     align-items: center;
     font-size: xx-small;
     display: flexbox;
-    padding: 5px 5px 5px 5px;
     font-weight: bold;
+    margin: 0px;
+    background-color: rgb(255, 0, 0);
+}
+.td-reserved-today{
+    justify-content: center;
+    align-items: center;
+    font-size: xx-small;
+    display: flexbox;
+    font-weight: bold;
+    margin: 0px;
+    background-color: rgb(255, 0, 0);
 }
 .button{
     font-size: 15px;
     align-items: right;
     background-color: rgb(245, 202, 11);
 
+}
+.button-td{
+    font-size: 15px;
+    align-items: right;
+    background-color: rgb(255,0,0);
+    border: none;
+    width: 25px;
+    height: 25px;
 }
