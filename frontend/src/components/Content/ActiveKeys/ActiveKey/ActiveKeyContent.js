@@ -8,7 +8,8 @@ export default function ActiveKeyContent(props) {
     switch(props.content) {
       case 'rooms':
         return(
-            <>{props.active.map(active => (
+            <>{props.active.sort((a, b) => a.data > b.data ? 1 : -1)
+              .map(active => (
                 <ActiveKeyRooms
                     key={active._id}
                     {...active}
@@ -20,7 +21,8 @@ export default function ActiveKeyContent(props) {
             ))}</>);
       case 'active':
         return( 
-            <>{props.active.map(active => (
+            <>{props.active.sort((a, b) => a.data > b.data ? 1 : -1)
+              .map(active => (
                 <ActiveKey
                     key={active._id}
                     {...active}
@@ -32,7 +34,8 @@ export default function ActiveKeyContent(props) {
             ))}</>);
       case 'inhabitant':
         return( 
-            <>{props.active.map(active => (
+            <>{props.active.sort((a, b) => a.data > b.data ? 1 : -1)
+              .map(active => (
                 <ActiveKeyInhabitants
                     key={active._id}
                     {...active}

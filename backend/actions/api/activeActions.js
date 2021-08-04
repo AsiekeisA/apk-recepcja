@@ -44,6 +44,8 @@ class ActiveActions {
         active.key_id = key_id;
         active.user_id = user_id;
         active.data = data;
+        active.dataQuit = dataQuit;
+        active.live = live;
         await active.save();
 
        res.status(201).json(active);

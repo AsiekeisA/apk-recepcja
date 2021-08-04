@@ -7,8 +7,8 @@ function NewActive(props) {
     
     const [keyId, setKey] = useState(props.keyId);
     const [user, setUser] = useState('');
-    const [data, setData] = useState(new Date().toLocaleString());
-    const [dataQuit, setDataQuit]= useState(new Date().toLocaleDateString());
+    const [data, setData] = useState(new Date().toISOString().slice(0,10));
+    const [dataQuit, setDataQuit]= useState(new Date(data).toISOString().slice(0,10));
     const [keyIleDost, setKeyIleDost] = useState(props.keyIleDost);
     const [keyCzyDost, setKeyCzyDost] = useState(props.keyCzyDost);
     const [usersData, setUsersData] = useState(props.users);
@@ -75,6 +75,7 @@ function NewActive(props) {
         const value = event.target.value;
         console.log(value);
         setData(value);
+        setDataQuit(value);
     }
     const changeDataQuitHandler = event => {
         const value = event.target.value.toString();
@@ -111,7 +112,8 @@ function NewActive(props) {
         const newActive={
             key_id:key_id,
             user_id:newUser._id,
-            data:data.toLocaleString(),
+            data:data,
+            dataQuit:dataQuit,
             live:live
         }
         onAdd(newActive);
@@ -217,7 +219,6 @@ function NewActive(props) {
                 onChange={changeCheckBoxHandler}
                 />
                 <br/>
-                {ifInhabitant?<></>:<>
                 <br/>
                 <label>Data zameldowania:</label>
                 <input 
@@ -232,10 +233,9 @@ function NewActive(props) {
                 type="date"
                 value={dataQuit}
                 onChange={changeDataQuitHandler} />  
-                </>}
             </>):<></>}  
             <br/> 
-            <button onClick={() => addActive()}>Dodaj</button>
+            <button onClick={() => addActive()}>Zarezerwuj</button>
             <button onClick={() => cancelOperation()}>Anuluj</button>
         </div>
     );

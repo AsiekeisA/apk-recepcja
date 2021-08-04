@@ -81,7 +81,11 @@ function ActiveKeys(props) {
                     key_id={editTemp.key_id}
                     user_id={editTemp.user_id}
                     data={editTemp.data}
+                    dataQuit={editTemp.dataQuit}
+                    live={editTemp.live}
                     _id={editTemp._id}
+                    keys={props.keys}
+                    users={props.users}
                     onEdit={active => editActive(active)} />
                 <button onClick={() => toggleModal()}>Anuluj</button>
             </Modal>

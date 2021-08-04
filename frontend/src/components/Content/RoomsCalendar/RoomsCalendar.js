@@ -23,11 +23,12 @@ export default function RoomsCalendar(props) {
     const [month, setMonth]=useState(today.getMonth());
     const [monthTable, setMonthTable] = useState([]);
     // const [emptyTable, setEmpty] = useState([]);
+    
     const tableMaker = () =>{
         const table = [<td key="header">Klucze</td>];
         // const empty = [];
         for(var i=1; i<=numberOfDays[month]; i++){
-            table.push(<td className={colorChange(i)}  width="25px" height="25px" id={i} key={i} >{i}</td>);
+            table.push(<td colSpan="2" className={i===today.getDate()?"td-header-today":"td-header"}  id={i} key={i} >{i}</td>);
             // empty.push(<td className={colorChange(i)} width="25px" height="25px" key={i}></td>);
         }
         setMonthTable(table);
@@ -49,7 +50,7 @@ export default function RoomsCalendar(props) {
 
     useEffect(()=>{
         tableMaker();
-    },[month, props.keys])
+    },[month, props.active])
 
     const monthBefore = () =>{
         if(month===0){
@@ -86,13 +87,14 @@ return(<>
     </div>
     <div>
     <table>
+        <thead><tr>{monthTable}</tr></thead>
         <tbody>
-            <tr>{monthTable}</tr>
         {props.backKeys.sort((a, b) => a.numer > b.numer ? -1 : 1)
             .sort((a, b) => a.blok > b.blok ? 1 : -1)
             .map(keys => (
                <RoomKeyCalendar
                 key={keys._id}
+                users={props.users}
                 {...keys}
                 active={props.active}
                 year={year}
@@ -100,6 +102,7 @@ return(<>
                 monthTable={monthTable}
                 lengthOfMonth={numberOfDays[month]}
                 colorChange={colorChange}
+                idIntoKey={props.idIntoKey}
         />))}
         </tbody>
     </table>

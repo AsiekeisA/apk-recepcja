@@ -94,7 +94,7 @@ export default function DataHeader(props) {
             <div className="d-flex justify-content-around">
                 <div className="col">Numer</div>
                 <div className="col">Użytkownik</div>
-                <div className="col">Data</div>
+                <div className="col">Data rezerwacji</div>
                 <div className="col"></div>
                 <div className="col"></div>
             </div>

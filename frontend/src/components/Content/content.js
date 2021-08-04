@@ -24,6 +24,7 @@ export default function Content(props) {
           users={props.users}
           active={props.active}
           setActive={props.setActive}
+          idIntoKey={idIntoKey}
         />);
       case 'keys':
         return(<Keys
