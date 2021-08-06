@@ -23,7 +23,7 @@ const ActiveSchema = new mongoose.Schema({
     },
     live: {
         type: Boolean,
-        required: true,
+        //required: true,
     },
 });
 

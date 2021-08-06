@@ -23,27 +23,28 @@ export default function RoomsCalendar(props) {
     const [month, setMonth]=useState(today.getMonth());
     const [monthTable, setMonthTable] = useState([]);
     // const [emptyTable, setEmpty] = useState([]);
-    
+    const nrMonth=month+1
     const tableMaker = () =>{
         const table = [<td key="header">Klucze</td>];
         // const empty = [];
         for(var i=1; i<=numberOfDays[month]; i++){
-            table.push(<td colSpan="2" className={i===today.getDate()?"td-header-today":"td-header"}  id={i} key={i} >{i}</td>);
+            table.push(<>
+            <td className={year===today.getFullYear()&&month===today.getMonth()&&i===today.getDate()?"day-today":"day"}
+              id={i} key={i} >{i}.</td>
+            <td className={year===today.getFullYear()&&month===today.getMonth()&&i===today.getDate()?"month-today":"month"}  
+              id={i} key={i+100} >{nrMonth<10?"0"+nrMonth:nrMonth}</td></>);
             // empty.push(<td className={colorChange(i)} width="25px" height="25px" key={i}></td>);
         }
         setMonthTable(table);
         // setEmpty(empty);
     }
-    const colorChange = (id, bool) => {
-        if(year===today.getFullYear()&&month===today.getMonth()&&id===today.getDate()){
-            if (bool){
-                return "td-reserved-today";
-            }else{
-                return "td-today";
-            }
-        }else if (bool){
+    const colorChange = (i,bool) => {
+        if (bool){
             return "td-reserved";
         }else{
+            if(year===today.getFullYear()&&month===today.getMonth()&&i===today.getDate()){
+                return "td-today";
+            }
             return "td";
         }
     }

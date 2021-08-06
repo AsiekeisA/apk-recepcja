@@ -43,12 +43,42 @@ function ActiveKeys(props) {
     }
 
     const deleteActive = async(_id) => {
-        oddawanie(_id);
         console.log('usuwanie', _id);
         const actives = [...props.active].filter(active => active._id !== _id);
         await axios.delete('/active/'+ _id);
         props.setActive(actives);
         console.log(props.keys);
+    }
+
+    const toArchive = async(newArch) => {
+        const archives = [...props.archives];
+        const res = await axios.post('/archives', newArch);
+        const newArchives = res.data;
+        archives.push(newArchives);
+        props.setArchives(archives);
+        console.log('do archiwum');
+      }
+
+    const makeArchives = (_id) => {
+        const a_id =[...props.active].findIndex(x=>x._id===_id) 
+        const newArch = {
+            key_id: props.active[a_id].key_id,
+            user_id:  props.active[a_id].user_id,
+            data:  props.active[a_id].data,
+            dataQuit: new Date().toLocaleString(),
+            live: props.active[a_id].live
+        }
+        toArchive(newArch);
+    }
+
+    const checkDelete = (_id, date) => {
+        const data = new Date(date).toISOString().slice(0,10);
+        console.log(date, data);
+        if(Date.parse(date)!=Date.parse(data)){
+            oddawanie(_id);
+            makeArchives(_id)
+        }
+        deleteActive(_id)
     }
 
     const editActive = async(active) => {
@@ -102,7 +132,7 @@ function ActiveKeys(props) {
                     content={props.content}
                     users={props.users}
                     onEdit={(active) => editActiveHandler(active)}
-                    onDelete={(_id) => deleteActive(_id)}
+                    onDelete={(_id, date) => checkDelete(_id, date)}
                 ></ActiveKeyContent>
         </div>
         );

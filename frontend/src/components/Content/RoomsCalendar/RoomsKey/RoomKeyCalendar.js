@@ -8,15 +8,17 @@ export default function RoomKeyCalendar(props) {
         [...props.active]
             .filter(active=>active.key_id===props._id)
             .filter(active=>active.live===false)
+            .sort((a, b) => a.data > b.data ? 1 : -1)
         :[];
         console.log(props.funkcja==="pokój"?
         [...props.active]
             .filter(active=>active.key_id===props._id)
             .filter(active=>active.live===false)
         :[])
-    var index=1;
+    var index=0;
     var a_id=0;
     var table = [];
+    const endMonth=props.lengthOfMonth+1
     //&&props.funkcja==="pokój" _______jeśli to działa to wrzucić do filtra
 //sprawdzanie daty czy jest widoczna jeśli tak maluj od data do dataQuit....dla każdego active TO TABLICA !!! 
     const tableSet = () => {
@@ -25,43 +27,83 @@ export default function RoomKeyCalendar(props) {
     }
 
     const existActive = (i) =>{
-        active[i]?takeDate(i):emptyTo(props.lengthOfMonth);
+        active[i]?takeDate(i):index<=props.lengthOfMonth?emptyTo(endMonth):<></>;
     }
     useEffect(()=>{
         tableSet();
     },[props.active,props.month]);
 
     const howManyDays = (last) => {
-        if(index===1){
-            if(last===props.lengthOfMonth){
-                return last*2
+        if(index===0){
+            if(last===endMonth){
+                return props.lengthOfMonth*2
             }else{
-                return (last-index)*2+1
+                return last*2-1
             } 
-        }else if(last===props.lengthOfMonth){
-            return (last-index)*2+1
+        }else if(last===endMonth){
+            return (props.lengthOfMonth-index)*2+1
         }else{
             return (last-index)*2
         }
     }
+    const howEmpty = (last) => {
+        if(index===0){
+            index++
+            if(last===endMonth){
+                for(index; index<=props.lengthOfMonth; index++){
+                    table.push(<td className={props.colorChange(index,false)}  
+                    colSpan="2" id={index} key={"empty"+index}></td>);
+                }
+            }else{
+                for(index; index<last; index++){
+                    table.push(<td className={props.colorChange(index,false)}  
+                    colSpan="2" id={index} key={"empty"+index}></td>);
+                }
+                table.push(<td className={props.colorChange(index,false)}  
+                    colSpan="1" id={index} key={"empty"+index}></td>);
+            } 
+        }else if(last===endMonth){
+            table.push(<td className={props.colorChange(index,false)}  
+            colSpan="1" id={index} key={"empty"+index}></td>);
+            index++
+            for(index; index<=props.lengthOfMonth; index++){
+                table.push(<td className={props.colorChange(index,false)}  
+                colSpan="2" id={index} key={"empty"+index}></td>);
+            }
+        }else{
+            table.push(<td className={props.colorChange(index,false)}  
+            colSpan="1" id={index} key={"empty"+index}></td>);
+            index++
+            for(index; index<=last; index++){
+                table.push(<td className={props.colorChange(index,false)}  
+                colSpan="2" id={index} key={"empty"+index}></td>);
+            }
+            table.push(<td className={props.colorChange(index,false)}  
+            colSpan="1" id={index} key={"empty"+index}></td>);
+        }
+    }
 
     const emptyTo = (last) => {
-        if(index!=last){
-            console.log(index)
-            const days = howManyDays(last)
-            table.push(<td className={props.colorChange(index,false)}  
-                colSpan={days} id={index} key={index}></td>);
-            index=last
-            console.log(props.numer+" puste "+index);
-        }
+        // var days;
+        // if(index!=last){
+             console.log(index)
+        //     days = howManyDays(last)
+            
+        //     table.push(<td className={props.colorChange(false)}  
+        //     colSpan={days} id={index} key={index}></td>);
+        //     index=last
+        howEmpty(last)
+        console.log(props.numer+" puste "+index);
+        //}
     }
    
     const reservation = (last) => {
         console.log(index)
+        const user=[...props.users].findIndex(x=>x._id===active[a_id].user_id)
         const days = howManyDays(last)
         table.push(<td className={props.colorChange(index,true)}  
             colSpan={days} id={index} key={index}>
-                {/* <button  className="button-td">{props.users[user].lastName}</button> */}
+                <button  className="button-td"></button>
             </td>);
         index=last
         console.log(props.numer+" zajete "+index);
@@ -82,18 +124,18 @@ export default function RoomKeyCalendar(props) {
         if(yearS===props.year){
             if (yearS===yearE) {
                 if(monthS===props.month){
-                    if(index===1||dayS>index){
+                    if(dayS>index){
                         emptyTo(dayS)
                     }
                     if(monthS===monthE){
                         reservation(dayE)
                     }else{
-                        reservation(props.lengthOfMonth)
+                        reservation(endMonth)
                     }
                 }else if(monthE===props.month){
                     reservation(dayE)
                 }else if(monthS<props.month&&props.month<monthE){
-                    reservation(props.lengthOfMonth)
+                    reservation(endMonth)
                 }else{
                     a_id++
                     existActive(a_id);
@@ -102,7 +144,7 @@ export default function RoomKeyCalendar(props) {
                 if(monthS===props.month){
                     emptyTo(dayS)
                 }
-                reservation(props.lengthOfMonth)
+                reservation(endMonth)
             }else{
                 a_id++
                 existActive(a_id);
@@ -111,13 +153,13 @@ export default function RoomKeyCalendar(props) {
             if(monthE===props.month){
                 reservation(dayE)
             }else if(props.month<monthE){
-                reservation(props.lengthOfMonth)
+                reservation(endMonth)
             }else{
                 a_id++
                 existActive(a_id);
             }
         }else if(yearS<props.year&&yearE>props.year){
-            reservation(props.lengthOfMonth)
+            reservation(endMonth)
         }else{
             a_id++
             existActive(a_id);

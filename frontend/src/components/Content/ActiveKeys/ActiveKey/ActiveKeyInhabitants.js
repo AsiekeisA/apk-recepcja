@@ -29,7 +29,7 @@ function ActiveKeyInhabitants(props) {
         <div className="col">{props.users[userIndex].lastName+' '+props.users[userIndex].firstName}</div>
         <div className="col">{date} - {dateQ}</div>
         <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={editHandler}>edytuj</button></div>
-        <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={() => {props.onDelete(props._id)}}>usuń</button></div>
+        <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={() => {props.onDelete(props._id, props.data)}}>usuń</button></div>
         </div>
     :<></>}</>);
 }

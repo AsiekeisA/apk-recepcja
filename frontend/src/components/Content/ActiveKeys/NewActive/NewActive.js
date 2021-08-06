@@ -4,11 +4,10 @@ import NewActiveUser from './NewActiveUser/NewActiveUser';
 
 
 function NewActive(props) {
-    
     const [keyId, setKey] = useState(props.keyId);
     const [user, setUser] = useState('');
     const [data, setData] = useState(new Date().toISOString().slice(0,10));
-    const [dataQuit, setDataQuit]= useState(new Date(data).toISOString().slice(0,10));
+    const [dataQuit, setDataQuit]= useState(new Date().toISOString().slice(0,10));
     const [keyIleDost, setKeyIleDost] = useState(props.keyIleDost);
     const [keyCzyDost, setKeyCzyDost] = useState(props.keyCzyDost);
     const [usersData, setUsersData] = useState(props.users);
@@ -109,6 +108,7 @@ function NewActive(props) {
         const newUser = res.data;
         users.push(newUser);
         props.setUsers(users);
+        
         const newActive={
             key_id:key_id,
             user_id:newUser._id,
@@ -128,7 +128,8 @@ function NewActive(props) {
                 position:'gość'       
             }
             addUser(newUser, keyId, data, ifInhabitant); 
-        }else{
+        }else if( props.keyFunkcja==="pokój" ){
+            
             const active = {
                 key_id: keyId,
                 user_id: user,
@@ -138,6 +139,14 @@ function NewActive(props) {
             };
             console.log(active);
             onAdd(active);
+        }else{
+            const active = {
+                key_id: keyId,
+                user_id: user,
+                data:new Date().toLocaleString(),
+            };
+            console.log(active);
+            onAdd(active); 
         }
         var ifDost=true;
         const ile = keyIleDost-1;
@@ -147,18 +156,18 @@ function NewActive(props) {
         }
 
         const value = 'active';
-       
-        const key = {
-            numer: props.keyNumer,
-            blok: props.keyBlok,
-            funkcja: props.keyFunkcja,
-            ile: props.keyIle,
-            ileDost: ile,
-            czyDost: ifDost,
-            _id: props.keyId
-        };
-        
-        editKey(key);
+        if ( props.keyFunkcja !='pokój' ){
+            const key = {
+                numer: props.keyNumer,
+                blok: props.keyBlok,
+                funkcja: props.keyFunkcja,
+                ile: props.keyIle,
+                ileDost: ile,
+                czyDost: ifDost,
+                _id: props.keyId
+            };
+            editKey(key);
+        }
         setKey('');
         setUser('');
         setUsersData('');
@@ -233,9 +242,12 @@ function NewActive(props) {
                 type="date"
                 value={dataQuit}
                 onChange={changeDataQuitHandler} />  
-            </>):<></>}  
             <br/> 
             <button onClick={() => addActive()}>Zarezerwuj</button>
+            </>):<>
+                <button onClick={() => addActive()}>Pobranie klucza</button>
+            </>}
+              
             <button onClick={() => cancelOperation()}>Anuluj</button>
         </div>
     );

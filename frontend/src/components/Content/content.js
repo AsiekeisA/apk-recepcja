@@ -2,6 +2,7 @@ import Keys from './KeysFolder/Keys';
 import Users from './Users/Users';
 import ActiveKeys from './ActiveKeys/ActiveKeys'
 import NewActive from './ActiveKeys/NewActive/NewActive'
+import Archives from './Archives/Archives';
 import React, { useState } from 'react';
 import axios from 'axios';
 import RoomsCalendar from './RoomsCalendar/RoomsCalendar';
@@ -23,7 +24,9 @@ export default function Content(props) {
           keys={props.keys}
           users={props.users}
           active={props.active}
+          archives={props.archives}
           setActive={props.setActive}
+          setArchives={props.setArchives}
           idIntoKey={idIntoKey}
         />);
       case 'keys':
@@ -56,10 +59,19 @@ export default function Content(props) {
           content={props.content}
           keys={props.keys}
           active={props.active}
+          archives={props.archives}
           users={props.users}
           setActive={active => props.setActive(active)}
+          setArchives={props.setArchives}
           setKeys={keys => props.setKeys(keys)}
           setBackKeys={props.setBackKeys}
+          />);
+      case 'archives':
+        return(<Archives
+          content={props.content}
+          backKeys={props.backKeys}
+          archives={props.archives}
+          users={props.users}
           />);
       case 'newActive':
         return(<NewActive

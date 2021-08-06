@@ -16,10 +16,11 @@ import ActiveKeys from './components/Content/ActiveKeys/ActiveKeys';
 import NewActive from './components/Content/ActiveKeys/NewActive/NewActive';
 import ActiveKey from './components/Content/ActiveKeys/ActiveKey/ActiveKey';
 import DataHeader from './components/DataHeader/DataHeader';
+import { Switch } from 'react-router-dom';
+import SwitchSearch from './components/UI/Searching/switch/switchSearch';
 
 const reducer = (state,action) => {
   switch (action.type) {
-
     case 'set-backKeys':
       return { ...state, backKeys: action.backKeys};
     case 'set-showKeys':
@@ -30,6 +31,8 @@ const reducer = (state,action) => {
       return { ...state, users: action.users};
     case 'set-active':
       return { ...state, active: action.active};
+    case 'set-archives':
+      return { ...state, archives: action.archives};
     case 'set-loading':
       return { ...state, loading: action.loading};
     case 'change-content':
@@ -45,6 +48,7 @@ const initialState = {
   keys: [],
   users: [],
   active: [],
+  archives: [],
   loading: true,
   content: 'calendar',
   //theme: 'primary'
@@ -58,9 +62,11 @@ function App(){
     const resKeys = await axios.get('/keys');
     const resUsers = await axios.get('/users');
     const resActive = await axios.get('/active');
+    const resArchives = await axios.get('/archives')
     const keys = resKeys.data;
     const users = resUsers.data;
     const active = resActive.data;
+    const archives = resArchives.data;
     // setShowKeys(keys);
     // setKeys(keys);
     // // setAvailable(keys);
@@ -72,6 +78,7 @@ function App(){
     dispatch({type: 'set-keys', keys:keys});
     dispatch({type: 'set-users', users:users});
     dispatch({type: 'set-active', active:active});
+    dispatch({type: 'set-archives', archives:archives});
   }
 //   const deleteKey = async(_id) => {
 //     console.log('usuwanie', _id);
@@ -87,6 +94,9 @@ function App(){
                     .toLowerCase()
                     .includes(name.toLowerCase()));
     dispatch({type: 'set-keys', keys:searchKeys});
+    // <SwitchSearch
+    //   content={state.content}
+    // />
   }
 
   useEffect(()=>{
@@ -130,6 +140,7 @@ function App(){
         content={state.content}
         keys={state.keys}
         active={state.active}
+        archives={state.archives}
         users={state.users}
         showKeys={state.showKeys}
         backKeys={state.backKeys}
@@ -139,6 +150,7 @@ function App(){
         setKeys={keys=>dispatch({type: 'set-keys', keys:keys})}
         setUsers={users=>dispatch({type: 'set-users', users:users})}
         setActive={active=>dispatch({type: 'set-active', active:active})}
+        setArchives={archives=>dispatch({type: 'set-archives', archives:archives})}
         setShowKeys={showKeys=>dispatch({type: 'set-showKeys', showKeys:showKeys})}
         // setAvailable={setAvailable}
         // available={available}
