@@ -37,6 +37,8 @@ const reducer = (state,action) => {
       return { ...state, loading: action.loading};
     case 'change-content':
       return { ...state, content: action.content};
+    case 'change-lastContent':
+      return { ...state, lastContent: action.lastContent};
     default:
       throw new Error (' nie ma takiej funkcji '+ action.type)
   }
@@ -50,6 +52,7 @@ const initialState = {
   active: [],
   archives: [],
   loading: true,
+  lastContent:'',
   content: 'calendar',
   //theme: 'primary'
 }
@@ -109,6 +112,7 @@ function App(){
   },[]);
   
   const changeContent = (content) => {
+    dispatch({type: 'change-lastContent', lastContent:state.content})
     dispatch({type: 'change-content', content:content});  
   }
 
@@ -138,6 +142,7 @@ function App(){
     <Loading />
     :<Content 
         content={state.content}
+        lastContent={state.lastContent}
         keys={state.keys}
         active={state.active}
         archives={state.archives}

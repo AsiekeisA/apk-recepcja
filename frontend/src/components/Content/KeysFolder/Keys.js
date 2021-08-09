@@ -154,7 +154,7 @@ function Keys(props) {
                     key={key._id}
                     {...key}
                     changeContent={content=>props.changeContent(content)}
-                    idIntoKey={(key) => props.idIntoKey(key)}
+                    makeTemp={(key) => props.makeTemp(key)}
                     onEdit={(key) => editKeyHandler(key)}
                     onDelete={(_id) => deleteKey(_id)}
                 />

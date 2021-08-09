@@ -15,6 +15,7 @@ function NewActive(props) {
     const [userLastname, setUserLastname] = useState('');
     const [ifExist, setIfExist]= useState(false);//czy istnieje taka osoba w bazie danych
     const [ifInhabitant, setIfInhabitant]= useState(false);//czy osoba pobierająca klucz do pokoju będzie mieszkańcem 
+    const [nextContent, setContent] = useState(props.lastContent);
 
     const existHandler = () =>{
         if(usersData.length>0&&usersData.length<5){
@@ -77,7 +78,7 @@ function NewActive(props) {
         setDataQuit(value);
     }
     const changeDataQuitHandler = event => {
-        const value = event.target.value.toString();
+        const value = event.target.value;
         console.log(value);
         setDataQuit(value);
     }
@@ -129,7 +130,7 @@ function NewActive(props) {
             }
             addUser(newUser, keyId, data, ifInhabitant); 
         }else if( props.keyFunkcja==="pokój" ){
-            
+            console.log(nextContent)
             const active = {
                 key_id: keyId,
                 user_id: user,
@@ -143,7 +144,7 @@ function NewActive(props) {
             const active = {
                 key_id: keyId,
                 user_id: user,
-                data:new Date().toLocaleString(),
+                data:new Date().toISOString(),
             };
             console.log(active);
             onAdd(active); 
@@ -155,7 +156,6 @@ function NewActive(props) {
             ifDost=false;
         }
 
-        const value = 'active';
         if ( props.keyFunkcja !='pokój' ){
             const key = {
                 numer: props.keyNumer,
@@ -173,17 +173,18 @@ function NewActive(props) {
         setUsersData('');
         setUserLastname('');
         setUserName('');
-        setData(Date.now());
-        setDataQuit(Date.now());
+        setData('');
+        setDataQuit('');
         setKeyIleDost('');
         setKeyCzyDost('');
         setIfInhabitant(false);
-        props.setKeyA('');
-        props.changeContent(value);
+        console.log(nextContent)
+        props.setTemp('');
+        props.changeContent(nextContent);
     }
 
     const cancelOperation = () => {
-        props.changeContent('keys');
+        props.changeContent(nextContent);
     }
 
     return(

@@ -28,7 +28,7 @@ function Key(props) {
         props.onEdit(dataModel)
     }
     const newActiveHandler = () => {
-        props.idIntoKey(dataModel)
+        props.makeTemp(dataModel)
     }
     const [btnName, setBtnName]=useState('Rozwiń')
     const [expand, setExpand] = useState(false)

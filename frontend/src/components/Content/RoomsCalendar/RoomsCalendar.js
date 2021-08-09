@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import Modal from 'react-modal'
 import RoomKeyCalendar from "./RoomsKey/RoomKeyCalendar";
 import "./RoomsCalendar.css";
 
-export default function RoomsCalendar(props) {
+function RoomsCalendar(props) {
     const monthsName = [
         "Styczeń",
         "Luty",
@@ -22,7 +23,13 @@ export default function RoomsCalendar(props) {
     const [year, setYear]= useState(today.getFullYear());
     const [month, setMonth]=useState(today.getMonth());
     const [monthTable, setMonthTable] = useState([]);
-    // const [emptyTable, setEmpty] = useState([]);
+    const [editTemp, setEdit] = useState({});
+    const [showModal, setShowModal] = useState(false);
+    const active =useMemo(()=>{return [...props.active]
+                    .filter(x=>(new Date(x.data).getMonth()===month
+                            ||new Date(x.dataQuit).getMonth()===month
+                            ))},[props.active])
+// const [emptyTable, setEmpty] = useState([]);
     const nrMonth=month+1
     const tableMaker = () =>{
         const table = [<td key="header">Klucze</td>];
@@ -50,6 +57,10 @@ export default function RoomsCalendar(props) {
     }
 
     useEffect(()=>{
+        Modal.setAppElement('body'); 
+     },[]);
+
+    useEffect(()=>{
         tableMaker();
     },[month, props.active])
 
@@ -73,14 +84,28 @@ export default function RoomsCalendar(props) {
         setYear(today.getFullYear());
         setMonth(today.getMonth());
     }
-
+  
 return(<>
   <style>{`
     td{
      border:1px solid black;
     }
   `}</style>
-    <div>
+    <div className="flexbox-container">
+        {/* <Modal isOpen={showModal} contentLabel="Edycja">
+            <EditActive
+                key_id={editTemp.key_id}
+                user_id={editTemp.user_id}
+                data={editTemp.data}
+                dataQuit={editTemp.dataQuit}
+                live={editTemp.live}
+                _id={editTemp._id}
+                keys={props.keys}
+                users={props.users}
+                onEdit={active => editActive(active)}
+                onDelete={(_id,data) => checkDelete(_id, data)} />         
+                <button onClick={() => toggleModal()}>Wyjdź</button>
+        </Modal> */}
         <button className="button" onClick={monthBefore}>{month===0?monthsName[11]:monthsName[month-1]}</button>
         <button className="button" onClick={thisMonth}>Bieżący miesiąc</button>
         <button className="button" onClick={monthAfter}>{month===11?monthsName[0]:monthsName[month+1]}</button>
@@ -90,21 +115,23 @@ return(<>
     <table>
         <thead><tr>{monthTable}</tr></thead>
         <tbody>
-        {props.backKeys.sort((a, b) => a.numer > b.numer ? -1 : 1)
+        {props.backKeys.filter(x=>x.funkcja==="pokój")
+            .sort((a, b) => a.numer > b.numer ? -1 : 1)
             .sort((a, b) => a.blok > b.blok ? 1 : -1)
             .map(keys => (
                <RoomKeyCalendar
                 key={keys._id}
                 users={props.users}
                 {...keys}
-                active={props.active}
+                active={active}
                 year={year}
                 month={month}
                 monthTable={monthTable}
                 lengthOfMonth={numberOfDays[month]}
                 colorChange={colorChange}
-                idIntoKey={props.idIntoKey}
-        />))}
+                onEdit={props.editTemp}
+                makeTemp={props.makeTemp}
+                />))}
         </tbody>
     </table>
     </div>
@@ -112,3 +139,5 @@ return(<>
     </>
 );
 } 
+
+export default RoomsCalendar;

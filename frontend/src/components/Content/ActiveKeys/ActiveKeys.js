@@ -82,6 +82,7 @@ function ActiveKeys(props) {
     }
 
     const editActive = async(active) => {
+        console.log(active)
         const today = Date.now();
         const todayFormat = Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(today);
        
@@ -92,7 +93,7 @@ function ActiveKeys(props) {
             actives[index] = active;
             props.setActive(actives);
         }
-       toggleModal();
+      // toggleModal();
     }
 
     const toggleModal = () => {
@@ -100,13 +101,13 @@ function ActiveKeys(props) {
     }
 
     const editActiveHandler = (active) => {
-         toggleModal();
+
          setEdit(active);
      }
 
     return (
         <div className={`${styles.keys} flexbox-container`}>
-            <Modal isOpen={showEditModal} contentLabel="Edycja">
+            {/* <Modal isOpen={showEditModal} contentLabel="Edycja">
                 <EditActive
                     key_id={editTemp.key_id}
                     user_id={editTemp.user_id}
@@ -116,9 +117,10 @@ function ActiveKeys(props) {
                     _id={editTemp._id}
                     keys={props.keys}
                     users={props.users}
-                    onEdit={active => editActive(active)} />
-                <button onClick={() => toggleModal()}>Anuluj</button>
-            </Modal>
+                    onEdit={active => editActive(active)} 
+                    onDelete={(_id) => deleteActive(_id)}/>
+                <button onClick={() => toggleModal()}>Wyjście</button>
+            </Modal> */}
             {/* <NewActive 
                 onAdd={(active) => addActive(active)}/> */}
             <DataHeader 
@@ -131,7 +133,7 @@ function ActiveKeys(props) {
                     active={props.active}
                     content={props.content}
                     users={props.users}
-                    onEdit={(active) => editActiveHandler(active)}
+                    onEdit={(active) => props.editTemp(active)}
                     onDelete={(_id, date) => checkDelete(_id, date)}
                 ></ActiveKeyContent>
         </div>

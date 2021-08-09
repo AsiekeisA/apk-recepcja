@@ -18,6 +18,7 @@ function Archives(props) {
                 .sort((a, b) => a.data > b.data ? 1 : -1)
                 .map(archives => (
                 <KeyInArchives
+                    key={archives._id}
                     {...archives}
                     backKeys={props.backKeys}
                     users={props.users}

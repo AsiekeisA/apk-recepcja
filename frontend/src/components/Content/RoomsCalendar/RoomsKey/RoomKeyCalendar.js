@@ -1,20 +1,12 @@
-import { useState, useEffect, useMemo } from "react";
-import NewActive from "../../ActiveKeys/NewActive/NewActive";
+import { useState, useEffect } from "react";
 
 export default function RoomKeyCalendar(props) {
     const inhabitant = [...props.active].filter(active=>active.key_id===props._id).filter(active=>active.live===true)[0]?false:true;
     const [emptyTable, setEmpty] = useState([]); 
-    const active = props.funkcja==="pokój"?
-        [...props.active]
+    const active =[...props.active]
             .filter(active=>active.key_id===props._id)
             .filter(active=>active.live===false)
             .sort((a, b) => a.data > b.data ? 1 : -1)
-        :[];
-        console.log(props.funkcja==="pokój"?
-        [...props.active]
-            .filter(active=>active.key_id===props._id)
-            .filter(active=>active.live===false)
-        :[])
     var index=0;
     var a_id=0;
     var table = [];
@@ -29,6 +21,8 @@ export default function RoomKeyCalendar(props) {
     const existActive = (i) =>{
         active[i]?takeDate(i):index<=props.lengthOfMonth?emptyTo(endMonth):<></>;
     }
+
+    //CallBack sprawdzić gdzie zadziałał zamiast useEffect
     useEffect(()=>{
         tableSet();
     },[props.active,props.month]);
@@ -46,7 +40,7 @@ export default function RoomKeyCalendar(props) {
             return (last-index)*2
         }
     }
-    const howEmpty = (last) => {
+    const emptyTo  = (last) => {
         if(index===0){
             index++
             if(last===endMonth){
@@ -82,31 +76,33 @@ export default function RoomKeyCalendar(props) {
             colSpan="1" id={index} key={"empty"+index}></td>);
         }
     }
-
-    const emptyTo = (last) => {
-        // var days;
-        // if(index!=last){
-             console.log(index)
-        //     days = howManyDays(last)
-            
-        //     table.push(<td className={props.colorChange(false)}  
-        //     colSpan={days} id={index} key={index}></td>);
-        //     index=last
-        howEmpty(last)
-        console.log(props.numer+" puste "+index);
-        //}
+ 
+    const show = event => {
+        const _id = event.target.value;
+        const index = [...props.active].findIndex(active=>active._id===_id)
+        const activeModel = {
+            _id: props.active[index]._id, 
+            key_id: props.active[index].key_id,
+            user_id: props.active[index].user_id,
+            data: props.active[index].data,
+            dataQuit: props.active[index].dataQuit,
+            live:props.active[index].live
+        }
+        props.onEdit(activeModel);
     }
-   
+
     const reservation = (last) => {
-        console.log(index)
-        const user=[...props.users].findIndex(x=>x._id===active[a_id].user_id)
+        const color = Date.parse(new Date(active[a_id].data).toISOString().slice(0,10))!=Date.parse(active[a_id].data)
+            ?'td-rent'
+            :'td-reserved'
+        const u_id=[...props.users].findIndex(x=>x._id===active[a_id].user_id)
+        const userName=props.users[u_id].lastName+" "+props.users[u_id].firstName
         const days = howManyDays(last)
-        table.push(<td className={props.colorChange(index,true)}  
+        table.push(<td className={color}  
             colSpan={days} id={index} key={index}>
-                <button  className="button-td"></button>
+                <button alt={userName} className="button-td" value={active[a_id]._id} onClick={show}></button>
             </td>);
         index=last
-        console.log(props.numer+" zajete "+index);
         a_id++
         existActive(a_id)
     }
@@ -120,7 +116,6 @@ export default function RoomKeyCalendar(props) {
         const monthE = dataEnd.getMonth();
         const dayS = dataStart.getDate();
         const dayE = dataEnd.getDate();
-        console.log(dataStart+" - "+dataEnd)
         if(yearS===props.year){
             if (yearS===yearE) {
                 if(monthS===props.month){
@@ -166,7 +161,7 @@ export default function RoomKeyCalendar(props) {
         }    
     }  
 
-    const dataModel = {
+    const keyModel = {
         _id:props._id, 
         numer:props.numer, 
         blok:props.blok, 
@@ -175,14 +170,14 @@ export default function RoomKeyCalendar(props) {
         ileDost:props.ileDost,
         czyDost:props.czyDost
     };
-
+    
     const newActiveHandler = () => {
-        props.idIntoKey(dataModel)
+        props.makeTemp(keyModel)
     }
 
     return(
         <>
-        {props.funkcja==="pokój"&&inhabitant?
+        {inhabitant?
             <tr>
                 <td>{props.numer} {props.blok}</td>
                 {emptyTable}

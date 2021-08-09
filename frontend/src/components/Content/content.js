@@ -6,16 +6,23 @@ import Archives from './Archives/Archives';
 import React, { useState } from 'react';
 import axios from 'axios';
 import RoomsCalendar from './RoomsCalendar/RoomsCalendar';
+import EditActive from './ActiveKeys/EditActive/EditActive'
 
 
 export default function Content(props) {
   
-  const [newActiveTemp, setKeyA] = useState({})
-  const idIntoKey = (key) => {
-      setKeyA(key);
+  const [temp, setTemp] = useState({})
+  const makeTemp = (key) => {
+      setTemp(key);
     //console.log(newActiveTemp);
     props.changeContent('newActive')
   }
+  const editTemp = (key) => {
+    setTemp(key);
+  //console.log(newActiveTemp);
+  props.changeContent('editActive')
+}
+
 
     switch(props.content) {
       case 'calendar':
@@ -27,13 +34,16 @@ export default function Content(props) {
           archives={props.archives}
           setActive={props.setActive}
           setArchives={props.setArchives}
-          idIntoKey={idIntoKey}
+          makeTemp={makeTemp}
+          editTemp={editTemp}
+          setKeys={keys => props.setKeys(keys)}
+          setBackKeys={props.setBackKeys}
         />);
       case 'keys':
         return(<Keys
           backKeys={props.backKeys}
           content={props.content}
-          idIntoKey={idIntoKey}
+          makeTemp={makeTemp}
           changeContent={props.changeContent}
           keys={props.keys}
           // available={props.available}
@@ -65,6 +75,7 @@ export default function Content(props) {
           setArchives={props.setArchives}
           setKeys={keys => props.setKeys(keys)}
           setBackKeys={props.setBackKeys}
+          editTemp={editTemp}
           />);
       case 'archives':
         return(<Archives
@@ -76,24 +87,45 @@ export default function Content(props) {
       case 'newActive':
         return(<NewActive
           backKeys={props.backKeys}
+          lastContent={props.lastContent}
           content={props.content}
-          keyNR={newActiveTemp.numer+' '+newActiveTemp.blok}
-          setKeyA={setKeyA}
+          keyNR={temp.numer+' '+temp.blok}
+          setTemp={setTemp}
           changeContent={content=>props.changeContent(content)}
           active={props.active}
-          setActive={props.setActive}
-          keyNumer={newActiveTemp.numer}
-          keyBlok={newActiveTemp.blok}
-          keyFunkcja={newActiveTemp.funkcja}
-          keyIle={newActiveTemp.ile}
-          keyIleDost={newActiveTemp.ileDost}
-          keyCzyDost={newActiveTemp.czyDost}
-          keyId={newActiveTemp._id}
+          keyNumer={temp.numer}
+          keyBlok={temp.blok}
+          keyFunkcja={temp.funkcja}
+          keyIle={temp.ile}
+          keyIleDost={temp.ileDost}
+          keyCzyDost={temp.czyDost}
+          keyId={temp._id}
           keys={props.keys}
-          setKeys={props.setKeys}
           users={props.users}
           setUsers={props.setUsers}
+          setKeys={props.setKeys}
+          setActive={props.setActive}
           setBackKeys={props.setBackKeys}
+        />);
+      case 'editActive':
+        return(<EditActive 
+          key_id={temp.key_id}
+          user_id={temp.user_id}
+          data={temp.data}
+          dataQuit={temp.dataQuit}
+          live={temp.live}
+          _id={temp._id}
+          keys={props.keys}
+          users={props.users}
+          active={props.active}
+          archives={props.archives}
+          backKeys={props.backKeys}
+          setKeys={props.setKeys}
+          setActive={props.setActive}
+          setArchives={props.setArchives}
+          setBackKeys={props.setBackKeys}
+          lastContent={props.lastContent}
+          changeContent={content=>props.changeContent(content)}
         />);
       default:
         return 'BLAD';
