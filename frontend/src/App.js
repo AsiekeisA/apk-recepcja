@@ -18,6 +18,7 @@ import ActiveKey from './components/Content/ActiveKeys/ActiveKey/ActiveKey';
 import DataHeader from './components/DataHeader/DataHeader';
 import { Switch } from 'react-router-dom';
 import SwitchSearch from './components/UI/Searching/switch/switchSearch';
+import ErrorBoundary from './HOC/ErrorBoundary';
 
 const reducer = (state,action) => {
   switch (action.type) {
@@ -140,7 +141,8 @@ function App(){
   const content = (
     state.loading ? 
     <Loading />
-    :<Content 
+    :<ErrorBoundary>
+      <Content 
         content={state.content}
         lastContent={state.lastContent}
         keys={state.keys}
@@ -159,7 +161,8 @@ function App(){
         setShowKeys={showKeys=>dispatch({type: 'set-showKeys', showKeys:showKeys})}
         // setAvailable={setAvailable}
         // available={available}
-      />
+        />
+    </ErrorBoundary>
     // }
     // </ContentContext.Provider>
   );
@@ -168,13 +171,13 @@ function App(){
 
   return(
     <JakisKontekst.Provider value="primary">
-          <Layout 
-            header={header}
-            menu={menu}
-            content={content}
-            footer={footer}
-          /> 
-      </JakisKontekst.Provider>
+        <Layout 
+          header={header}
+          menu={menu}
+          content={content}
+          footer={footer}
+        /> 
+    </JakisKontekst.Provider>
   );
 }
 

@@ -75,7 +75,9 @@ export default function Content(props) {
           setArchives={props.setArchives}
           setKeys={keys => props.setKeys(keys)}
           setBackKeys={props.setBackKeys}
+          changeContent={content=>props.changeContent(content)}
           editTemp={editTemp}
+          makeTemp={makeTemp}
           />);
       case 'archives':
         return(<Archives

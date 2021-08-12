@@ -133,6 +133,7 @@ function ActiveKeys(props) {
                     active={props.active}
                     content={props.content}
                     users={props.users}
+                    makeTemp={props.makeTemp}
                     onEdit={(active) => props.editTemp(active)}
                     onDelete={(_id, date) => checkDelete(_id, date)}
                 ></ActiveKeyContent>

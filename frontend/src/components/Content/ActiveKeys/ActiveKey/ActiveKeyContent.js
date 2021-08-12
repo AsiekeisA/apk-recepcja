@@ -51,6 +51,7 @@ export default function ActiveKeyContent(props) {
                     {...keys}
                     active={props.active}
                     users={props.users}
+                    makeTemp={props.makeTemp}
                     onEdit={props.onEdit}
                     onDelete={props.onDelete}></ActiveKeyInhabitants>    
             ))}</>);

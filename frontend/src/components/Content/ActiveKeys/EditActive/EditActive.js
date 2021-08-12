@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import axios from '../../../../axios';
 
 export default function EditKey(props) {
@@ -10,9 +10,12 @@ export default function EditKey(props) {
     const [data, setData] = useState(props.data);
     const [dataQuit, setDataQuit] = useState(props.dataQuit);
     const [editMode, setEditMode] = useState(false)
-    const [dataShow, setDataShow] = useState(new Date(data).toLocaleDateString())
-    const [dataQuitShow, setDataQuitShow] = useState(new Date(dataQuit).toLocaleDateString())
-    const [timeShow, setTimeShow] = useState(new Date(data).toLocaleTimeString()) 
+    // const [dataShow, setDataShow] = useState(new Date(data).toLocaleDateString())
+    // const [dataQuitShow, setDataQuitShow] = useState(new Date(dataQuit).toLocaleDateString())
+    // const [timeShow, setTimeShow] = useState(new Date(data).toLocaleTimeString()) 
+    const dataShow  = useMemo(()=>(new Date(data).toLocaleDateString()),[data])
+    const dataQuitShow  = useMemo(()=>(new Date(dataQuit).toLocaleDateString()),[dataQuit])
+    const timeShow  = useMemo(()=>(new Date(data).toLocaleTimeString()),[data])
 
 
     const changeDataHandler = event => {
@@ -119,12 +122,12 @@ export default function EditKey(props) {
             live:props.live,
             _id: props._id
         };
-        const dataS=new Date(date).toLocaleDateString()
-        const dataF=new Date(dataQuit).toLocaleDateString()
-        const time=new Date(date).toLocaleTimeString()
-        setDataShow(dataS);
-        setDataQuitShow(dataF);
-        setTimeShow(time)
+        // const dataS=new Date(date).toLocaleDateString()
+        // const dataF=new Date(dataQuit).toLocaleDateString()
+        // const time=new Date(date).toLocaleTimeString()
+        // setDataShow(dataS);
+        // setDataQuitShow(dataF);
+        // setTimeShow(time)
         console.log(active)
        onEdit(active);
     }
@@ -137,9 +140,6 @@ export default function EditKey(props) {
         keyNum(_id,-1)
         editActive(false);
         cancel();
-    }
-
-    const backKey = () => {
     }
 
     const editing = () =>{
@@ -188,12 +188,15 @@ export default function EditKey(props) {
                 
             <>
                 <br/>
-                <label>Godzina zameldowania: {timeShow} </label></>:<>
-            </>}
+                <label>Godzina zameldowania: {timeShow} </label>
+                <br/><br/>
+                <button onClick={()=>checkDelete(props._id, data)}>Zwrot klucza</button>
+                </>:<>
             <br/><br/>
             <button onClick={()=>takeKey(props._id)}>Pobranie klucza</button>
-            <button onClick={setting}>Edytuj rezerwację</button>
             <button onClick={()=>checkDelete(props._id, data)}>Usuń rezerwację</button>
+            </>}
+            <button onClick={setting}>Edytuj rezerwację</button>
             <button onClick={cancel}>Cofnij</button>
         </>}
     </>

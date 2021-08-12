@@ -84,6 +84,7 @@ function RoomsCalendar(props) {
         setYear(today.getFullYear());
         setMonth(today.getMonth());
     }
+    //throw new Error('Kalendarz')
   
 return(<>
   <style>{`

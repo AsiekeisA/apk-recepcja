@@ -70,10 +70,12 @@ function Users(props) {
                     position={editUserTemp.position}
                     nrIndeks={editUserTemp.nrIndeks}
                     _id={editUserTemp._id}
+                    users={props.users}
                     onEdit={user => editUser(user)} />
                 <button onClick={() => toggleModal()}>Anuluj</button>
             </Modal>
             <NewUser 
+                users={props.users}
                 onAdd={(user) => addUser(user)}/>
             <DataHeader 
                 content={props.content} 

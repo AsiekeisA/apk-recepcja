@@ -1,7 +1,7 @@
 .users {
     justify-content: center;
     align-items: center;
-    background-color: hotpink;
+    background-color: rgb(221, 248, 66);
     font-size: xx-small;
     display: flexbox;
 }

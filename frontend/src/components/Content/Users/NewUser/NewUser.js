@@ -1,111 +1,223 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 function NewUser(props) {
 
     const [showForm, setshowForm] = useState(false);
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [position, setPosition] = useState('');
-    const [nrIndeks, setNrIndeks] = useState('');
+    const [newUser, setNewUser] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        position: '',
+        nrIndeks: ''
+    })
+
+    const [errors, setErrors] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        position: '',
+        nrIndeks: '',
+    })
 
     const changeFirstNameHandler = event => {
         const value = event.target.value.toUpperCase();
-        setFirstName(value);
+        setNewUser({...newUser, firstName: value});
     }
 
     const changeLastNameHandler = event => {
         const value = event.target.value.toUpperCase();
-        setLastName(value);
+        setNewUser({...newUser, lastName: value});
     }
 
     const changeEmailHandler = event => {
         const value = event.target.value.toLowerCase();
-        setEmail(value);
+        setNewUser({...newUser, email: value});
     }
 
     const changePhoneHandler = event => {
         const value = event.target.value;
-        setPhone(value);
+        setNewUser({...newUser, phone: value});
     }
 
     const changePositionHandler = event => {
         const value = event.target.value;
-        setPosition(value);
+        setNewUser({...newUser, position: value});
     }
 
     const changeNrIndeksHandler = event => {
         const value = event.target.value;
-        setNrIndeks(value);
+        setNewUser({...newUser, nrIndeks: value});
     }
 
     const addUser = () => {
         const user = {
-            firstName: firstName,
-            lastName: lastName,
-            position: position,
-            nrIndeks: nrIndeks,
-            email: email,
-            phone: phone,
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            nrIndeks: newUser.nrIndeks,
+            email: newUser.email,
+            phone: newUser.phone,
         };
         props.onAdd(user);
-        setFirstName('');
-        setLastName('');
-        setEmail('');
-        setPhone('');
-        setPosition('');
-        setNrIndeks('');
+        setNewUser({})
         setshowForm(false);
     }
 
+     // function validateName(name) {
+    //     const re = 
+    // }
+
+    function validateEmail(email) {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email)
+    }
+
+    const sameEmail = () => {
+        const exist = [...props.users].filter(x=>x.email===newUser.email)
+        if ( exist[0] ){
+            return true
+        }else{
+            return false
+        }
+    }
+
+    const sameDocument = () => {
+        const exist = [...props.users].filter(x=>x.nrIndeks===newUser.nrIndeks)
+        if ( exist[0] ){
+            return true
+        }else{
+            return false
+        }
+    }
+
+    const samePhone = () => {
+        const exist = [...props.users].filter(x=>x.phone===newUser.phone)
+        if ( exist[0] ){
+            return true
+        }else{
+            return false
+        }
+    }
+
+    useEffect (() => {
+        if (newUser.firstName.length>=3 && newUser.firstName.length < 30) {
+            setErrors({...errors, firstName: ''})
+        } else {
+            setErrors({...errors, firstName: 'Imię powinno zawierać 3 - 30 znaków'})
+        }
+    }, [newUser.firstName])
+    
+    useEffect (() => {
+        if (newUser.lastName.length>=3 && newUser.lastName.length < 30) {
+            setErrors({...errors, lastName: ''})
+        } else {
+            setErrors({...errors, lastName: 'Nazwisko powinno zawierać 3 - 30 znaków'})
+        }
+    }, [newUser.lastName])
+
+    useEffect (() => {
+        if (newUser.nrIndeks.length===0) {
+            setErrors({...errors, nrIndeks: 'Puste pole'})
+        } else if(sameDocument()){
+            setErrors({...errors, nrIndeks: 'Istnieje osoba o tym numerze dokumentu'})
+        }else{
+            setErrors({...errors, nrIndeks: ''})
+        }
+    }, [newUser.nrIndeks])
+
+    useEffect (() => {
+        if (validateEmail(newUser.email)|| '') {
+            if (sameEmail()) {
+                setErrors({...errors, email: 'Istnieje osoba posiadająca ten e-mail'}) 
+            }else{
+            setErrors({...errors, email: ''})
+            }
+        } else {
+            setErrors({...errors, email: 'Niepoprawny e-mail'})
+        }
+    }, [newUser.email])
+
+    useEffect (() => {
+        if (isNaN(newUser.phone)) {
+        setErrors({...errors, phone: 'Niepoprawny numer telefonu'})
+        } else if  (newUser.phone.length >= 4 && newUser.phone.length <= 15 ) {
+            if( samePhone()) {
+                setErrors({...errors, phone: 'Istnieje osoba posiadająca ten numer telefonu'})    
+            }else{
+            setErrors({...errors, phone: ''})
+            }
+        }else{
+            setErrors({...errors, phone: 'Numer telefonu powinien zawierać 4 - 15 cyfr '})
+        }
+    }, [newUser.phone])
+    
+    const disabledBtn = 
+        Object.values(errors).filter(x => x).length
+        || !(Object.values(newUser).filter(x => x).length===6)
+
     return(
         showForm ? (
-        <div>
+        <div className="form-group">
             <label>Imię:</label>
             <input 
-                className = "form-control"
+                className = {`form-control ${errors.firstName ? 'is-invalid' : ''}`}
                 type="text" 
-                value={firstName} 
+                value={newUser.firstName} 
                 onChange={changeFirstNameHandler} />
+                <div className="invalid-feedback">
+                    {errors.firstName}
+                </div> 
             <br/>
             <label>Nazwisko:</label>
             <input 
-                className = "form-control"
+                className = {`form-control ${errors.lastName ? 'is-invalid' : ''}`}
                 type="text" 
-                value={lastName}
+                value={newUser.lastName}
                 onChange={changeLastNameHandler} />
+                <div className="invalid-feedback">
+                    {errors.lastName}
+                </div> 
             <br/>
             <label>Pozycja:</label>
             <input 
                 className = "form-control"
                 type="text" 
-                value={position}
-                onChange={changePositionHandler} />
+                value={newUser.position}
+                onChange={changePositionHandler} /> 
             <br/>
-            <label>Numer Indeksu:</label>
+            <label>Numer Dokumentu</label>
             <input 
-                className = "form-control"
+                className = {`form-control ${errors.nrIndeks ? 'is-invalid' : ''}`}
                 type="text" 
-                value={nrIndeks}
+                value={newUser.nrIndeks}
                 onChange={changeNrIndeksHandler} />
+                <div className="invalid-feedback">
+                    {errors.nrIndeks}
+                </div> 
             <br/>
             <label>E-mail:</label>
             <input 
-                className = "form-control"
-                type="text" 
-                value={email}
-                onChange={changeEmailHandler} />  
+                className = {`form-control ${errors.email ? 'is-invalid' : ''}`}
+                type="email" 
+                value={newUser.email}
+                onChange={changeEmailHandler} />
+                <div className="invalid-feedback">
+                    {errors.email}
+                </div>   
             <br/>
             <label>Telefon:</label>
             <input 
-                className = "form-control"
+                className = {`form-control ${errors.phone ? 'is-invalid' : ''}`}
                 type="text" 
-                value={phone}
+                value={newUser.phone}
                 onChange={changePhoneHandler} />
+                <div className="invalid-feedback">
+                    {errors.phone}
+                </div> 
 
-            <button onClick={() => addUser()}>Dodaj</button>
+            <button onClick={() => addUser()} disabled={disabledBtn}>Dodaj</button>
         </div>
         ) : (
             <button onClick={() => setshowForm(true)}>Nowy</button>

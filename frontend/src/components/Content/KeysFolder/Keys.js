@@ -133,11 +133,13 @@ function Keys(props) {
                     ileDost={editKeyTemp.ileDost}
                     czyDost={editKeyTemp.czyDost}
                     _id={editKeyTemp._id}
+                    keys={props.keys}
                     onEdit={key => editKey(key)} />
                 <button onClick={() => toggleModal()}>Anuluj</button>
             </Modal>
             {/* <button onClick={() => allBtn()}>Wszystkie/dostępne</button> */}
             <NewKey 
+                keys={props.keys}
                 onAdd={(key) => addKey(key)}/>
             <DataHeader 
                 content={props.content} 
