@@ -82,6 +82,7 @@ function Keys(props) {
         const newKey = res.data;
         keys.push(newKey);
         props.setKeys(keys);
+        props.setBackKeys(keys);
         console.log('dodawanie');
     }
 

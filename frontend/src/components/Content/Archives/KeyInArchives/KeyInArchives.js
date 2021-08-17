@@ -3,7 +3,9 @@ import styles from '../../KeysFolder/KeyFolder/Key.module.css';
 export default function KeyInArchives(props) {
 
     const keyIndex = [...props.backKeys].findIndex(x=>x._id===props.key_id)
+    console.log(props.backKeys[keyIndex])
     const userIndex = [...props.users].findIndex(x=>x._id===props.user_id)
+    console.log(props.users[userIndex])
     const date=new Date(props.data).toLocaleString();
     const dateQ=new Date(props.dataQuit).toLocaleString();
 

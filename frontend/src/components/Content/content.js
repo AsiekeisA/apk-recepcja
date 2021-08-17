@@ -49,6 +49,7 @@ export default function Content(props) {
           // available={props.available}
           active={props.active}
           //setWhich={whichKey => setWhich(whichKey)}
+          setBackKeys={keys => props.setBackKeys(keys)}
           setKeys={keys => props.setKeys(keys)}
           showKeys={props.showKeys}
           setShowKeys={showKeys => props.setShowKeys(showKeys)}
