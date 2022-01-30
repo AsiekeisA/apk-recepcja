@@ -1,9 +1,21 @@
 .user {
     align-items: center;
     justify-content: center;
-    background-color: grey;
+    background-color: #004cff88;
     display: flex;
-    font-size: xx-small;
+    font-size: 15px;
     margin: 2px 0px 2px 0px;
+    padding: 5px 10px 5px 10px;
     
+}
+
+.button{
+    font-size: 15px;
+    justify-content: end;
+    background-color: #004cff88;
+    padding: 5px 10px 5px 10px;
+    border: 0px;
+    margin: 2px;
+    border-radius: 2px;
+    color:white;
 }

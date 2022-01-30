@@ -1,5 +1,10 @@
 import JakisKontekst from '../../../context/theme';
 
+/**
+ * ładowanie
+ * @function Loading
+ * @returns ikonka ładowania
+ */
 export default function Loading() {
     return(
       <JakisKontekst.Consumer>

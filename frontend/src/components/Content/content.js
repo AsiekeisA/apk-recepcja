@@ -4,25 +4,39 @@ import ActiveKeys from './ActiveKeys/ActiveKeys'
 import NewActive from './ActiveKeys/NewActive/NewActive'
 import Archives from './Archives/Archives';
 import React, { useState } from 'react';
-import axios from 'axios';
 import RoomsCalendar from './RoomsCalendar/RoomsCalendar';
 import EditActive from './ActiveKeys/EditActive/EditActive'
 
-
+/**
+ * @function Content
+ * @param {*} props props
+ * @returns Zwraca komponent w zależności od wartości content
+ */
 export default function Content(props) {
   
   const [temp, setTemp] = useState({})
+
+  /**
+   * Tworzy tymczasowy stan potrzebny do utworzenia nowego pobrania/rezerwacji klucza oraz zmienia stan content
+   * @function makeTemp
+   * @param {Object} key parametry klucza pobranego ze stanu keys  
+   */
   const makeTemp = (key) => {
       setTemp(key);
     //console.log(newActiveTemp);
     props.changeContent('newActive')
   }
-  const editTemp = (key) => {
-    setTemp(key);
+
+  /**
+   * Tworzy tymczasowy stan potrzebny do edycji pobrania/rezerwacji klucza oraz zmienia stan content
+   * @function makeTemp
+   * @param {Object} active parametry pobrania/rezerwacji klucza
+   */
+  const editTemp = (active) => {
+    setTemp(active);
   //console.log(newActiveTemp);
   props.changeContent('editActive')
 }
-
 
     switch(props.content) {
       case 'calendar':

@@ -3,6 +3,12 @@ import Modal from 'react-modal'
 import RoomKeyCalendar from "./RoomsKey/RoomKeyCalendar";
 import "./RoomsCalendar.css";
 
+/**
+ * @param props
+ * @param props.active zarezerwowane i pobrane klucze
+ * @param props.backKeys klucze
+ * @returns kalendarz pokoi wolnych i zajętych przez gości 
+ */
 function RoomsCalendar(props) {
     const monthsName = [
         "Styczeń",
@@ -25,35 +31,45 @@ function RoomsCalendar(props) {
     const [monthTable, setMonthTable] = useState([]);
     const [editTemp, setEdit] = useState({});
     const [showModal, setShowModal] = useState(false);
-    const active =useMemo(()=>{return [...props.active]
+    const ddays = ((year % 4 ===0)&&(month===1))?29:numberOfDays[month];
+    const active = useMemo(()=>{return [...props.active]
                     .filter(x=>(new Date(x.data).getMonth()===month
                             ||new Date(x.dataQuit).getMonth()===month
                             ))},[props.active])
 // const [emptyTable, setEmpty] = useState([]);
     const nrMonth=month+1
+
+    /**
+     * Funkcja tworzy pierwszy wiersz tabeli zawierający kolejne dni danego miesiąca
+     * @function tableMaker
+     */
     const tableMaker = () =>{
-        const table = [<td key="header">Klucze</td>];
+        const table = [<td className="tdBtn">Klucze</td>];
         // const empty = [];
-        for(var i=1; i<=numberOfDays[month]; i++){
+        for(var i=1; i<=ddays; i++){
             table.push(<>
-            <td className={year===today.getFullYear()&&month===today.getMonth()&&i===today.getDate()?"day-today":"day"}
+            <td className={year===today.getFullYear()&&month===today
+                                       .getMonth()&&i===today
+                                       .getDate()?"day-today":"day"}
               id={i} key={i} >{i}.</td>
-            <td className={year===today.getFullYear()&&month===today.getMonth()&&i===today.getDate()?"month-today":"month"}  
+            <td className={year===today.getFullYear()&&month===today
+                                       .getMonth()&&i===today
+                                       .getDate()?"month-today":"month"}  
               id={i} key={i+100} >{nrMonth<10?"0"+nrMonth:nrMonth}</td></>);
-            // empty.push(<td className={colorChange(i)} width="25px" height="25px" key={i}></td>);
         }
         setMonthTable(table);
-        // setEmpty(empty);
     }
-    const colorChange = (i,bool) => {
-        if (bool){
-            return "td-reserved";
-        }else{
-            if(year===today.getFullYear()&&month===today.getMonth()&&i===today.getDate()){
-                return "td-today";
-            }
+
+    /**
+     * @function colorChange
+     * @param {Number} i dzień 
+     * @returns nazwę klasy komórki, która określi jej stylowanie
+     */
+    const colorChange = (i) => {
+        if(year===today.getFullYear()&&month===today.getMonth()&&i===today.getDate()){
+            return "td-today";
+        } else
             return "td";
-        }
     }
 
     useEffect(()=>{
@@ -64,6 +80,10 @@ function RoomsCalendar(props) {
         tableMaker();
     },[month, props.active])
 
+/**
+ * funkcja zmienia wyświetlany miesiąc
+ * @function monthBefore
+ */
     const monthBefore = () =>{
         if(month===0){
             setMonth(11);
@@ -84,7 +104,6 @@ function RoomsCalendar(props) {
         setYear(today.getFullYear());
         setMonth(today.getMonth());
     }
-    //throw new Error('Kalendarz')
   
 return(<>
   <style>{`
@@ -128,7 +147,7 @@ return(<>
                 year={year}
                 month={month}
                 monthTable={monthTable}
-                lengthOfMonth={numberOfDays[month]}
+                lengthOfMonth={ddays}
                 colorChange={colorChange}
                 onEdit={props.editTemp}
                 makeTemp={props.makeTemp}

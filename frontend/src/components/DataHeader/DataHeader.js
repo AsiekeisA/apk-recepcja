@@ -1,40 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
-
+import styles from './Data.module.css';
+ /**
+  * @function DataHeader
+  * @param props
+  * @param props.content stan komponentu Content 
+  * @returns nagłówki tabel w zależności od stanu content 
+  */
 export default function DataHeader(props) {
-
- 
-       
-    // const filterHandler = event =>{
-    //     const value = event.target.value;
-    //     const name = event.target.name;
-    //     switch (name) {
-    //         case "blok":
-    //             props.setBlok(value);
-    //             break;
-    //         case "funkcja":
-    //             props.setFunkcja(value);
-    //             break;
-    //     }        
-    // }
-    // const filterFunc = () =>{
-    //     const dane = [...props.items]
-    //                 .filter(obj => Object
-    //                 .keys(props.filterQuerty)
-    //                 .every(key=>props.filterQuerty[key]? 
-    //                     obj[key]===props.filterQuerty[key]
-    //                     :obj[key]!=props.filterQuerty[key]));
-    //     props.setItems(dane);
-    //             };
-
-    // useEffect(() => {
-    //     filterFunc();
-    // },[props.blok, props.funkcja])
-
     switch(props.content) {
         case 'keys':
             return(<>
-                <div className="d-flex justify-content-around">
-                    <div className="col"></div>
+                <div className={`${styles.head} d-flex justify-content-around`}>
                     <div className="col">Numer</div>
                     <div className="col">funkcja</div>
                     <div className="col">dostępne</div>
@@ -42,8 +18,7 @@ export default function DataHeader(props) {
                     <div className="col"></div>
                     <div className="col"></div>
                 </div>
-                <div className="d-flex justify-content-around">
-                    <div className="col"></div>
+                <div className={`${styles.head} d-flex justify-content-around`}>
                     <div className="col"><select 
                     className = "form"
                     name = "blok" 
@@ -71,13 +46,13 @@ export default function DataHeader(props) {
                 </select>  </div>
                     <div className="col">{props.count}</div>
                     <div className="col"></div>
-                    <div className="col">Liczba dostępnych pokoi {props.count}</div>
+                    <div className="col"></div>
                     <div className="col"></div>
                 </div>
             </>);
         case 'users':
             return(
-                <div className="d-flex justify-content-around">
+                <div className={`${styles.head} d-flex justify-content-around`}>
                     <div className="col">Nazwisko i Imię</div>
                     <div className="col">Pozycja</div>
                     <div className="col">Nr Dokumentu</div>
@@ -90,20 +65,19 @@ export default function DataHeader(props) {
         case 'active':
         case 'rooms':
             return(
-                <div className="d-flex justify-content-around">
+                <div className={`${styles.head} d-flex justify-content-around`}>
                     <div className="col">Numer</div>
                     <div className="col">Użytkownik</div>
                     {props.content==="active"?
                     <div className="col">Godzina pobrania</div>
-                    :<><div className="col">Data rezerwacji</div>
-                    <div className="col"></div></>
+                    :<div className="col">Data rezerwacji</div>
                     }
                     <div className="col"></div>
                 </div>
             );
         case 'archives':
             return(
-                <div className="d-flex justify-content-around">
+                <div className={`${styles.head} d-flex justify-content-around`}>
                     <div className="col">Numer</div>
                     <div className="col">Użytkownik</div>
                     <div className="col">Godzina i data pobrania</div>
@@ -111,7 +85,8 @@ export default function DataHeader(props) {
                 </div>
             );
         case 'inhabitant':
-            return(<div>Something gonna be here</div>)
+            return( <div className={`${styles.head} d-flex justify-content-around`}>
+                    Mieszkańcy</div>)
       default:
         return 'BLAD';
     }

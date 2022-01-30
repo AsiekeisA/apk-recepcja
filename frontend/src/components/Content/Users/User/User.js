@@ -11,8 +11,24 @@ const propTypes = {
     nrIndeks: PropTypes.string,
 };
 
+/**
+ * 
+ * @param props
+ * @param {String} props._id 
+ * @param {String} props.firstName imię
+ * @param {String} props.lastName nazwisko
+ * @param {String} props.email e-mail
+ * @param {String} props.phone telefon
+ * @param {String} props.position pozycja
+ * @param {String} props.nrIndeks numer dokumnetu
+ * @returns informacje o danym użytkowniku 
+ */
 function User(props) {
 
+    /**
+     * Funkcja pobierająca dane użytkownika do edycji
+     * @function editHandler
+     */
     const editHandler = () => {
         props.onEdit({
             _id:props._id, 
@@ -32,8 +48,8 @@ function User(props) {
             <div className="col">{props.nrIndeks}</div>
             <div className="col">{props.email}</div>
             <div className="col">{props.phone}</div>
-            <div className="col"><button onClick={editHandler}>edytuj</button></div>
-            <div className="col"><button className="delete" onClick={() => {props.onDelete(props._id);}}>usuń</button></div>
+            <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={editHandler}>edytuj</button></div>
+            <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={() => {props.onDelete(props._id);}}>usuń</button></div>
         </div>
     );
 }

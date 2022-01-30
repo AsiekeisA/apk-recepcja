@@ -28,8 +28,7 @@ function ActiveKey(props) {
         <div className="col">{props.backKeys[keyIndex].numer+' '+props.backKeys[keyIndex].blok}</div>
         <div className="col">{props.users[userIndex].lastName+' '+props.users[userIndex].firstName}</div>
         <div className="col">{date} - {dateQ}</div>
-        <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={editHandler}>edytuj</button></div>
-        <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={() => {props.onDelete(props._id, props.data)}}>usuń</button></div>
+        <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={editHandler}>Podgląd</button></div>
         </div>
     :<></>}</>);
 }

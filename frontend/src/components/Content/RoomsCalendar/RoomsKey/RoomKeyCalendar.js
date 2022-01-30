@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
 
+/**
+ * 
+ * @param props
+ * @param props._id
+ * @returns wiersz z kluczem i jego rezerwacjami
+ */
 export default function RoomKeyCalendar(props) {
     const inhabitant = [...props.active].filter(active=>active.key_id===props._id).filter(active=>active.live===true)[0]?false:true;
     const [emptyTable, setEmpty] = useState([]); 
@@ -45,34 +51,34 @@ export default function RoomKeyCalendar(props) {
             index++
             if(last===endMonth){
                 for(index; index<=props.lengthOfMonth; index++){
-                    table.push(<td className={props.colorChange(index,false)}  
+                    table.push(<td className={props.colorChange(index)}  
                     colSpan="2" id={index} key={"empty"+index}></td>);
                 }
             }else{
                 for(index; index<last; index++){
-                    table.push(<td className={props.colorChange(index,false)}  
+                    table.push(<td className={props.colorChange(index)}  
                     colSpan="2" id={index} key={"empty"+index}></td>);
                 }
-                table.push(<td className={props.colorChange(index,false)}  
+                table.push(<td className={props.colorChange(index)}  
                     colSpan="1" id={index} key={"empty"+index}></td>);
             } 
         }else if(last===endMonth){
-            table.push(<td className={props.colorChange(index,false)}  
+            table.push(<td className={props.colorChange(index)}  
             colSpan="1" id={index} key={"empty"+index}></td>);
             index++
             for(index; index<=props.lengthOfMonth; index++){
-                table.push(<td className={props.colorChange(index,false)}  
-                colSpan="2" id={index} key={"empty"+index}></td>);
+                table.push(<td className={props.colorChange(index)}  
+                colSpan="2" id={index} key={"empty"+index}></td>); 
             }
         }else{
-            table.push(<td className={props.colorChange(index,false)}  
+            table.push(<td className={props.colorChange(index)}  
             colSpan="1" id={index} key={"empty"+index}></td>);
             index++
             for(index; index<=last; index++){
-                table.push(<td className={props.colorChange(index,false)}  
+                table.push(<td className={props.colorChange(index)}  
                 colSpan="2" id={index} key={"empty"+index}></td>);
             }
-            table.push(<td className={props.colorChange(index,false)}  
+            table.push(<td className={props.colorChange(index)}  
             colSpan="1" id={index} key={"empty"+index}></td>);
         }
     }
@@ -179,9 +185,9 @@ export default function RoomKeyCalendar(props) {
         <>
         {inhabitant?
             <tr>
-                <td>{props.numer} {props.blok}</td>
+                <td className="tdBtn"><button className="button" onClick={newActiveHandler}>
+                    {props.numer} {props.blok} ({props.ile})</button></td>
                 {emptyTable}
-            <td className="tdBtn"><button className="button" onClick={newActiveHandler}>Rezerwacja</button></td>
             </tr>
         :<></>}
         </>

@@ -7,7 +7,11 @@ const useCurrentCallback = (callback) => {
       return reference.current?.(...args);
     };
   };
-  
+
+  /**
+   * @function Clock 
+   * @returns aktualny dzień i godzinę
+   */
   export default function Clock () {
     const [time, setTime] = useState('');
     const currentCallback = useCurrentCallback(() => {

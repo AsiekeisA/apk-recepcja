@@ -1,10 +1,12 @@
-import { useContext } from 'react';
-import JakisKontekst from '../../context/theme';
+import styles from './Footer.module.css'
 
+/**
+ * 
+ * @returns tekst stopki
+ */
 const Footer = () => {
-    const theme = useContext(JakisKontekst);
     return(
-        <div className={`text-center text-${theme}`}>Stopka</div>
+        <div className={`text-end ${styles.footer}`}>by Joanna Dębek 2022</div>
     );
 }
 

@@ -1,8 +1,8 @@
 .keys {
     justify-content: center;
     align-items: center;
-    background-color: rgb(221, 248, 66);
-    font-size: xx-small;
+    background-color: rgb(255, 255, 255);
+    font-size: 15px;
     display: flexbox;
     padding: 5px 5px 5px 5px;
 }

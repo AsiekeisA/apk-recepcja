@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Content/RoomsCalendar/RoomsCalendar.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Content/RoomsCalendar/RoomsCalendar.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState, useMemo } from "react";
+import Modal from 'react-modal'
+import RoomKeyCalendar from "./RoomsKey/RoomKeyCalendar";
+import "./RoomsCalendar.css";
+
+/**
+ * @param props
+ * @param props.active zarezerwowane i pobrane klucze
+ * @param props.backKeys klucze
+ * @returns kalendarz pokoi wolnych i zajętych przez gości 
+ */
+function RoomsCalendar(props) {
+    const monthsName = [
+        "Styczeń",
+        "Luty",
+        "Marzec",
+        "Kwiecień",
+        "Maj",
+        "Czerwiec",
+        "Lipiec",
+        "Sierpień",
+        "Wrzesień",
+        "Październik",
+        "Listopad",
+        "Grudzień"
+    ]
+    const numberOfDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const today = new Date();
+    const [year, setYear]= useState(today.getFullYear());
+    const [month, setMonth]=useState(today.getMonth());
+    const [monthTable, setMonthTable] = useState([]);
+    const [editTemp, setEdit] = useState({});
+    const [showModal, setShowModal] = useState(false);
+    const active = useMemo(()=>{return [...props.active]
+                    .filter(x=>(new Date(x.data).getMonth()===month
+                            ||new Date(x.dataQuit).getMonth()===month
+                            ))},[props.active])
+// const [emptyTable, setEmpty] = useState([]);
+    const nrMonth=month+1
+
+    /**
+     * Funkcja tworzy pierwszy wiersz tabeli zawierający kolejne dni danego miesiąca
+     * @function tableMaker
+     */
+    const tableMaker = () =>{
+        const table = [&lt;td key="header">Klucze&lt;/td>];
+        // const empty = [];
+        for(var i=1; i&lt;=numberOfDays[month]; i++){
+            table.push(&lt;>
+            &lt;td className={year===today.getFullYear()&amp;&amp;month===today.getMonth()&amp;&amp;i===today.getDate()?"day-today":"day"}
+              id={i} key={i} >{i}.&lt;/td>
+            &lt;td className={year===today.getFullYear()&amp;&amp;month===today.getMonth()&amp;&amp;i===today.getDate()?"month-today":"month"}  
+              id={i} key={i+100} >{nrMonth&lt;10?"0"+nrMonth:nrMonth}&lt;/td>&lt;/>);
+            // empty.push(&lt;td className={colorChange(i)} width="25px" height="25px" key={i}>&lt;/td>);
+        }
+        setMonthTable(table);
+        // setEmpty(empty);
+    }
+
+    /**
+     * @function colorChange
+     * @param {Number} i dzień 
+     * @returns nazwę klasy komórki, która określi jej stylowanie
+     */
+    const colorChange = (i) => {
+        if(year===today.getFullYear()&amp;&amp;month===today.getMonth()&amp;&amp;i===today.getDate()){
+            return "td-today";
+        } else
+            return "td";
+    }
+
+    useEffect(()=>{
+        Modal.setAppElement('body'); 
+     },[]);
+
+    useEffect(()=>{
+        tableMaker();
+    },[month, props.active])
+
+/**
+ * funkcja zmienia wyświetlany miesiąc
+ * @function monthBefore
+ */
+    const monthBefore = () =>{
+        if(month===0){
+            setMonth(11);
+            setYear(year-1);
+        }else{
+            setMonth(month-1);
+        }
+    }
+    const monthAfter = () =>{
+        if(month===11){
+            setMonth(0);
+            setYear(year+1);
+        }else{
+            setMonth(month+1);
+        }
+    }
+    const thisMonth = () =>{
+        setYear(today.getFullYear());
+        setMonth(today.getMonth());
+    }
+  
+return(&lt;>
+  &lt;style>{`
+    td{
+     border:1px solid black;
+    }
+  `}&lt;/style>
+    &lt;div className="flexbox-container">
+        {/* &lt;Modal isOpen={showModal} contentLabel="Edycja">
+            &lt;EditActive
+                key_id={editTemp.key_id}
+                user_id={editTemp.user_id}
+                data={editTemp.data}
+                dataQuit={editTemp.dataQuit}
+                live={editTemp.live}
+                _id={editTemp._id}
+                keys={props.keys}
+                users={props.users}
+                onEdit={active => editActive(active)}
+                onDelete={(_id,data) => checkDelete(_id, data)} />         
+                &lt;button onClick={() => toggleModal()}>Wyjdź&lt;/button>
+        &lt;/Modal> */}
+        &lt;button className="button" onClick={monthBefore}>{month===0?monthsName[11]:monthsName[month-1]}&lt;/button>
+        &lt;button className="button" onClick={thisMonth}>Bieżący miesiąc&lt;/button>
+        &lt;button className="button" onClick={monthAfter}>{month===11?monthsName[0]:monthsName[month+1]}&lt;/button>
+        rok : {year}, miesiąc : {monthsName[month]}
+    &lt;/div>
+    &lt;div>
+    &lt;table>
+        &lt;thead>&lt;tr>{monthTable}&lt;/tr>&lt;/thead>
+        &lt;tbody>
+        {props.backKeys.filter(x=>x.funkcja==="pokój")
+            .sort((a, b) => a.numer > b.numer ? -1 : 1)
+            .sort((a, b) => a.blok > b.blok ? 1 : -1)
+            .map(keys => (
+               &lt;RoomKeyCalendar
+                key={keys._id}
+                users={props.users}
+                {...keys}
+                active={active}
+                year={year}
+                month={month}
+                monthTable={monthTable}
+                lengthOfMonth={numberOfDays[month]}
+                colorChange={colorChange}
+                onEdit={props.editTemp}
+                makeTemp={props.makeTemp}
+                />))}
+        &lt;/tbody>
+    &lt;/table>
+    &lt;/div>
+    
+    &lt;/>
+);
+} 
+
+export default RoomsCalendar;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ErrorBoundary.html">ErrorBoundary</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addObject">addObject</a></li><li><a href="global.html#addUser">addUser</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#changeContent">changeContent</a></li><li><a href="global.html#changeHandler">changeHandler</a></li><li><a href="global.html#Clock">Clock</a></li><li><a href="global.html#colorChange">colorChange</a></li><li><a href="global.html#Content">Content</a></li><li><a href="global.html#DataHeader">DataHeader</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#editHandler">editHandler</a></li><li><a href="global.html#EditUser">EditUser</a></li><li><a href="global.html#editUser">editUser</a></li><li><a href="global.html#editUserHandler">editUserHandler</a></li><li><a href="global.html#fetchBack">fetchBack</a></li><li><a href="global.html#focusInput">focusInput</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#makeTemp">makeTemp</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#monthBefore">monthBefore</a></li><li><a href="global.html#NewUser">NewUser</a></li><li><a href="global.html#onEdit">onEdit</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#RoomsCalendar">RoomsCalendar</a></li><li><a href="global.html#sameValue">sameValue</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#searchHandler">searchHandler</a></li><li><a href="global.html#Searching">Searching</a></li><li><a href="global.html#tableMaker">tableMaker</a></li><li><a href="global.html#toggleModal">toggleModal</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#Users">Users</a></li><li><a href="global.html#validateEmail">validateEmail</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Sep 03 2021 15:52:50 GMT+0200 (czas środkowoeuropejski letni)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

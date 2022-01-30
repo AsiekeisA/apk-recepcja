@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
+/**
+ * @function EditUser
+ * @param props 
+ * @returns Formularz edycji użytkownika 
+ */
 export default function EditUser(props) {
-
 
     const email = props.email?props.email:'';
     const phone = props.phone?props.phone:'';
@@ -53,6 +57,10 @@ export default function EditUser(props) {
         setEditUser({...editUser, nrIndeks: value});
     }
 
+    /**
+     * tworzy i przekazuje obiekt do funkcji która edytuje obiekt o podanym id kolkecji danych 
+     * @function onEdit
+     */
     const onEdit = () => {
         const user = {
             firstName: editUser.firstName,

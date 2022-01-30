@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import styles from '../KeyFolder/Key.module.css';
 
 function NewKey(props) {
 
@@ -53,8 +53,9 @@ function NewKey(props) {
     }
 
     const sameKey = () => {
-        const sameNumber = [...props.keys].filter(x=>x.numer==newKey.numer).filter(x=>x.blok===newKey.blok)
-        console.log(sameNumber[0])
+        const sameNumber = [...props.keys]
+                .filter(x=>x.numer==newKey.numer)
+                .filter(x=>x.blok===newKey.blok)
         if ( sameNumber[0] ) {
             return true 
         } else {
@@ -66,7 +67,8 @@ function NewKey(props) {
         if (isNaN(newKey.numer)) {
             setErrors({...errors, numer: 'Podaj numer'})
         }else if (sameKey()){
-            setErrors({...errors, numer: 'Istnieje pokój o takim numerze i bloku'},{...errors, blok: 'Istnieje pokój o takim numerze i bloku'})
+            setErrors({...errors, numer: 'Istnieje pokój o takim numerze i bloku'},
+                    {...errors, blok: 'Istnieje pokój o takim numerze i bloku'})
            // setErrors({...errors, numer: 'Istnieje pokój o takim numerze i bloku'})
         }else{
             setErrors({...errors, numer: ''},{...errors, blok: ''})
@@ -76,7 +78,8 @@ function NewKey(props) {
 
     useEffect (() => {
         if (sameKey()){
-            setErrors({...errors, numer: 'Istnieje pokój o takim numerze i bloku'},{...errors, blok: 'Istnieje pokój o takim numerze i bloku'})
+            setErrors({...errors, numer: 'Istnieje pokój o takim numerze i bloku'},
+                    {...errors, blok: 'Istnieje pokój o takim numerze i bloku'})
             //setErrors({...errors, blok: 'Istnieje pokój o takim numerze i bloku'})
         }else{
             setErrors({...errors, numer: ''},{...errors, blok: ''})
@@ -148,10 +151,10 @@ function NewKey(props) {
                     {errors.ile}
                 </div> 
 
-            <button onClick={() => addKey()} disabled={disabledBtn}>Dodaj klucz</button>
+            <button className={`${styles.button} btn btn-primary`} onClick={() => addKey()} disabled={disabledBtn}>Dodaj klucz</button>
         </div>
         ) : (
-            <button className="btn btn-primary" onClick={() => setshowForm(true)}>Nowy klucz</button>
+            <button className={`${styles.button} btn btn-primary`} onClick={() => setshowForm(true)}>Nowy klucz</button>
         )
     );
 }

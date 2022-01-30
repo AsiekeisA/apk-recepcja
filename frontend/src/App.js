@@ -1,3 +1,4 @@
+
 import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
@@ -16,10 +17,15 @@ import ActiveKeys from './components/Content/ActiveKeys/ActiveKeys';
 import NewActive from './components/Content/ActiveKeys/NewActive/NewActive';
 import ActiveKey from './components/Content/ActiveKeys/ActiveKey/ActiveKey';
 import DataHeader from './components/DataHeader/DataHeader';
-import { Switch } from 'react-router-dom';
 import SwitchSearch from './components/UI/Searching/switch/switchSearch';
 import ErrorBoundary from './HOC/ErrorBoundary';
 
+/**
+ * Funkcja wybiera, który ze stanów ma zostać zmieniony.
+ * @param {*} state Stan, który jest modyfikowany
+ * @param {*} action Przypadek w zależności od którego zostanie wykonana modyfikacja stanu
+ * @returns Wybrany stan zostanie zaktualizowany
+ */
 const reducer = (state,action) => {
   switch (action.type) {
     case 'set-backKeys':
@@ -44,7 +50,7 @@ const reducer = (state,action) => {
       throw new Error (' nie ma takiej funkcji '+ action.type)
   }
 }
-// const backKeys = [];
+
 const initialState = {
   showKeys: [],
   backKeys: [],
@@ -54,14 +60,22 @@ const initialState = {
   archives: [],
   loading: true,
   lastContent:'',
-  content: 'calendar',
-  //theme: 'primary'
+  content: 'calendar'
 }
 
+/**
+ * Komponent obsługujący całą aplikację
+ * @returns komponent Layout
+ */
 function App(){
+
   const [state, dispatch] = useReducer(reducer, initialState);
   
-
+/**
+ * Funkcja pobiera dane z backendu i wywołuje hook useReduce który zapisze kolekcje w poszczególnych stanach 
+ * @async
+ * @function fetchBack
+ */
   const fetchBack = async () => {
     const resKeys = await axios.get('/keys');
     const resUsers = await axios.get('/users');
@@ -71,12 +85,7 @@ function App(){
     const users = resUsers.data;
     const active = resActive.data;
     const archives = resArchives.data;
-    // setShowKeys(keys);
-    // setKeys(keys);
-    // // setAvailable(keys);
-    // setBackKeys(keys);
-    // setUsers(users);
-    // setActive(active);
+
     dispatch({type: 'set-showKeys', showKeys:keys});
     dispatch({type: 'set-backKeys', backKeys:keys});
     dispatch({type: 'set-keys', keys:keys});
@@ -84,34 +93,38 @@ function App(){
     dispatch({type: 'set-active', active:active});
     dispatch({type: 'set-archives', archives:archives});
   }
-//   const deleteKey = async(_id) => {
-//     console.log('usuwanie', _id);
-//     const keys = [...props.keys].filter(key => key._id !== _id);
-//     await axios.delete('/keys/'+ _id);
-//     props.setKeys(keys);
-// }
 
-  const searchHandler = name => {
-    console.log('szukaj z app', name)
-    const searchKeys = [...state.backKeys]
-                    .filter(x => x.blok
-                    .toLowerCase()
-                    .includes(name.toLowerCase()));
-    dispatch({type: 'set-keys', keys:searchKeys});
-    // <SwitchSearch
-    //   content={state.content}
-    // />
-  }
+// /**
+//  * Funkcja filtruje dany stan w poszukiwaniu obiektu zawierający dany ciąg znaków
+//  * @function searchHandler
+//  * @param {String} name Ciąg znaków pobrany z wyszukiwarki
+//  */
+//   const searchHandler = name => {
+//     console.log('szukaj z app', name)
+//     const searchKeys = [...state.backKeys]
+//                     .filter(x => x.blok
+//                     .toLowerCase()
+//                     .includes(name.toLowerCase()));
+//     dispatch({type: 'set-keys', keys:searchKeys});
+//     // <SwitchSearch
+//     //   content={state.content}
+//     // />
+//   }
 
+/**
+ * Podczas tworzenia się komponentu App zostanie wywołana funkcja fetchBack oraz zniknie ikonka ładowania
+ * 
+ */
   useEffect(()=>{
-    setTimeout(() => {
       fetchBack();
-      // setLoading(false);
       dispatch({type: 'set-loading', loading:false});
-    }, 1000);
+    },[]);
   
-  },[]);
-  
+  /**
+   * Przekazuje do reducera, 
+   * @function changeContent
+   * @param {String} content Nazwa zawartości komponentu 
+   */
   const changeContent = (content) => {
     dispatch({type: 'change-lastContent', lastContent:state.content})
     dispatch({type: 'change-content', content:content});  
@@ -130,14 +143,14 @@ function App(){
   //   //setAvailable(table)
   // }, [active]);
 
-
-
   const header = <Header>
-    <Searching  onSearch={name => searchHandler(name)}/>
+    {/* <Searching  onSearch={name => searchHandler(name)}/> */}
   </Header>
+
   const menu = (
     <Menu changeContent={content=>changeContent(content)}/>
   );
+
   const content = (
     state.loading ? 
     <Loading />
@@ -163,21 +176,19 @@ function App(){
         // available={available}
         />
     </ErrorBoundary>
-    // }
-    // </ContentContext.Provider>
+
   );
-      
+  
   const footer = <Footer />
 
   return(
-    <JakisKontekst.Provider value="primary">
         <Layout 
           header={header}
           menu={menu}
           content={content}
           footer={footer}
         /> 
-    </JakisKontekst.Provider>
+
   );
 }
 

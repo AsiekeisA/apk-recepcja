@@ -1,37 +1,38 @@
 .table {
     background-color: black;
     color: rgb(255, 255, 255);
+    margin: 10px;
 }
 
 .td {
     border:1px solid rgb(160, 160, 160);
-    width: 12.5px;
-    height: 25px;
+    width: 20px;
+    height: 40px;
     justify-content: center;
     align-items: center;
-    font-size: xx-small;
+    font-size: 15px;
     display: flexbox;
     font-weight: bold;
 }
 .td-today {
     border:1px solid rgb(255, 255, 255);
-    width: 12.5px;
-    height: 25px;
+    width: 20px;
+    height: 40px;
     justify-content: center;
     align-items: center;
     background-color: rgb(150, 150, 150);
-    font-size: xx-small;
+    font-size: 15px;
     display: flexbox;
     font-weight: bold;
 }
 .day {
     border:1px solid black;
     border-right-width: 0px;
-    width: 12.5px;
-    height: 25px;
+    width: 20px;
+    height: 40px;
     justify-content: center;
     align-items: center;
-    font-size: xx-small;
+    font-size: 15px;
     display: flexbox;
     font-weight: bold;
 }
@@ -41,22 +42,22 @@
     border-left-width: 2px;
     border-right-width: 0px;
     background-color: rgb(150, 150, 150);
-    width: 12.5px;
-    height: 25px;
+    width: 20px;
+    height: 40px;
     justify-content: center;
     align-items: center;
-    font-size: xx-small;
+    font-size: 15px;
     display: flexbox;
     font-weight: bold;
 }
 .month {
     border:1px solid black;
     border-left-width: 0px;
-    width: 12.5px;
-    height: 25px;
+    width: 20px;
+    height: 40px;
     justify-content: center;
     align-items: center;
-    font-size: xx-small;
+    font-size: 10px;
     display: flexbox;
     font-weight: bold;
 }
@@ -66,45 +67,45 @@
     border-left-width: 0px;
     border-right-width: 2px;
     background-color: rgb(150, 150, 150);
-    width: 12.5px;
-    height: 25px;
+    width: 20px;
+    height: 40px;
     justify-content: center;
     align-items: center;
-    font-size: xx-small;
+    font-size: 10px;
     display: flexbox;
     font-weight: bold;
 }
 
 .td-reserved{
-    border:2px solid black;
-    width: 12.5px;
-    height: 25px;
+    border:2px solid rgb(150, 150, 150);
+    width: 20px;
+    height: 40px;
     justify-content: center;
     align-items: center;
     font-size: xx-small;
     display: flexbox;
     font-weight: bold;
     margin: 0px;
-    background-color: rgb(255, 0, 0);
+    background-color: rgba(150, 150, 150, 0.561);
 }
 
 .td-rent{
-    border:2px solid black;
-    width: 12.5px;
-    height: 25px;
+    border:2px solid rgb(150, 150, 150);
+    width: 20px;
+    height: 40px;
     justify-content: center;
     align-items: center;
     font-size: xx-small;
     display: flexbox;
     font-weight: bold;
     margin: 0px;
-    background-color: rgb(0, 0, 255);
+    background-color: #0039bfd7
 }
 
 .td-reserved-today{
     border:1px solid black;
-    width: 12.5px;
-    height: 25px;
+    width: 20px;
+    height: 40px;
     justify-content: center;
     align-items: center;
     font-size: xx-small;
@@ -112,25 +113,30 @@
     font-weight: bold;
     margin: 0px,0px,0px,0px;
     padding: 0px,0px,0px,0px;
-    background-color: rgb(255, 0, 0);
+    background-color: #004cff00;
 }
 .tdBtn{
     border:0px;
     justify-content: center;
     align-items: center;
-    font-size: xx-small;
+    font-size: 15px;
     display: flexbox;
     font-weight: bold;
     margin: 0px;
 }
 .button{
-    font-size: 15px;
-    align-items: right;
-    background-color: rgb(245, 202, 11);
+    font-size: 20px;
+    justify-content: end;
+    background-color: #004cff88;
+    padding: 5px 10px 5px 10px;
+    border: 0px;
+    margin: 2px;
+    border-radius: 2px;
+    color:white;
 
 }
 .button-td{
-    font-size: 10px;
+    font-size: 15px;
     background-color: rgba(0, 0, 0, 0);
     border: none;
     width: 100%;

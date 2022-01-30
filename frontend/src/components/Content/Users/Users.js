@@ -7,6 +7,12 @@ import Modal from 'react-modal';
 import EditUser from './EditUser/EditUser';
 import axios from '../../../axios';
 
+/**
+ * 
+ * @param props
+ * @param {Object} props.users stan użytkowników   
+ * @returns komponenty związane z listą użytkowników 
+ */
 function Users(props) {
     
     //const [users, setUsers] = useState([]);
@@ -24,6 +30,12 @@ function Users(props) {
         Modal.setAppElement('body');
     },[])
 
+    /**
+     * Funkcja usuwająca użytkownika o danym id z stanu tablicy users i z bazy danych
+     * @async 
+     * @function deleteUser
+     * @param {String} _id id użytkownika
+     */
     const deleteUser = async (_id) => {
         console.log('usuwanie', _id);
         const users = [...props.users].filter(user => user._id !== _id);
@@ -31,6 +43,12 @@ function Users(props) {
         props.setUsers(users);
     }
 
+    /**
+     * Funkcja dodająca nowego użytkownika do stanu users i bazy danych
+     * @async
+     * @function addUser
+     * @param {Object} user nowy użytkownik
+     */
     const addUser = async(user) => {
         const users = [...props.users];
         const res = await axios.post('/users', user);
@@ -39,6 +57,12 @@ function Users(props) {
         props.setUsers(users);
     }
 
+   /**
+     * Funkcja edytująca użytkownika w stanie users i bazie danych
+     * @async
+     * @function editUser
+     * @param {Object} user edytowany użytkownik
+     */
     const editUser = async(user) => {
         await axios.put('/users/'+ user._id, user);
         const users = [...props.users];
@@ -50,10 +74,19 @@ function Users(props) {
        toggleModal();
     }
 
+    /**
+     * Funkcja pokazująca i chowająca formularz edycji
+     * @function toggleModal
+     */
     const toggleModal = () => {
         setEditModal(!showEditModal);
     }
 
+    /**
+     * Funncja przygotowująca obiekt do edycji
+     * @function editUserHandler
+     * @param {Object} user edytowany użytkownik
+     */
     const editUserHandler = (user) => {
         toggleModal();
         setEditUser(user);

@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import styles from '../User/User.module.css';
 
-
+/**
+ * 
+ * @param props
+ * @param {Array} props.users
+ * @returns formularz dodawania użytkownika 
+ */
 function NewUser(props) {
 
     const [showForm, setshowForm] = useState(false);
@@ -22,6 +28,11 @@ function NewUser(props) {
         nrIndeks: '',
     })
 
+    /**
+     * Funkcja, która po wpisaniu znaków do okienka formularzu zmienia wartość stanu obiektu
+     * @function changeHandler 
+     * @param event 
+     */
     const changeFirstNameHandler = event => {
         const value = event.target.value.toUpperCase();
         setNewUser({...newUser, firstName: value});
@@ -52,13 +63,18 @@ function NewUser(props) {
         setNewUser({...newUser, nrIndeks: value});
     }
 
+/**
+ * funkcja tworzy i przekazuje obiekt do funkcji która dodają go do kolkecji danych 
+ * @function addObject
+ */
     const addUser = () => {
         const user = {
             firstName: newUser.firstName,
             lastName: newUser.lastName,
-            nrIndeks: newUser.nrIndeks,
+            position: newUser.position,
             email: newUser.email,
             phone: newUser.phone,
+            nrIndeks: newUser.nrIndeks,
         };
         props.onAdd(user);
         setNewUser({})
@@ -69,11 +85,20 @@ function NewUser(props) {
     //     const re = 
     // }
 
+    /**
+     * @function validateEmail
+     * @param {String} email 
+     * @returns czy email jest poprawnie zapisany
+     */
     function validateEmail(email) {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email)
     }
 
+    /**
+     * @function sameValue
+     * @returns czy istnieje już obiekt posiadający takie same dane
+     */
     const sameEmail = () => {
         const exist = [...props.users].filter(x=>x.email===newUser.email)
         if ( exist[0] ){
@@ -102,7 +127,7 @@ function NewUser(props) {
     }
 
     useEffect (() => {
-        if (newUser.firstName.length>=3 && newUser.firstName.length < 30) {
+        if (newUser.firstName&&newUser.firstName.length>=3 && newUser.firstName.length < 30) {
             setErrors({...errors, firstName: ''})
         } else {
             setErrors({...errors, firstName: 'Imię powinno zawierać 3 - 30 znaków'})
@@ -110,7 +135,7 @@ function NewUser(props) {
     }, [newUser.firstName])
     
     useEffect (() => {
-        if (newUser.lastName.length>=3 && newUser.lastName.length < 30) {
+        if (newUser.lastName&&newUser.lastName.length>=3 && newUser.lastName.length < 30) {
             setErrors({...errors, lastName: ''})
         } else {
             setErrors({...errors, lastName: 'Nazwisko powinno zawierać 3 - 30 znaków'})
@@ -118,7 +143,7 @@ function NewUser(props) {
     }, [newUser.lastName])
 
     useEffect (() => {
-        if (newUser.nrIndeks.length===0) {
+        if (!newUser.nrIndeks||newUser.nrIndeks.length===0) {
             setErrors({...errors, nrIndeks: 'Puste pole'})
         } else if(sameDocument()){
             setErrors({...errors, nrIndeks: 'Istnieje osoba o tym numerze dokumentu'})
@@ -220,7 +245,7 @@ function NewUser(props) {
             <button onClick={() => addUser()} disabled={disabledBtn}>Dodaj</button>
         </div>
         ) : (
-            <button onClick={() => setshowForm(true)}>Nowy</button>
+            <button className={`${styles.button} btn btn-primary`} onClick={() => setshowForm(true)}>Nowy</button>
         )
     );
 }

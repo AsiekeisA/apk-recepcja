@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Content/Users/Users.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Content/Users/Users.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from 'react';
+import User from './User/User';
+import styles from './Users.module.css';
+import DataHeader from '../../DataHeader/DataHeader';
+import NewUser from './NewUser/NewUser.js';
+import Modal from 'react-modal';
+import EditUser from './EditUser/EditUser';
+import axios from '../../../axios';
+
+/**
+ * 
+ * @param props
+ * @param {Object} props.users stan użytkowników   
+ * @returns komponenty związane z listą użytkowników 
+ */
+function Users(props) {
+    
+    //const [users, setUsers] = useState([]);
+    const [editUserTemp, setEditUser] = useState({});
+    const [showEditModal, setEditModal] = useState(false);
+
+    // const fetchUsers = async() => {
+    //     const res = await axios.get('/users');
+    //     const users = res.data;
+    //     props.setUsers(users)
+    // }
+    
+    useEffect(() =>{
+        // fetchUsers();
+        Modal.setAppElement('body');
+    },[])
+
+    /**
+     * Funkcja usuwająca użytkownika o danym id z stanu tablicy users i z bazy danych
+     * @async 
+     * @function deleteUser
+     * @param {String} _id id użytkownika
+     */
+    const deleteUser = async (_id) => {
+        console.log('usuwanie', _id);
+        const users = [...props.users].filter(user => user._id !== _id);
+        await axios.delete('/users/'+ _id);
+        props.setUsers(users);
+    }
+
+    /**
+     * Funkcja dodająca nowego użytkownika do stanu users i bazy danych
+     * @async
+     * @function addUser
+     * @param {Object} user nowy użytkownik
+     */
+    const addUser = async(user) => {
+        const users = [...props.users];
+        const res = await axios.post('/users', user);
+        const newUser = res.data;
+        users.push(newUser);
+        props.setUsers(users);
+    }
+
+   /**
+     * Funkcja edytująca użytkownika w stanie users i bazie danych
+     * @async
+     * @function editUser
+     * @param {Object} user edytowany użytkownik
+     */
+    const editUser = async(user) => {
+        await axios.put('/users/'+ user._id, user);
+        const users = [...props.users];
+        const index = users.findIndex(x => x._id === user._id);
+        if(index >=0) {
+            users[index] = user;
+            props.setUsers(users);
+        }
+       toggleModal();
+    }
+
+    /**
+     * Funkcja pokazująca i chowająca formularz edycji
+     * @function toggleModal
+     */
+    const toggleModal = () => {
+        setEditModal(!showEditModal);
+    }
+
+    /**
+     * Funncja przygotowująca obiekt do edycji
+     * @function editUserHandler
+     * @param {Object} user edytowany użytkownik
+     */
+    const editUserHandler = (user) => {
+        toggleModal();
+        setEditUser(user);
+    }
+
+    return (
+        &lt;div className={`${styles.users} flexbox-container`}>
+            &lt;Modal isOpen={showEditModal} contentLabel="Edycja">
+                &lt;EditUser 
+                    firstName={editUserTemp.firstName}
+                    lastName={editUserTemp.lastName}
+                    email={editUserTemp.email}
+                    phone={editUserTemp.phone}
+                    position={editUserTemp.position}
+                    nrIndeks={editUserTemp.nrIndeks}
+                    _id={editUserTemp._id}
+                    users={props.users}
+                    onEdit={user => editUser(user)} />
+                &lt;button onClick={() => toggleModal()}>Anuluj&lt;/button>
+            &lt;/Modal>
+            &lt;NewUser 
+                users={props.users}
+                onAdd={(user) => addUser(user)}/>
+            &lt;DataHeader 
+                content={props.content} 
+                setItems={props.setUsers}
+                items={props.users}
+                />
+            {props.users.sort((a, b) => a.firstName > b.firstName ? -1 : 1)
+                        .sort((a, b) => a.lastName > b.lastName ? 1 : -1)
+                        .map(user => (
+                &lt;User 
+                    key={user._id}
+                    {...user}
+                    onEdit={(user) => editUserHandler(user)}
+                    onDelete={(_id) => deleteUser(_id)}
+                />
+            ))}
+            &lt;/div>
+        );
+}
+
+export default Users;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ErrorBoundary.html">ErrorBoundary</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addObject">addObject</a></li><li><a href="global.html#addUser">addUser</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#changeContent">changeContent</a></li><li><a href="global.html#changeHandler">changeHandler</a></li><li><a href="global.html#Clock">Clock</a></li><li><a href="global.html#colorChange">colorChange</a></li><li><a href="global.html#Content">Content</a></li><li><a href="global.html#DataHeader">DataHeader</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#editHandler">editHandler</a></li><li><a href="global.html#EditUser">EditUser</a></li><li><a href="global.html#editUser">editUser</a></li><li><a href="global.html#editUserHandler">editUserHandler</a></li><li><a href="global.html#fetchBack">fetchBack</a></li><li><a href="global.html#focusInput">focusInput</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Layout">Layout</a></li><li><a href="global.html#Loading">Loading</a></li><li><a href="global.html#makeTemp">makeTemp</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#monthBefore">monthBefore</a></li><li><a href="global.html#NewUser">NewUser</a></li><li><a href="global.html#onEdit">onEdit</a></li><li><a href="global.html#reducer">reducer</a></li><li><a href="global.html#RoomsCalendar">RoomsCalendar</a></li><li><a href="global.html#sameValue">sameValue</a></li><li><a href="global.html#Search">Search</a></li><li><a href="global.html#searchHandler">searchHandler</a></li><li><a href="global.html#Searching">Searching</a></li><li><a href="global.html#tableMaker">tableMaker</a></li><li><a href="global.html#toggleModal">toggleModal</a></li><li><a href="global.html#User">User</a></li><li><a href="global.html#Users">Users</a></li><li><a href="global.html#validateEmail">validateEmail</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Sep 03 2021 15:52:50 GMT+0200 (czas środkowoeuropejski letni)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -15,7 +15,7 @@ const liczenieKluczy = (count) =>{
         ileDost += parseInt(count[i].ileDost);
     }
     return ileDost+"/"+ile;
-}
+} 
 
 function Keys(props) {
     // async fetchKeys(props) {

@@ -40,17 +40,18 @@ function Key(props) {
     return (
     <>
         <div className={`${styles.key} flexbox-container`}>
-            <div className="col"><button 
-                                    className={`${styles.button} btn btn-primary`}
-                                    onClick={setExpandBtn}
-                                    >
-                                        {btnName}</button></div>
+            {/* <div className="col">
+                    <button 
+                        className={`${styles.button} btn btn-primary`}
+                        onClick={setExpandBtn}>
+                        {btnName}</button>
+            </div> */}
             <div className="col">{props.numer+' '+props.blok}</div>
             <div className="col">{props.funkcja}</div>
             <div className="col">{props.ileDost+' / '+props.ile}</div>
             {props.czyDost
                 ? <div className="col"><button 
-                className={`${styles.button} btn btn-primary`}
+                className={`${styles.button} btn btn-primary`} 
                 onClick={newActiveHandler}>
                                     Rezerwuj</button></div>
                 : <div className="col">Brak miejsc</div>                

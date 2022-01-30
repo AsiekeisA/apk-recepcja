@@ -41,25 +41,31 @@ function ActiveKeyInhabitants(props) {
 
     if (inhabitant[0]&&inhabitant[0].live===true){
             table.push(<div className='col'>{props.numer} {props.blok}</div>)
-        for (let i=0; i<props.ile; i++){
+            if (props.ile===2)
+                table.push(<div className='col'></div>)
+            if (props.ile===1){
+                table.push(<div className='col'></div>)
+                table.push(<div className='col'></div>)}
+            for (let i=0; i<props.ile; i++){
             if (inhabitant[i]){
                 const u_id=[...props.users].findIndex(user=>user._id===inhabitant[i].user_id)
-                table.push(<button className='col' value={inhabitant[i]._id} onClick={editHandler}>{props.users[u_id].lastName} {props.users[u_id].firstName}</button>)
+                table.push(<div className='col'><button className={`${styles.button} btn btn-primary`} value={inhabitant[i]._id} onClick={editHandler}>{props.users[u_id].lastName} {props.users[u_id].firstName}</button></div>)
             }else{
-                table.push(<div className='col'><button onClick={newHandler}>wynajmij</button></div>)
+                table.push(<div className='col'><button className={`${styles.button} btn btn-primary`} onClick={newHandler}>wynajmij</button></div>)
             }
         }
+
         return table
     }
 },[props.active])
 
     return (
-        <div className={`${styles.key} flexbox-container`}>
-            {inhabitant[0]?<>
-                
-                {names}</>
-            :<></>}
-        </div>
+        <>
+            {inhabitant[0]&&inhabitant[0].live===true?
+            <div className={`${styles.key} flexbox-container`}>
+                {names}
+            </div>:<></>}
+        </>
     //     {/* {props.backKeys[keyIndex].funkcja==='pokój' && props.live ?
     //     <div className={`${styles.key} flexbox-container`}>
     //     <div className="col">{props.backKeys[keyIndex].numer+' '+props.backKeys[keyIndex].blok}</div>
