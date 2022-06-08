@@ -1,22 +1,20 @@
 import { useContext, useEffect, useState, useRef } from 'react';
 import styles from './Searching.module.css';
-import JakisKontekst from '../../../context/theme';
 
 /**
- * Komonent obsługujący wyszukiwarkę
+ * Komponent obsługujący wyszukiwarkę
  * @param props
  * @param props.onSearch wywołanie funkcji searchHandler()
  * @returns okienko do wpisywania i przycisk wyszukiwarki
  */
 function Searching(props) {
     
-    const theme = useContext(JakisKontekst);
     const [name, setName] = useState('');
 
     const inputRef = useRef();
 
 /**
- * Funkcja wywołująca funkcję  searchHandler
+ * Funkcja wywołująca funkcję searchHandler
  * @function Search
  */
     const search = () => {
@@ -33,10 +31,6 @@ function Searching(props) {
         }
     }
     
-    // const updateName = (e) => {
-    //     setName(e.target.value);
-    // }
-
 /**
  * Funkcja, ustawiająca kursor w polu do wpisywania wyszukiwarki
  * @function focusInput
@@ -66,7 +60,7 @@ function Searching(props) {
            
                     <button 
                     onClick = {search}
-                    className={`${styles.button} btn btn-${theme}`}>
+                    className={`${styles.button} btn btn-primary`}>
                         Szukaj
                     </button>
          

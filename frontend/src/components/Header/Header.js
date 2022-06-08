@@ -5,7 +5,7 @@ import Clock from '../UI/Clock/Clock';
 /**
  * 
  * @param props 
- * @returns wyszukiwarkę i zegar 
+ * @returns Nagłówek z komponentem Clock 
  */
 function Header(props) {
     return (

@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import ActiveKeyContent from './ActiveKey/ActiveKeyContent';
 import styles from '../KeysFolder/Keys.module.css';
 import DataHeader from '../../DataHeader/DataHeader';
 import Modal from 'react-modal';
-import EditActive from './EditActive/EditActive.js';
 import axios from '../../../axios';
 
+/**
+ * Obsługuje funkcje związane z rezerwacjami i pobranymi kluczami
+ * @param {*} props 
+ * @returns Wybraną zawartość związaną z rezerwacją kluczy
+ */
 function ActiveKeys(props) {
-    const [editTemp, setEdit] = useState({});
-    const [showEditModal, setEditModal] = useState(false);
     useEffect(()=>{
        Modal.setAppElement('body'); 
     },[]);
     
+    /**
+     * Funkcja dodająca jeden klucz do dostępnych w recepcji
+     * @param  _id 
+     */
     const oddawanie = (_id) => {
         const ID = [...props.active].filter(active=>active._id === _id);
         const keyID = [...props.keys].filter(keys => keys._id === ID[0].key_id);
@@ -42,6 +48,10 @@ function ActiveKeys(props) {
         }
     }
 
+    /**
+     * Funkcja usuwająca rezerwację
+     * @param  _id 
+     */
     const deleteActive = async(_id) => {
         console.log('usuwanie', _id);
         const actives = [...props.active].filter(active => active._id !== _id);
@@ -50,6 +60,10 @@ function ActiveKeys(props) {
         console.log(props.keys);
     }
 
+/**
+ * Funkcja dodająca rezerwację do archiwum
+ * @param {Object} newArch 
+ */    
     const toArchive = async(newArch) => {
         const archives = [...props.archives];
         const res = await axios.post('/archives', newArch);
@@ -59,6 +73,10 @@ function ActiveKeys(props) {
         console.log('do archiwum');
       }
 
+/**
+ * Funkcja tworząca obiekt dodawny do archiwum
+ * @param  _id 
+ */
     const makeArchives = (_id) => {
         const a_id =[...props.active].findIndex(x=>x._id===_id) 
         const newArch = {
@@ -71,6 +89,11 @@ function ActiveKeys(props) {
         toArchive(newArch);
     }
 
+    /**
+     * Funkcja sprawdzająca, czy rezerwacja zostanie usunięta czy zarchiwizowana
+     * @param  _id 
+     * @param {date} date 
+     */
     const checkDelete = (_id, date) => {
         const data = new Date(date).toISOString().slice(0,10);
         console.log(date, data);
@@ -81,48 +104,8 @@ function ActiveKeys(props) {
         deleteActive(_id)
     }
 
-    const editActive = async(active) => {
-        console.log(active)
-        const today = Date.now();
-        const todayFormat = Intl.DateTimeFormat('pl-PL', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit'}).format(today);
-       
-        await axios.put('/active/'+ active._id, active);
-        const actives = [...props.active];
-        const index = actives.findIndex(x => x._id === active._id);
-        if(index >=0) {
-            actives[index] = active;
-            props.setActive(actives);
-        }
-      // toggleModal();
-    }
-
-    const toggleModal = () => {
-        setEditModal(!showEditModal);
-    }
-
-    const editActiveHandler = (active) => {
-
-         setEdit(active);
-     }
-
     return (
         <div className={`${styles.keys} flexbox-container`}>
-            {/* <Modal isOpen={showEditModal} contentLabel="Edycja">
-                <EditActive
-                    key_id={editTemp.key_id}
-                    user_id={editTemp.user_id}
-                    data={editTemp.data}
-                    dataQuit={editTemp.dataQuit}
-                    live={editTemp.live}
-                    _id={editTemp._id}
-                    keys={props.keys}
-                    users={props.users}
-                    onEdit={active => editActive(active)} 
-                    onDelete={(_id) => deleteActive(_id)}/>
-                <button onClick={() => toggleModal()}>Wyjście</button>
-            </Modal> */}
-            {/* <NewActive 
-                onAdd={(active) => addActive(active)}/> */}
             <DataHeader 
                 content={props.content}
                 setItems={props.setActive}

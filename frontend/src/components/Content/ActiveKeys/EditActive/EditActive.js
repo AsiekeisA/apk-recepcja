@@ -1,7 +1,12 @@
 import React, { useState, useMemo } from 'react'
 import axios from '../../../../axios';
 
-export default function EditKey(props) {
+/**
+ * Komponet umożliwiający edycję rezerwacji.
+ * @param props 
+ * @returns formularz edycji rezerwacji 
+ */
+export default function EditActive(props) {
 
     const key = [...props.keys].filter(keys=>keys._id===props.key_id);
     const user = [...props.users].filter(users=>users._id===props.user_id)
@@ -10,9 +15,6 @@ export default function EditKey(props) {
     const [data, setData] = useState(props.data);
     const [dataQuit, setDataQuit] = useState(props.dataQuit);
     const [editMode, setEditMode] = useState(false)
-    // const [dataShow, setDataShow] = useState(new Date(data).toLocaleDateString())
-    // const [dataQuitShow, setDataQuitShow] = useState(new Date(dataQuit).toLocaleDateString())
-    // const [timeShow, setTimeShow] = useState(new Date(data).toLocaleTimeString()) 
     const dataShow  = useMemo(()=>(new Date(data).toLocaleDateString()),[data])
     const dataQuitShow  = useMemo(()=>(new Date(dataQuit).toLocaleDateString()),[dataQuit])
     const timeShow  = useMemo(()=>(new Date(data).toLocaleTimeString()),[data])
@@ -28,6 +30,11 @@ export default function EditKey(props) {
         setDataQuit(value);
     }
 
+    /**
+     * Funkcja zmieniająca ilość dostępnych kluczy
+     * @param {String} _id 
+     * @param {Number} num 
+     */
     const keyNum = (_id, num) => {
         const ID = [...props.active].filter(active=>active._id === _id);
         const keyID = [...props.keys].filter(keys => keys._id === ID[0].key_id);
@@ -88,6 +95,11 @@ export default function EditKey(props) {
         toArchive(newArch);
     }
 
+    /**
+     * Funkcja sprawdzająca, czy zostaje usuwana rezerwacja, czy oddawany klucz
+     * @param {String} _id 
+     * @param {Number} date 
+     */
     const checkDelete = (_id, date) => {
         const data = new Date(date).toISOString().slice(0,10);
         console.log(date, data);
@@ -99,6 +111,10 @@ export default function EditKey(props) {
         cancel();
     }
 
+    /**
+     * Funkcja edytująca rezerwację w stanie i w bazie danych
+     * @param {Object} active 
+     */
     const onEdit = async(active) => {
         console.log(active)
         await axios.put('/active/'+ active._id, active);
@@ -110,6 +126,10 @@ export default function EditKey(props) {
         }
       }      
 
+/**
+ * Funkcja edytująca rezerwację
+ * @param {Boolean} edit 
+ */
     const editActive = (edit) => {
         const now = new Date().toISOString();
         const date = edit? data:now
@@ -122,32 +142,38 @@ export default function EditKey(props) {
             live:props.live,
             _id: props._id
         };
-        // const dataS=new Date(date).toLocaleDateString()
-        // const dataF=new Date(dataQuit).toLocaleDateString()
-        // const time=new Date(date).toLocaleTimeString()
-        // setDataShow(dataS);
-        // setDataQuitShow(dataF);
-        // setTimeShow(time)
         console.log(active)
        onEdit(active);
     }
 
+    /**
+     * Funkcja otwierająca/zamykająca możliwość edycji
+     */
     const setting = () => {
         setEditMode(!editMode)
     }
 
+/**
+ * Funkcja uruchamiana podczas pobrania nowego klucza 
+ * @param {String} _id 
+ */
     const takeKey = (_id) => {
         keyNum(_id,-1)
         editActive(false);
         cancel();
     }
 
+    /**
+     * Funkcja edytująca datę rezerwacji
+     */
     const editing = () =>{
         editActive(true);
         setting();
     }
 
-
+/**
+ * Funkcja anulująca edycję, cofa do poprzedniego okna
+ */
     const cancel = () => {
         props.changeContent(props.lastContent)
     }

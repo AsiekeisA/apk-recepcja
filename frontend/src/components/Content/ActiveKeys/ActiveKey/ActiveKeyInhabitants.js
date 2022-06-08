@@ -1,8 +1,11 @@
-import React, { useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
 import styles from '../../KeysFolder/KeyFolder/Key.module.css';
-import {Link} from 'react-router-dom';
 
+/**
+ * Komponent wyświetlający daną rezerwację pokoju przez mieszkańców
+ * @param {*} props 
+ * @returns Wiersz z informacjami o rezerwacji
+ */
 function ActiveKeyInhabitants(props) {
 
     const editHandler = event => {
@@ -17,11 +20,6 @@ function ActiveKeyInhabitants(props) {
             live:props.active[a_id].live
         })
     }
-
-    // const keyIndex = [...props.backKeys].findIndex(x=>x._id===props.key_id)
-    // const userIndex = [...props.users].findIndex(x=>x._id===props.user_id)
-    // const date=new Date(props.data).toLocaleDateString();
-    // const dateQ=new Date(props.dataQuit).toLocaleDateString();
 
     const newHandler = () => {
         props.makeTemp({
@@ -66,15 +64,6 @@ function ActiveKeyInhabitants(props) {
                 {names}
             </div>:<></>}
         </>
-    //     {/* {props.backKeys[keyIndex].funkcja==='pokój' && props.live ?
-    //     <div className={`${styles.key} flexbox-container`}>
-    //     <div className="col">{props.backKeys[keyIndex].numer+' '+props.backKeys[keyIndex].blok}</div>
-    //     <div className="col">{props.users[userIndex].lastName+' '+props.users[userIndex].firstName}</div>
-    //     <div className="col">{date} - {dateQ}</div>
-    //     <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={editHandler}>edytuj</button></div>
-    //     <div className="col"><button className={`${styles.button} btn btn-primary`} onClick={() => {props.onDelete(props._id, props.data)}}>usuń</button></div>
-    //     </div>
-    // :<></>} */}
     );
 }
 

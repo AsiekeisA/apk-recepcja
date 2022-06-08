@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../KeyFolder/Key.module.css';
 
+/**
+ * Komponent 
+ * @param props 
+ * @returns formularz do utworzenia nowego klucza
+ */
 function NewKey(props) {
 
     const [showForm, setshowForm] = useState(false);
@@ -38,6 +43,9 @@ function NewKey(props) {
         setNewKey({...newKey, ile: value});
     }
 
+    /**
+     * Funkcja tworząca obiekt key i przekazująca go do funkcji dodających 
+     */
     const addKey = () => {
         const key = {
             numer: newKey.numer,
@@ -52,6 +60,10 @@ function NewKey(props) {
         setshowForm(false);
     }
 
+    /**
+     * 
+     * @returns Prawda fałsz w zależnosci od tego, czy istniej wpisywany klucz
+     */
     const sameKey = () => {
         const sameNumber = [...props.keys]
                 .filter(x=>x.numer==newKey.numer)

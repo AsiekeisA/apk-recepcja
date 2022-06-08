@@ -1,5 +1,5 @@
 
-import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
+import {useEffect, useReducer} from 'react';
 import './App.css';
 import Header from './components/Header/Header';
 import Menu from './components/Menu/Menu';
@@ -10,8 +10,6 @@ import axios from './axios';
 import Loading from './components/UI/Loading/Loading';
 import Searching from './components/UI/Searching/Searching';
 import Footer from './components/Footer/Footer';
-import JakisKontekst from './context/theme';
-import ContentContext from  './context/contentContext';
 import Content from './components/Content/Content';
 import ActiveKeys from './components/Content/ActiveKeys/ActiveKeys';
 import NewActive from './components/Content/ActiveKeys/NewActive/NewActive';
@@ -111,17 +109,13 @@ function App(){
 //     // />
 //   }
 
-/**
- * Podczas tworzenia się komponentu App zostanie wywołana funkcja fetchBack oraz zniknie ikonka ładowania
- * 
- */
   useEffect(()=>{
       fetchBack();
       dispatch({type: 'set-loading', loading:false});
     },[]);
   
   /**
-   * Przekazuje do reducera, 
+   * Zmienia wyświetlaną zawartość aplikacji i zapisuje poprzednią, aby można było się do niej cofnąć.
    * @function changeContent
    * @param {String} content Nazwa zawartości komponentu 
    */
@@ -129,19 +123,6 @@ function App(){
     dispatch({type: 'change-lastContent', lastContent:state.content})
     dispatch({type: 'change-content', content:content});  
   }
-
-
-  // const available = useCallback( ()=> {
-  //   var table = [...keys];
-  //   for (var i=active.length; i>0; i--){
-  //     const act =active[i-1].key_id;
-  //     const ava = [...table].filter(keys=>(keys.numer+' '+keys.blok)!==act);
-  //     table =ava;
-  //     console.log(table.lenght)
-  //   }
-  //   return table;
-  //   //setAvailable(table)
-  // }, [active]);
 
   const header = <Header>
     {/* <Searching  onSearch={name => searchHandler(name)}/> */}

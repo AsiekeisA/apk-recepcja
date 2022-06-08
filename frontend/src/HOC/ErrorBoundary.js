@@ -1,7 +1,7 @@
  import { Component } from "react";
 
  /**
-  * 
+  * Wyłapuje błędy w aplikacji
   */
  class ErrorBoundary extends Component {
      state = {
@@ -24,7 +24,7 @@
         if (this.state.hasError) {
             return (
                 <div className="alert alert-danger">
-                    We had problem {this.state.error.message}
+                    We have problem {this.state.error.message}
                 </div>
             )
         }

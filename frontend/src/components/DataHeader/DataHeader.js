@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useState } from 'react';
 import styles from './Data.module.css';
  /**
   * @function DataHeader

@@ -1,5 +1,4 @@
 const express = require('express');
-const { homepage } = require('../actions/api/keysActions');
 const router = express.Router();
 
 const usersAction = require('../actions/api/usersActions')

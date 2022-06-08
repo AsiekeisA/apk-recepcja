@@ -16,4 +16,4 @@ app.use('/api', apiRouter);
 
 app.listen(port, function() {
     console.log('Listening... ' + port);
-});
+}); 

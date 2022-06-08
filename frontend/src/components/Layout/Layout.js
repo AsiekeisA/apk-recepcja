@@ -1,5 +1,4 @@
 /**
- * 
  * @param props
  * @param props.header komponent Header
  * @param props.menu komponent Menu

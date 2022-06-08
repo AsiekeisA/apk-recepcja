@@ -26,9 +26,9 @@ class ArchivesActions {
     }
 
     async getAllArchives(req, res){
-        const doc = await Archives.find({});
-        console.log(doc);
-        res.status(200).json(doc);
+        const archives = await Archives.find({});
+        console.log(archives);
+        res.status(200).json(archives);
     } 
 
     async deleteArchives(req, res){

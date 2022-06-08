@@ -2,7 +2,11 @@ import ActiveKey from './ActiveKey'
 import ActiveKeyRooms from './ActiveKeyRooms'
 import ActiveKeyInhabitants from './ActiveKeyInhabitants'
 
-
+/**
+ * Komponent zmieniający zawartość w zależności od wyboru
+ * @param  props 
+ * @returns wybrany komponent związany z rezerwacją kluczy 
+ */
 export default function ActiveKeyContent(props) {
         
     switch(props.content) {
@@ -38,10 +42,6 @@ export default function ActiveKeyContent(props) {
             ))}</>);
       case 'inhabitant':
         return( 
-          // {props.active.sort((a, b) => props.backKeys[[...props.backKeys].findIndex(x=>x._id===a.key_id)].blok 
-          //   > props.backKeys[[...props.backKeys].findIndex(x=>x._id===b.key_id)].blok ? -1 : 1)
-          //   .sort((a, b) => props.backKeys[[...props.backKeys].findIndex(x=>x._id===a.key_id)].numer 
-          //   < props.backKeys[[...props.backKeys].findIndex(x=>x._id===b.key_id)].numer ? -1 : 1)
             <>{props.backKeys.filter(x=>x.funkcja==="pokój")
             .sort((a, b) => a.numer > b.numer ? -1 : 1)
             .sort((a, b) => a.blok > b.blok ? 1 : -1)

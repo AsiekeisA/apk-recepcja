@@ -7,7 +7,9 @@ import { useState, useEffect } from "react";
  * @returns wiersz z kluczem i jego rezerwacjami
  */
 export default function RoomKeyCalendar(props) {
-    const inhabitant = [...props.active].filter(active=>active.key_id===props._id).filter(active=>active.live===true)[0]?false:true;
+    const inhabitant = [...props.active]
+                    .filter(active=>active.key_id===props._id)
+                    .filter(active=>active.live===true)[0]?false:true;
     const [emptyTable, setEmpty] = useState([]); 
     const active =[...props.active]
             .filter(active=>active.key_id===props._id)
@@ -17,22 +19,33 @@ export default function RoomKeyCalendar(props) {
     var a_id=0;
     var table = [];
     const endMonth=props.lengthOfMonth+1
-    //&&props.funkcja==="pokój" _______jeśli to działa to wrzucić do filtra
-//sprawdzanie daty czy jest widoczna jeśli tak maluj od data do dataQuit....dla każdego active TO TABLICA !!! 
+
+/**
+ * Funkcja ustawiająca wiersz dla danego pokoju
+ */
     const tableSet = () => {
         existActive(a_id);
         setEmpty(table);
     }
 
+/**
+ * Funkcja sprawdzająca, czy istnieje kolejna rezerwacja danego pokoju.
+ * W zależności od tego wywołuje odpowiednią funkcję
+ * @param {*} i numer odliczający kolejne rezerwacje danego pokoju
+ */
     const existActive = (i) =>{
         active[i]?takeDate(i):index<=props.lengthOfMonth?emptyTo(endMonth):<></>;
     }
 
-    //CallBack sprawdzić gdzie zadziałał zamiast useEffect
     useEffect(()=>{
         tableSet();
     },[props.active,props.month]);
 
+/**
+ * Funkcja licząca długość przycisku danej rezerwacji
+ * @param {number} last ostatni dzień
+ * @returns Długość przycisku
+ */
     const howManyDays = (last) => {
         if(index===0){
             if(last===endMonth){
@@ -46,6 +59,11 @@ export default function RoomKeyCalendar(props) {
             return (last-index)*2
         }
     }
+
+/**
+ * Funkcja wypełniająca wiersz pustymi komórkami
+ * @param {number} last ostatnia komórka 
+ */
     const emptyTo  = (last) => {
         if(index===0){
             index++
@@ -82,7 +100,10 @@ export default function RoomKeyCalendar(props) {
             colSpan="1" id={index} key={"empty"+index}></td>);
         }
     }
- 
+ /**
+  * Funkcja przekazująca dane rezererwacji do komponentu wyswietlającego rezerwację
+  * @param event 
+  */
     const show = event => {
         const _id = event.target.value;
         const index = [...props.active].findIndex(active=>active._id===_id)
@@ -97,8 +118,15 @@ export default function RoomKeyCalendar(props) {
         props.onEdit(activeModel);
     }
 
+/**
+ * Funkcja tworząca przycisk rezerwacji
+ * @param {number} last ostatni dzień rezerwacji w danym miesiącu
+ */
     const reservation = (last) => {
-        const color = Date.parse(new Date(active[a_id].data).toISOString().slice(0,10))!=Date.parse(active[a_id].data)
+        const color = Date.parse(new Date(active[a_id].data)
+                                .toISOString()
+                                .slice(0,10))!=Date
+                                .parse(active[a_id].data)
             ?'td-rent'
             :'td-reserved'
         const u_id=[...props.users].findIndex(x=>x._id===active[a_id].user_id)
@@ -106,13 +134,20 @@ export default function RoomKeyCalendar(props) {
         const days = howManyDays(last)
         table.push(<td className={color}  
             colSpan={days} id={index} key={index}>
-                <button alt={userName} className="button-td" value={active[a_id]._id} onClick={show}></button>
+                <button alt={userName} 
+                        className="button-td" 
+                        value={active[a_id]._id} 
+                        onClick={show}></button>
             </td>);
         index=last
         a_id++
         existActive(a_id)
     }
-  
+
+    /**
+     * Funkcja wybierająca rozłożenie rezerwacji w zależności od przypadku
+     * @param {number} i numer odliczający kolejne rezerwacje danego pokoju
+     */
     const takeDate = (i) => {
         const dataStart = new Date(active[i].data)
         const dataEnd = new Date(active[i].dataQuit)
@@ -176,7 +211,10 @@ export default function RoomKeyCalendar(props) {
         ileDost:props.ileDost,
         czyDost:props.czyDost
     };
-    
+
+    /**
+     * Funkcja uruchamiająca formularz tworzenia nowej rezerwacji
+     */
     const newActiveHandler = () => {
         props.makeTemp(keyModel)
     }
@@ -185,8 +223,11 @@ export default function RoomKeyCalendar(props) {
         <>
         {inhabitant?
             <tr>
-                <td className="tdBtn"><button className="button" onClick={newActiveHandler}>
-                    {props.numer} {props.blok} ({props.ile})</button></td>
+                <td className="tdBtn">
+                    <button className="button" 
+                    onClick={newActiveHandler}>
+                    {props.numer} {props.blok} ({props.ile})
+                </button></td>
                 {emptyTable}
             </tr>
         :<></>}

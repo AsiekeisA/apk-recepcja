@@ -3,7 +3,11 @@ import styles from '../KeysFolder/Keys.module.css';
 import KeyInArchives from './KeyInArchives/KeyInArchives';
 import DataHeader from '../../DataHeader/DataHeader';
 
-
+/**
+ * 
+ * @param props 
+ * @returns zarchiwizowane pobrania kluczy
+ */
 function Archives(props) {
 
     const [archives, setArchives]=useState(props.archives)

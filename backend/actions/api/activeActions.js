@@ -27,9 +27,9 @@ class ActiveActions {
     }
 
     async getAllActive(req, res){
-        const doc = await Active.find({});
-        console.log(doc);
-        res.status(200).json(doc);
+        const active = await Active.find({});
+        console.log(active);
+        res.status(200).json(active);
     } 
 
     async updateActive(req, res){

@@ -81,7 +81,7 @@ function RoomsCalendar(props) {
     },[month, props.active])
 
 /**
- * funkcja zmienia wyświetlany miesiąc
+ * funkcja zmienia wyświetlany miesiąc na poprzedni
  * @function monthBefore
  */
     const monthBefore = () =>{
@@ -92,6 +92,11 @@ function RoomsCalendar(props) {
             setMonth(month-1);
         }
     }
+
+/**
+ * funkcja zmienia wyświetlany miesiąc na następny
+ * @function monthAfter
+ */
     const monthAfter = () =>{
         if(month===11){
             setMonth(0);
@@ -100,6 +105,11 @@ function RoomsCalendar(props) {
             setMonth(month+1);
         }
     }
+
+/**
+ * funkcja zmienia wyświetlany miesiąc na obecny
+ * @function thisMonth
+ */
     const thisMonth = () =>{
         setYear(today.getFullYear());
         setMonth(today.getMonth());

@@ -1,8 +1,12 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import axios from '../../../../axios';
 import NewActiveUser from './NewActiveUser/NewActiveUser';
 
-
+/**
+ * Komponent tworzący nową rezerwację
+ * @param props 
+ * @returns Formularz rezerwacji 
+ */
 function NewActive(props) {
     const [keyId, setKey] = useState(props.keyId);
     const [user, setUser] = useState('');
@@ -17,6 +21,9 @@ function NewActive(props) {
     const [ifInhabitant, setIfInhabitant]= useState(false);//czy osoba pobierająca klucz do pokoju będzie mieszkańcem 
     const [nextContent, setContent] = useState(props.lastContent);
 
+    /**
+     * Zmieniająca stan ifExist w zależności od tego czy istnieją w bazie danych wpisywane do formularza osoby
+     */
     const existHandler = () =>{
         if(usersData.length>0&&usersData.length<5){
             setIfExist(true);
@@ -24,6 +31,10 @@ function NewActive(props) {
         setIfExist(false);
     }
     
+    /**
+     * Funkcja sprawdzająca, czy w bazie danych istnieje osoba o podawanym nazwisku.
+     * @param {String} name 
+     */
     const lastnameExist = name => {
         existHandler();
         if (name){
@@ -38,6 +49,10 @@ function NewActive(props) {
             setIfExist(false);
         }
     }
+    /**
+     * Funkcja sprawdzająca czy w bazie danych istnieje osoba o podawanym imieniu
+     * @param {String} name 
+     */
     const userExist = name => {
         existHandler();
         // console.log(name);
@@ -83,6 +98,10 @@ function NewActive(props) {
         setDataQuit(value);
     }
 
+    /**
+     * Funkcja dodająca nową rezerwację do stanu i kolekcji
+     * @param {Object} aactive 
+     */
     const onAdd = async(aactive) => {
         const actives = [...props.active];
         const res = await axios.post('/active', aactive);
@@ -103,6 +122,14 @@ function NewActive(props) {
             props.setBackKeys(keys);
         }
     }
+
+    /**
+     * Funkcja dodająca osobę do bazy danych jeśli wcześniej w niej nie istniała
+     * @param {Object} user 
+     * @param {String} key_id 
+     * @param {Date} data 
+     * @param {Boolean} live 
+     */
     const addUser = async(user, key_id, data, live) => {
         const res = await axios.post('/users', user);
         const users = [...props.users];
@@ -121,6 +148,9 @@ function NewActive(props) {
         console.log('dodawanie goscia');
       } 
 
+/**
+ * Funckcja tworząca nowe objekty user i active, które zostaną dodane do bazy danych
+ */
     const addActive = () => {
         if (!user){
             const newUser ={
@@ -130,7 +160,6 @@ function NewActive(props) {
             }
             addUser(newUser, keyId, data, ifInhabitant); 
         }else if( props.keyFunkcja==="pokój" ){
-            console.log(nextContent)
             const active = {
                 key_id: keyId,
                 user_id: user,
@@ -183,6 +212,9 @@ function NewActive(props) {
         props.changeContent(nextContent);
     }
 
+    /**
+     * Funkcja anulująca operację, i cofająca do poprzedniego okna.
+     */
     const cancelOperation = () => {
         props.changeContent(nextContent);
     }

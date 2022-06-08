@@ -7,6 +7,11 @@ import EditKey from './EditKey/EditKey';
 import axios from '../../../axios';
 import DataHeader from '../../DataHeader/DataHeader';
 
+/**
+ * 
+ * @param count 
+ * @returns liczbę kluczy dostępnych w recepcji i wszystkich kluczy
+ */
 const liczenieKluczy = (count) =>{
     let ile=0;
     let ileDost=0;
@@ -17,12 +22,12 @@ const liczenieKluczy = (count) =>{
     return ileDost+"/"+ile;
 } 
 
+/**
+ * 
+ * @param props 
+ * @returns Komponent wyświetlający tabelę kluczy
+ */
 function Keys(props) {
-    // async fetchKeys(props) {
-        //     const res = await axios.get('/keys');
-        //     const keys = res.data;
-        //     this.setState({keys});
-        // }
         const [editKeyTemp, setEditKey] = useState({});
         const [showEditModal, setEditModal] = useState(false);
         const count= useMemo(() => {
@@ -34,11 +39,8 @@ function Keys(props) {
             blok : blok,
             funkcja : funkcja
         }
-    // const [availableK, setAvailable]= useState(props.available());
-    // const [showAll, setShowAll] = useState(false);
-    // const [showTable, setShow] = useState(props.keys);
 
-    useEffect(()=>{
+        useEffect(()=>{
         // setShow(props.keys)
         //available();
         Modal.setAppElement('body');
@@ -47,6 +49,10 @@ function Keys(props) {
         filterFunc();
     },[blok, funkcja]);
 
+/**
+ * Funkcja zmieniająca zawartośc w zależności od filtrów
+ * @param event 
+ */
     const filterHandler = event =>{
         const value = event.target.value;
         const name = event.target.name;
@@ -59,6 +65,10 @@ function Keys(props) {
                 break;
         }        
     }
+
+/**
+ * Funkcja filtrująca wyświetlaną zawartość komponentu 
+ */
     const filterFunc = () =>{
         const dane = [...props.backKeys]
                     .filter(obj => Object
@@ -68,14 +78,21 @@ function Keys(props) {
                         :obj[key]!=filterQuerty[key]));
         props.setKeys(dane);
                 };
-    
+
+/**
+ * Funkcja usuwająca klucze ze stanu i kolekcji
+ * @param  _id 
+ */
     const deleteKey = async(_id) => {
         console.log('usuwanie', _id);
         const keys = [...props.keys].filter(key => key._id !== _id);
         await axios.delete('/keys/'+ _id);
         props.setKeys(keys);
     }
-
+/**
+ * Funkcja dodająca nowy klucz do stanu i kolekcji
+ * @param {Object} key 
+ */
     const addKey = async(key) => {
         const keys = [...props.keys];
         const res = await axios.post('/keys', key);
@@ -86,6 +103,10 @@ function Keys(props) {
         console.log('dodawanie');
     }
 
+/**
+ * Funkcja edytująca klucz w stanie i w kolekcji
+ * @param {Object} key 
+ */
     const editKey = async(key) => {
         await axios.put('/keys/'+ key._id, key);
         const keys = [...props.keys];
@@ -97,32 +118,22 @@ function Keys(props) {
        toggleModal();
     }
 
+    /**
+     * Funkcja zmieniająca stan wyświetlenia formularza edycji klucza
+     */
     const toggleModal = () => {
         setEditModal(!showEditModal);
     }
 
+    /**
+     * Funkcja wyświetlająca formularz dla danego klucza
+     * @param {Object} key 
+     */
     const editKeyHandler = (key) => {
          toggleModal();
          setEditKey(key);
     }
      
-    // const available = () =>{
-    //     var table = [...props.keys];
-    //     for (var i=0; i<props.active.length; i++){
-    //       const act = props.active[i].key_id;
-    //       const ava = [...table].filter(keys=>(keys.numer+' '+keys.blok)!== act);
-    //       table =ava;
-    //       console.log(table.length)
-    //     }
-    //     props.setAvailable(table)
-    // }
-
-    //  const allBtn = () => {
-    //     setShowAll(!showAll)
-    //     console.log(props.showKeys)
-    //     props.setShowKeys( showAll ? props.keys : availableK)        
-    //  }
-
     return (
         <div className={`${styles.keys} flexbox-container`}>
             <Modal isOpen={showEditModal} contentLabel="Edycja">

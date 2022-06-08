@@ -28,9 +28,9 @@ class UsersActions {
     }
 
     async getAllUsers(req, res){
-        const doc = await User.find({});
-        console.log(doc);
-        res.status(200).json(doc);
+        const user = await User.find({});
+        console.log(user);
+        res.status(200).json(user);
     } 
 
     async updateUser(req, res){

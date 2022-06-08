@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react'
 
+/**
+ * 
+ * @param {Object} props 
+ * @returns formularz edycji klucza
+ */
 export default function EditKey(props) {
 
     const [editKey, setEditKey] = useState({
@@ -38,6 +43,9 @@ export default function EditKey(props) {
         setEditKey({...editKey, ile: value});
     }
 
+    /**
+     * Funkcja tworząca zedytowany obiekt klucza
+     */
     const onEditKey = () => {
         const key = {
             numer: editKey.numer,

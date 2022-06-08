@@ -1,3 +1,7 @@
+/**
+ * @param props 
+ * @returns Zwraca propozycje osób, któe mogą pobrać klucz
+ */
 function NewActiveUser(props) {
 
     const dataChange = () =>{

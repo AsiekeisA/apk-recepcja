@@ -10,7 +10,8 @@ const useCurrentCallback = (callback) => {
 
   /**
    * @function Clock 
-   * @returns aktualny dzień i godzinę
+   * @returns Zwraca aktualny dzień i godzinę
+   * 
    */
   export default function Clock () {
     const [time, setTime] = useState('');

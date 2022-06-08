@@ -30,7 +30,7 @@ function NewUser(props) {
 
     /**
      * Funkcja, która po wpisaniu znaków do okienka formularzu zmienia wartość stanu obiektu
-     * @function changeHandler 
+     * @function change[Value]Handler 
      * @param event 
      */
     const changeFirstNameHandler = event => {
@@ -81,10 +81,6 @@ function NewUser(props) {
         setshowForm(false);
     }
 
-     // function validateName(name) {
-    //     const re = 
-    // }
-
     /**
      * @function validateEmail
      * @param {String} email 
@@ -96,8 +92,8 @@ function NewUser(props) {
     }
 
     /**
-     * @function sameValue
-     * @returns czy istnieje już obiekt posiadający takie same dane
+     * @function same[Value]
+     * @returns Prawda lub fałsz w zależności od tego, czy istnieje już obiekt posiadający takie same dane.
      */
     const sameEmail = () => {
         const exist = [...props.users].filter(x=>x.email===newUser.email)

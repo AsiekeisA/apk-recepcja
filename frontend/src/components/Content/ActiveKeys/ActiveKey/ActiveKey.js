@@ -1,16 +1,11 @@
-import React, { useEffect } from 'react';
 import styles from '../../KeysFolder/KeyFolder/Key.module.css';
 
+/**
+ * Komponent wyświetlający dane pobranie klucza innego niż pokój
+ * @param {*} props 
+ * @returns Wiersz z informacjami o pobranym kluczu
+ */
 function ActiveKey(props) {
-
-    const editHandler = () => {
-        props.onEdit({
-            _id: props._id, 
-            key_id: props.key_id,
-            user_id: props.user_id,
-            data: props.data,   
-        })
-    }
 
     const keyIndex = [...props.backKeys].findIndex(x=>x._id===props.key_id)
     const userIndex = [...props.users].findIndex(x=>x._id===props.user_id)

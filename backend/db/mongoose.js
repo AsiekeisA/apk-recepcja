@@ -6,6 +6,3 @@ mongoose.connect(database, {
     useUnifiedTopology: true,
     useCreateIndex: true
 });
-
-
-

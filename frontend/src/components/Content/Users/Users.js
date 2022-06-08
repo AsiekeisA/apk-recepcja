@@ -15,23 +15,16 @@ import axios from '../../../axios';
  */
 function Users(props) {
     
-    //const [users, setUsers] = useState([]);
     const [editUserTemp, setEditUser] = useState({});
     const [showEditModal, setEditModal] = useState(false);
-
-    // const fetchUsers = async() => {
-    //     const res = await axios.get('/users');
-    //     const users = res.data;
-    //     props.setUsers(users)
-    // }
-    
+  
     useEffect(() =>{
         // fetchUsers();
         Modal.setAppElement('body');
     },[])
 
     /**
-     * Funkcja usuwająca użytkownika o danym id z stanu tablicy users i z bazy danych
+     * Funkcja usuwająca użytkownika o danym id ze stanu users i z bazy danych
      * @async 
      * @function deleteUser
      * @param {String} _id id użytkownika

@@ -12,7 +12,14 @@ class KeysActions {
         let key;
         
         try{
-            key = new Key({ numer: numer, blok: blok, funkcja:funkcja, ile:ile, ileDost:ileDost, czyDost:czyDost });
+            key = new Key({ 
+                numer: numer,
+                blok: blok,
+                funkcja:funkcja,
+                ile:ile,
+                ileDost:ileDost,
+                czyDost:czyDost
+             });
             await key.save();
         }catch (err) {
             return res.status(422).json({message: err.message});
@@ -28,9 +35,9 @@ class KeysActions {
     }
 
     async getAllKeys(req, res){
-        const doc = await Key.find({});
-        console.log(doc);
-        res.status(200).json(doc);
+        const key = await Key.find({});
+        console.log(key);
+        res.status(200).json(key);
     } 
 
     async updateKey(req, res){

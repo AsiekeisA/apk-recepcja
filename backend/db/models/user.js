@@ -14,8 +14,6 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         trim: true,
-       //required: true,
-       //index: true,
        sparse: true,
        unique: true,
     },
@@ -23,7 +21,6 @@ const UserSchema = new mongoose.Schema({
         type: String,
         trim: true,
         //required: true,
-       // index: true,
        sparse: true,
        unique: true,
     },
@@ -35,8 +32,6 @@ const UserSchema = new mongoose.Schema({
     nrIndeks: {
         type: String,
         trim: true,
-        //required: true,
-        //index: true,
         sparse: true,
         unique: true,
     }

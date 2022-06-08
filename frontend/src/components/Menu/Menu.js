@@ -1,11 +1,10 @@
 import style from './Menu.module.css';
 import Keys  from '../Content/KeysFolder/Keys';
 import Users  from '../Content/Users/Users';
-import ContentContext from '../../context/contentContext';
 import { useContext, useState } from 'react';
 
 /**
- * 
+ * Komponent wyświetlający pasek nawigacyjny
  * @param props
  * @param props.changeContent zmienia zawartość komponentu Content 
  * @returns Przyciski paska Menu

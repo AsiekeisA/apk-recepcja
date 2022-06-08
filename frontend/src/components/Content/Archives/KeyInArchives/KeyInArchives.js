@@ -1,5 +1,10 @@
 import styles from '../../KeysFolder/KeyFolder/Key.module.css';
 
+/**
+ * 
+ * @param props 
+ * @returns Zarchiwizowane pobranie klucza 
+ */
 export default function KeyInArchives(props) {
 
     const keyIndex = [...props.backKeys].findIndex(x=>x._id===props.key_id)

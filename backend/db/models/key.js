@@ -11,7 +11,6 @@ const KeySchema = new mongoose.Schema({
     },
     funkcja: {
         type: String,
-        // enum:["sala wykładowa", "sala komputerowa", "pokój", "kuchnia", "pokój cichej nauki","pralnia", "inne"],
         required : true,
     },
     ile: {
